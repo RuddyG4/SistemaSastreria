@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\usuarios\FuncionalidadController;
+use App\Http\Controllers\usuarios\RolController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('/dashboard/funcionalidades', FuncionalidadController::class);
+Route::resource('/dashboard/roles', RolController::class);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\usuarios;
 
 use App\Http\Controllers\Controller;
+use App\Models\usuarios\Funcionalidad;
 use Illuminate\Http\Request;
 
 class FuncionalidadController extends Controller
@@ -12,7 +13,8 @@ class FuncionalidadController extends Controller
      */
     public function index()
     {
-        //
+        $funcionalidades = Funcionalidad::paginate(10);
+        return view('usuarios.funcionalidades', compact('funcionalidades'));
     }
 
     /**
