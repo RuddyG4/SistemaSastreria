@@ -6,6 +6,7 @@ namespace App\Models\usuarios;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -52,5 +53,10 @@ class User extends Authenticatable
             get: fn (string $value) => $this->attributes['password'] = decrypt($value),
             set: fn (string $value) => $this->attributes['password'] = bcrypt($value),
         );
+    }
+
+    public function persona(): BelongsTo{
+        return $this->belongsTo(Persona::class,'id','id');
+
     }
 }
