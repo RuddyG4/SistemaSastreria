@@ -3,6 +3,7 @@
 use App\Http\Controllers\usuarios\FuncionalidadController;
 use App\Http\Controllers\usuarios\RolController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\usuarios\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +22,7 @@ Route::get('/', function () {
 
 Route::resource('/dashboard/funcionalidades', FuncionalidadController::class);
 Route::resource('/dashboard/roles', RolController::class);
+
+
+Route::get('/register', [UserController::class,'create'])->name('registro.form');
+Route::post('/register', [UserController::class,'store'])->name('registro.submit');
