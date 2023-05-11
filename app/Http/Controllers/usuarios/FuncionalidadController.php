@@ -14,7 +14,7 @@ class FuncionalidadController extends Controller
     public function index()
     {
         $funcionalidades = Funcionalidad::paginate(10);
-        return view('usuarios.funcionalidades', compact('funcionalidades'));
+        return view('usuarios.funcionalidades.index', compact('funcionalidades'));
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\usuarios;
 
 use App\Http\Controllers\Controller;
+use App\Models\usuarios\Rol;
 use Illuminate\Http\Request;
 
 class RolController extends Controller
@@ -12,7 +13,8 @@ class RolController extends Controller
      */
     public function index()
     {
-        //
+        $roles = Rol::paginate(10);
+        return view('usuarios.roles.index', compact('roles'));
     }
 
     /**

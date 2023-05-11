@@ -1,4 +1,6 @@
+<h2>Funcionalidades</h2>
 <ul>
     @foreach($funcionalidades as $funcionalidad)
-    <li> {{ $funcionalidad->nombre}}</li>
+    <li> {{ $funcionalidad->NOMBRE}}</li>
+    @endforeach
 </ul>
