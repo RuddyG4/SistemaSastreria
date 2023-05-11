@@ -17,28 +17,33 @@
             </div>
         
             <div>
-                <label for="apellido">Apellido:</label>
+                <label for="apellido">Apellido :</label>
                 <input type="text" name="apellido" id="apellido" required>
             </div>
         
             <div>
-                <label for="dni">DNI:</label>
+                <label for="C.I.">C.I.:</label>
                 <input type="text" name="ci" id="ci" required>
             </div>
         
             <div>
                 <label for="nick">Nick:</label>
-                <input type="text" name="usuario" id="usuario" required>
+                <input type="text" name="username" id="username" required>
             </div>
         
             <div>
-                <label for="email">Email:</label>
+                <label for="email">Correo :</label>
                 <input type="email" name="email" id="email" required>
             </div>
         
             <div>
                 <label for="password">Contraseña:</label>
                 <input type="password" name="password" id="password" required>
+            </div>
+            
+            <div>
+                <label for="password_confirmation">Confirmar contraseña:</label>
+                <input type="password" name="password_confirmation" id="password_confirmation" required>
             </div>
         
             <div>
