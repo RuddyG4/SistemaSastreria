@@ -2,5 +2,5 @@
 <ul>
     @foreach($funcionalidades as $funcionalidad)
     <li> {{ $funcionalidad->NOMBRE}}</li>
-    @endforeach
+    @endforeach 
 </ul>
