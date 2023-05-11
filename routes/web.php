@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\usuarios\FuncionalidadController;
+use App\Http\Controllers\usuarios\LoginController;
 use App\Http\Controllers\usuarios\RolController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\usuarios\UserController;
@@ -26,3 +27,6 @@ Route::resource('/dashboard/roles', RolController::class);
 
 Route::get('/register', [UserController::class,'create'])->name('registro.form');
 Route::post('/register', [UserController::class,'store'])->name('registro.submit');
+
+Route::get('/login', [LoginController::class,'create'])->name('login.form');
+Route::post('/login', [LoginController::class,'store'])->name('login.submit');
