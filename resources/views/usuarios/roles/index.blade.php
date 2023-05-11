@@ -2,6 +2,5 @@
 <ul>
     @foreach($roles as $rol)
     <li> {{ $rol->NOMBRE}}</li>
-    error
     @endforeach
 </ul>
