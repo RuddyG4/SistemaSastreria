@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\usuarios;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterRequest;
+use App\Models\usuarios\Persona;
 use Illuminate\Http\Request;
 
 class PersonaController extends Controller
@@ -26,9 +28,12 @@ class PersonaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RegisterRequest $request)
     {
-        //
+        /* $persona = Persona::create($request->only('nombre', 'apellido', 'ci')); // Create devuelve la instancia creada, save solo devuelve un bool.
+        $usuario = $request->only('username','email','password');
+        $usuario['id'] = $persona->id;
+        return redirect()->action([UserController::class, 'store'], $usuario); */
     }
 
     /**

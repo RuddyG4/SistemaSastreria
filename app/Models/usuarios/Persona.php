@@ -20,12 +20,7 @@ class Persona extends Model
     protected $guarded = ['id'];
 
     public function usuario(): HasOne{
-        return $this->hasOne(User::class, 'id', 'id' );
+        return $this->hasOne(User::class, 'id');
     }
-
-    public function cliente(): HasOne{
-        return $this->hasOne(Cliente::class, 'id', 'id' );
-    }
-
 }
 
