@@ -23,7 +23,6 @@ class User extends Authenticatable
      */
     public $timestamps = false;
     protected $table = 'usuario';
-    public $timestamps = false;
     protected $fillable = [
         'id',
         'username',
@@ -56,13 +55,9 @@ class User extends Authenticatable
             set: fn (string $value) => $this->attributes['password'] = bcrypt($value),
         );
     }
-    // public function setPasswordAttribute($value)
-    // {
-    //     // esto es para usar el hash
-    //     $this->attributes['password'] = Hash::make($value);
-    // }
 
-    public function persona(): BelongsTo {
-        return $this->belongsTo(Persona::class,'id');
+    public function persona(): BelongsTo
+    {
+        return $this->belongsTo(Persona::class, 'id');
     }
 }

@@ -12,9 +12,9 @@
             @csrf
         
             <div>
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" value="{{ old('email') }}" required autofocus>
-                @error('email')
+                <label for="username">nombre de usuario o correo:</label>
+                <input type="text" id="username" name="username" value="{{ old('username') }}" required autofocus>
+                @error('username')
                 <span class="error">{{ $message }}</span>
                 @enderror
             </div>

@@ -3,71 +3,26 @@
 namespace App\Http\Controllers\usuarios;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
-use App\Models\usuarios\User;
 
 // use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function index()
+    public function show()
     {
-        //
-    }
-
-    public function create()
-    {
-        //
         return view('usuarios.login');
     }
 
-    public function store(Request $request)
+    public function login(LoginRequest $request)
     {
-        // echo $request->input('email');
-        // echo $request->input('password');
-
-        // validar primero con JS en la view
-        $request->validate([
-            'email'=>'required|unique:usuario',
-            'password'=>'required|'
-        ]);
-       
-        $credentials = [
-            'email' => $request->input('email'),
-            'password' => $request->input('password')
-        ];
-
-        // echo $credentials['email'];
-        // echo $credentials['password'];
-       
-        if (Auth::attempt($credentials)){
-            
-            echo 'exito';
-        } else{
-            echo 'fallo';
-
+        $credentials = $request->getCredentials();
+        if (!Auth::validate($credentials)) {
+            return redirect('login')->withErrors('auth_failed', 'El nombre de usuario o contraseña son incorrectos, verifique e intente nuevamente');
         }
-
-    }
-
-    public function show(string $id)
-    {
-        //
-    }
-
-    public function edit(string $id)
-    {
-        //
-    }
-
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    public function destroy(string $id)
-    {
-        //
+        $user = Auth::getProvider()->retrieveByCredentials($credentials); // Recupera la instancia User perteneciente a $credentials.
+        Auth::login($user);
+        return redirect()->intended('dashboard');
     }
 }

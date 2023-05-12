@@ -18,15 +18,18 @@ use App\Http\Controllers\usuarios\UserController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-// Route::middleware('auth')->group(function () {
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('welcome');
+    });
     Route::resource('/dashboard/funcionalidades', FuncionalidadController::class);
     Route::resource('/dashboard/roles', RolController::class);
     Route::resource('/dashboard/usuarios', userController::class);
     Route::resource('/dashboard/personas', PersonaController::class);
-// });
+});
 
-Route::get('/login', [LoginController::class,'create'])->name('login.form');
-Route::post('/login', [LoginController::class,'store'])->name('login.submit');
+
+// Route::middleware('guest')->group(function () {
+    Route::get('/login', [LoginController::class, 'show'])->name('login');
+    Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
+// });
