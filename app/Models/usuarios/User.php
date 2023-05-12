@@ -21,15 +21,14 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $table = 'usuario';
+    public $timestamps = false;
     protected $fillable = [
+        'id',
         'username',
         'email',
         'password',
         'id_rol'
     ];
-
-    protected $guarded = ['id'];
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -51,13 +50,11 @@ class User extends Authenticatable
     protected function password(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => $this->attributes['password'] = decrypt($value),
             set: fn (string $value) => $this->attributes['password'] = bcrypt($value),
         );
     }
 
-    public function persona(): BelongsTo{
-        return $this->belongsTo(Persona::class,'id','id');
-
+    public function persona(): BelongsTo {
+        return $this->belongsTo(Persona::class,'id');
     }
 }
