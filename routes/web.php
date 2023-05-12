@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\usuarios\FuncionalidadController;
 use App\Http\Controllers\usuarios\PersonaController;
+use App\Http\Controllers\usuarios\LoginController;
 use App\Http\Controllers\usuarios\RolController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\usuarios\UserController;
@@ -26,3 +27,6 @@ Route::get('/', function () {
     Route::resource('/dashboard/usuarios', userController::class);
     Route::resource('/dashboard/personas', PersonaController::class);
 // });
+
+Route::get('/login', [LoginController::class,'create'])->name('login.form');
+Route::post('/login', [LoginController::class,'store'])->name('login.submit');

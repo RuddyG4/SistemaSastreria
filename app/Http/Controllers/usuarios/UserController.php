@@ -7,7 +7,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Models\usuarios\Persona;
 use App\Models\usuarios\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     /**
@@ -24,7 +24,6 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
         return view('usuarios.registro.registro');
     }
 

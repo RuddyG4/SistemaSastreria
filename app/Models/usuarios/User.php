@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -20,6 +21,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    public $timestamps = false;
     protected $table = 'usuario';
     public $timestamps = false;
     protected $fillable = [
@@ -29,6 +31,7 @@ class User extends Authenticatable
         'password',
         'id_rol'
     ];
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -53,6 +56,11 @@ class User extends Authenticatable
             set: fn (string $value) => $this->attributes['password'] = bcrypt($value),
         );
     }
+    // public function setPasswordAttribute($value)
+    // {
+    //     // esto es para usar el hash
+    //     $this->attributes['password'] = Hash::make($value);
+    // }
 
     public function persona(): BelongsTo {
         return $this->belongsTo(Persona::class,'id');
