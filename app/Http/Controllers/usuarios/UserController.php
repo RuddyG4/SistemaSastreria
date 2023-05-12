@@ -66,7 +66,8 @@ class UserController extends Controller
         $usuario->id = $idPersona;
         $usuario->usuario = $request->input('usuario');
         $usuario->email = $request->input('email');
-        $usuario->password = $request->input('password');
+        $usuario->password = Hash::make($request->input('password'));
+        // $usuario->password = $request->input('password');
         $usuario->id_rol = $request->input('id_rol');
         $usuario->save();
 

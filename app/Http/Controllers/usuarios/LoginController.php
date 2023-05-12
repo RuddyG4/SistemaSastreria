@@ -24,25 +24,29 @@ class LoginController extends Controller
 
     public function store(Request $request)
     {
-        echo $request->input('email');
-        echo $request->input('password');
+        // echo $request->input('email');
+        // echo $request->input('password');
 
         // validar primero con JS en la view
-        // $request->validate([
-        //     'email'=>'required|unique:usuario',
-        //     'password'=>'required|'
-        // ]);
+        $request->validate([
+            'email'=>'required|unique:usuario',
+            'password'=>'required|'
+        ]);
        
         $credentials = [
             'email' => $request->input('email'),
             'password' => $request->input('password')
         ];
 
+        // echo $credentials['email'];
+        // echo $credentials['password'];
        
         if (Auth::attempt($credentials)){
+            
             echo 'exito';
         } else{
             echo 'fallo';
+
         }
 
     }

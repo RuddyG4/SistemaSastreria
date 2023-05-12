@@ -54,7 +54,7 @@ class User extends Authenticatable
     protected function password(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => $this->attributes['PASSWORD'] = decrypt($value),
+            get: fn (string $value) => $this->attributes['password'] = decrypt($value),
             set: fn (string $value) => $this->attributes['password'] = bcrypt($value),
         );
     }

@@ -14,11 +14,18 @@
             <div>
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" value="{{ old('email') }}" required autofocus>
+                @error('email')
+                <span class="error">{{ $message }}</span>
+                @enderror
             </div>
+
         
             <div>
                 <label for="password">Contraseña</label>
                 <input type="password" id="password" name="password" required>
+                @error('password')
+            <span class="error">{{ $message }}</span>
+               @enderror
             </div>
         
             <div>
