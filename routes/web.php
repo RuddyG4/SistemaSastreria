@@ -29,7 +29,7 @@ Route::middleware('auth')->group(function () {
 });
 
 
-// Route::middleware('guest')->group(function () {
+Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'show'])->name('login');
     Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
-// });
+});
