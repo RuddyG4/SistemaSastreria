@@ -56,10 +56,9 @@
             <div>
                 <label for="rol">Rol:</label>
                 <select name="id_rol" id="id_rol" required>
-                    <option value="1">Administrador general</option>
-                    <option value="2">Administrador</option>
-                    <option value="3">cliente</option>
-                    <option value="4">atencion al cliente</option>
+                    @foreach($roles as $rol)    
+                    <option value="{{ $rol->id}}">{{$rol->nombre}}</option>
+                    @endforeach
                 </select>
             </div>
         
