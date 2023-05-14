@@ -18,6 +18,10 @@ use App\Http\Controllers\usuarios\UserController;
 |
 */
 
+Route::get('/', function () {
+    return view('welcome');
+});
+
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return view('welcome');

@@ -5,9 +5,10 @@
     <meta charset="utf-8">
     <meta name="author" content="Kodinger">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Iniciar Sesión</title>
+    <title>Iniciar Sesión | Sastreria Maya</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="/SastreriaMaya/resources/css/my-login.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/my-login.css') }}">
+    <link rel="shortcut icon" href="{{ asset('images/logo-icon.jpg') }}">
 </head>
 
 <body class="login">
@@ -16,7 +17,7 @@
             <div class="row justify-content-md-center h-100">
                 <div class="card-wrapper">
                     <div class="brand">
-                        <img src="/SastreriaMaya/resources/css/logo.jpg">
+                        <img src="{{ asset('images/logo.jpg') }}">
                     </div>
                     <div class="card fat">
                         <div class="card-body">
