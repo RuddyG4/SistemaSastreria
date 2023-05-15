@@ -28,7 +28,7 @@ Route::middleware('auth')->group(function () {
     });
     Route::resource('/dashboard/funcionalidades', FuncionalidadController::class);
     Route::resource('/dashboard/roles', RolController::class);
-    Route::resource('/dashboard/usuarios', userController::class);
+    Route::resource('/dashboard/usuarios', UserController::class);
     Route::resource('/dashboard/personas', PersonaController::class);
 });
 
