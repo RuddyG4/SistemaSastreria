@@ -6,6 +6,8 @@ use App\Http\Controllers\usuarios\LoginController;
 use App\Http\Controllers\usuarios\RolController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\usuarios\UserController;
+use Illuminate\Support\Facades\Auth;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -18,13 +20,14 @@ use App\Http\Controllers\usuarios\UserController;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function () {   
     return view('welcome');
 });
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
-        return view('welcome');
+        $user = Auth::User();
+        return view('index')->with('user',$user);
     });
     Route::resource('/dashboard/funcionalidades', FuncionalidadController::class);
     Route::resource('/dashboard/roles', RolController::class);
@@ -37,3 +40,5 @@ Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'show'])->name('login');
     Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
 });
+
+Route::get('/logout',[LoginController::class,'logout']);
