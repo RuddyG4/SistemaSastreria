@@ -19,7 +19,7 @@ use App\Http\Controllers\usuarios\UserController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::middleware('auth')->group(function () {
