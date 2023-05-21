@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\usuarios\FuncionalidadController;
 use App\Http\Controllers\usuarios\PersonaController;
-use App\Http\Controllers\usuarios\LoginController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\usuarios\RolController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\usuarios\UserController;
@@ -19,13 +19,14 @@ use App\Http\Controllers\usuarios\UserController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return view('welcome');
     });
+    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::resource('/dashboard/funcionalidades', FuncionalidadController::class);
     Route::resource('/dashboard/roles', RolController::class);
     Route::resource('/dashboard/usuarios', UserController::class);

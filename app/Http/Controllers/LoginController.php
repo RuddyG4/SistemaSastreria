@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\usuarios;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 // use Illuminate\Support\Facades\Auth;
 
@@ -24,5 +25,12 @@ class LoginController extends Controller
         $user = Auth::getProvider()->retrieveByCredentials($credentials); // Recupera la instancia User perteneciente a $credentials.
         Auth::login($user);
         return redirect()->intended('dashboard');
+    }
+
+    public function logout()
+    {
+        Session::flush();
+        Auth::logout();
+        return redirect()->to('/login');
     }
 }

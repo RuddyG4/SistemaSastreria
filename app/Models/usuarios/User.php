@@ -60,4 +60,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Persona::class, 'id');
     }
+
+    public function rol(): BelongsTo
+    {
+        return $this->belongsTo(Rol::class, 'id_rol');
+    }
 }
