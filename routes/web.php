@@ -7,6 +7,7 @@ use App\Http\Controllers\usuarios\RolController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\usuarios\UserController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,16 +22,18 @@ use App\Http\Controllers\usuarios\UserController;
 Route::get('/', function () {
     return view('home');
 });
-
+    
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return view('welcome');
     });
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('/roles', App\Http\Livewire\Tabla::class);
     Route::resource('/dashboard/funcionalidades', FuncionalidadController::class);
     Route::resource('/dashboard/roles', RolController::class);
     Route::resource('/dashboard/usuarios', UserController::class);
     Route::resource('/dashboard/personas', PersonaController::class);
+    
 });
 
 
@@ -38,3 +41,6 @@ Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'show'])->name('login');
     Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
 });
+
+
+
