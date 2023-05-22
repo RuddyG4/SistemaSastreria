@@ -31,7 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/roles', App\Http\Livewire\Tabla::class);
     Route::resource('/dashboard/funcionalidades', FuncionalidadController::class);
     Route::resource('/dashboard/roles', RolController::class);
-    Route::resource('/dashboard/usuarios', UserController::class);
+    Route::get('/dashboard/usuarios', \App\Http\Livewire\Usuarios::class);
     Route::resource('/dashboard/personas', PersonaController::class);
     
 });
