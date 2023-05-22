@@ -27,15 +27,12 @@
                                 <div class="form-group">
                                     <label for="email">Usuario o correo</label>
                                     <input type="text" id="username" name="username" class="form-control" value="{{ old('username') }}" required autofocus>
-                                    @error('username')
-                                    <span class="error">{{ $message }}</span>
-                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Contraseña</label>
                                     <input type="password" id="password" name="password" class="form-control" required>
-                                    @error('password')
-                                    <span class="error">{{ $message }}</span>
+                                    @error('error')
+                                    <span class="error" style="color:red">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="form-group m-0">
