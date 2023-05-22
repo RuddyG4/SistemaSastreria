@@ -2,7 +2,8 @@
     <h2> Gestión de Roles</h2>
     <h3>Lista de roles:</h3>
     
-    {{-- <h1>{{$idEdit}}</h1> --}}
+    <button type="button" wire:click="showModel()"  class="btn btn-primary" >Nuevo Rol</button>
+
     <table class="table table-striped" >
         <thead>
             <tr >
@@ -18,8 +19,8 @@
                 <td>{{ $rol->nombre }}</td>
                 <td>{{ $rol->descripcion }}</td>
                 <td>
-                    <button type="button" wire:click="showModel({{$rol->id}})"  class="btn btn-primary" >Editar</button>
-                    <button type="button" class="btn btn-danger">Eliminar</button>   
+                    <button type="button" wire:click="editar({{$rol->id}})"  class="btn btn-primary" >Editar</button>
+                    <button type="button" wire:click="deleteRol({{$rol->id}})"class="btn btn-danger">Eliminar</button>   
                 </td>
             </tr>
             @endforeach
@@ -33,28 +34,59 @@
         <div class="modal-dialog modal-dialog-centered" >
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Editar Rol</h5>
+                    <h5 class="modal-title">{{$contenido}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" wire:click="showoff">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    @csrf
-                    <Form wire:submit.prevent >
-                    {{-- <Form method="POST" action="#" wire:submit.prevent> --}}
-                        <label>Nombre Rol </label>
-                        <input type="text" wire:model="titulo" >
-                        <label>descripcion Rol: </label>
-                        <input type="text" wire:model="descripcion">
-                    </Form>
+                    @if ($showEdit)
+                        @csrf
+                        <Form wire:submit.prevent >
+                          <label>Nombre Rol </label>
+                            <input type="text" wire:model="nombre" >
+                            <label>descripcion Rol: </label>
+                            <input type="text" wire:model="descripcion">
+                        </Form>
+                    @endif
+
+                    @if ($showNew)
+                        @csrf
+                        <Form wire:submit.prevent >
+                          <label>Nombre Rol </label>
+                            <input type="text" wire:model="nombre" >
+                            <label>descripcion Rol: </label>
+                            <input type="text" wire:model="descripcion">
+                        </Form>
+                    @endif
+
+                    @if ($showDelete)
+                    <h5 class="modal-title">Seguro que quiere eliminar este rol?</h5>
+                    @endif
+
+                    
                 </div>
                 <div class="modal-footer">
+                    
+                    @if ($showDelete)
+                    <button type="button" class="btn btn-primary" wire:click="Delete" data-dismiss="modal" >Eliminar</button>
+                    <button type="button" class="btn btn-danger" wire:click="showoff">Cancelar</button>
+                    
+                    @endif
+                    @if ($showEdit)
+                    <button type="button" class="btn btn-primary" wire:click="saveEdit">Guardar</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal" wire:click="showoff">Cerrar</button>
+                    @endif
+
+                    @if ($showNew)
                     <button type="button" class="btn btn-primary" wire:click="savedato">Guardar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" wire:click="showoff">Cerrar</button>
+                    @endif
+                   
                 </div>
             </div>
         </div>
-    </div>
+    </div>  
     @endif
         
     {{-- <h4>Permisos de cada rol:</h4>
