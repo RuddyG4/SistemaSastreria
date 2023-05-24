@@ -55,8 +55,15 @@ class Usuarios extends Component
         $this->validateOnly($propertyName);
     }
 
+    public function cancelar()
+    {
+        $this->limpiarDatos();
+        $this->resetErrorBag();
+    }
+
     public function store()
     {
+        $this->validate();
         $persona = Persona::create([
             'nombre' => $this->nombre,
             'apellido' => $this->apellido,

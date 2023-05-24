@@ -1,6 +1,6 @@
 <div>
     <h1>Vista de usuarios</h1>
-    <input wire:model="busqueda" type="text">
+    <input wire:model="busqueda" type="text" placeholder="Buscar...">
     {{ $busqueda}}
     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Crear usuario</button>
 
@@ -38,7 +38,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="crearUsuario">Crear usuario</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cancelar"></button>
                 </div>
                 <div class="modal-body">
                     <h6>Rellene los datos:</h6>
@@ -47,60 +47,61 @@
                         <label for="nombre">Nombre</label>
                         <input type="text" id="nombre" class="form-control" wire:model="nombre">
                         @error('nombre')
-                            <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
-                        
+
                         <label for="apellido">Apellido</label>
                         <input type="text" id="apellido" class="form-control" wire:model="apellido">
                         @error('apellido')
-                            <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
-                        
+
                         <label for="ci">C.I.</label>
                         <input type="number" id="ci" class="form-control" wire:model="ci">
                         @error('ci')
-                            <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
-                        
+
                         <label for="username">Nombre de usuario</label>
                         <input type="text" id="username" class="form-control" wire:model="username">
                         @error('username')
-                            <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
 
                         <label for="email">Correo</label>
                         <input type="email" id="email" class="form-control" wire:model="email">
                         @error('email')
-                            <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
 
                         <label for="rol">Rol</label>
                         <select wire:model="rol" id="rol">
+                            <option value="">Seleccione un rol</option>
                             @foreach($roles as $rol)
                             <option value="{{ $rol->id }}">{{ $rol->nombre }}</option>
                             @endforeach
                         </select>
                         @error('rol')
-                            <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
-                        
+
                         <label for="password">Contraseña</label>
                         <input type="password" id="password" class="form-control" wire:model="password">
                         @error('password')
-                            <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
 
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Cancelar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" wire:click="cancelar"> Cancelar</button>
                     <button type="submit" form="form-id" class="btn btn-primary">Crear</button>
                 </div>
             </div>
@@ -113,7 +114,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editarUsuario">Editar usuario</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cancelar"></button>
                 </div>
                 <div class="modal-body">
                     <h6>Actualice los datos:</h6>
@@ -122,35 +123,35 @@
                         <label for="nombre">Nombre</label>
                         <input type="text" id="nombre" class="form-control" wire:model="nombre">
                         @error('nombre')
-                            <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
-                        
+
                         <label for="apellido">Apellido</label>
                         <input type="text" id="apellido" class="form-control" wire:model="apellido">
                         @error('apellido')
-                            <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
-                        
+
                         <label for="ci">C.I.</label>
                         <input type="number" id="ci" class="form-control" wire:model="ci">
                         @error('ci')
-                            <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
-                        
+
                         <label for="username">Nombre de usuario</label>
                         <input type="text" id="username" class="form-control" wire:model="username">
                         @error('username')
-                            <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
 
                         <label for="email">Correo</label>
                         <input type="email" id="email" class="form-control" wire:model="email">
                         @error('email')
-                            <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
 
@@ -161,14 +162,14 @@
                             @endforeach
                         </select>
                         @error('rol')
-                            <span class="text-danger">{{ $message }}</span>
+                        <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
 
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Cancelar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" wire:click="cancelar"> Cancelar</button>
                     <button type="submit" form="editing-form" class="btn btn-primary">Guardar cambios</button>
                 </div>
             </div>
