@@ -1,7 +1,7 @@
 <div>
     <h1>Vista de usuarios</h1>
-    <input wire:model="busqueda" type="text">
-    {{ $busqueda}}
+    <input wire:model="busqueda" type="text" placeholder="Buscar...">
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Crear usuario</button>
 
     <table>
         <thead>
@@ -21,39 +21,168 @@
                 <td>{{ $usuario->email }}</td>
                 <td>{{ $usuario->rol->nombre }}</td>
                 <td>
-                    <button class="btn btn-primary" wire:click="editar">Editar</button> | Dar de baja
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar({{ $usuario->id }})">Editar</button>
+                    <button class="btn btn-danger">Inactivar</button>
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
 
-    <div>
-        <!-- Agrega el botón para abrir el modal -->
-        <!-- <button class="btn btn-primary" wire:click="editUser">Editar Usuario</button> -->
+    <!-- Modales -->
 
-        <!-- Modal -->
-        <div class="modal" tabindex="-1" role="dialog" wire:ignore.self>
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Editar Usuario</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" wire:click="cerrarModal">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- Aquí puedes colocar el formulario para editar los datos del usuario -->
-                        <!-- Por ejemplo, puedes utilizar wire:model para enlazar los campos con $editedUser -->
-                        <input type="text" wire:model="usuarioEditado.username" class="form-control">
-                        <input type="email" wire:model="usuarioEditado.email" class="form-control">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" wire:click="closeModal">Cancelar</button>
-                        <button type="button" class="btn btn-primary" wire:click="save">Guardar</button>
-                    </div>
+    <!-- Modal de creacion -->
+    <div wire:ignore.self id="modalDeCreacion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="crearUsuario" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="crearUsuario">Crear usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cancelar"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>Rellene los datos:</h6>
+                    <form wire:submit.prevent="store" id="form-id">
+                        @csrf
+                        <label for="nombre">Nombre</label>
+                        <input type="text" id="nombre" class="form-control" wire:model.lazy="nombre">
+                        @error('nombre')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                        <br>
+
+                        <label for="apellido">Apellido</label>
+                        <input type="text" id="apellido" class="form-control" wire:model.lazy="apellido">
+                        @error('apellido')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                        <br>
+
+                        <label for="ci">C.I.</label>
+                        <input type="number" id="ci" class="form-control" wire:model.lazy="ci">
+                        @error('ci')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                        <br>
+
+                        <label for="username">Nombre de usuario</label>
+                        <input type="text" id="username" class="form-control" wire:model.lazy="username">
+                        @error('username')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                        <br>
+
+                        <label for="email">Correo</label>
+                        <input type="email" id="email" class="form-control" wire:model.debounce.500ms="email">
+                        @error('email')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                        <br>
+
+                        <label for="rol">Rol</label>
+                        <select wire:model="rol" id="rol">
+                            <option value="">Seleccione un rol</option>
+                            @foreach($roles as $rol)
+                            <option value="{{ $rol->id }}">{{ $rol->nombre }}</option>
+                            @endforeach
+                        </select>
+                        @error('rol')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                        <br>
+
+                        <label for="password">Contraseña</label>
+                        <input type="password" id="password" class="form-control" wire:model.debounce.500ms="password">
+                        @error('password')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                        <br>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" wire:click="cancelar"> Cancelar</button>
+                    <button type="submit" form="form-id" class="btn btn-primary">Crear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de creacion -->
+    <div wire:ignore.self id="modalDeEdicion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editarUsuario" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editarUsuario">Editar usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cancelar"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>Actualice los datos:</h6>
+                    <form wire:submit.prevent="update" id="editing-form">
+                        @csrf
+                        <label for="nombre">Nombre</label>
+                        <input type="text" id="nombre" class="form-control" wire:model.lazy="nombre">
+                        @error('nombre')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                        <br>
+
+                        <label for="apellido">Apellido</label>
+                        <input type="text" id="apellido" class="form-control" wire:model.lazy="apellido">
+                        @error('apellido')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                        <br>
+
+                        <label for="ci">C.I.</label>
+                        <input type="number" id="ci" class="form-control" wire:model.lazy="ci">
+                        @error('ci')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                        <br>
+
+                        <label for="username">Nombre de usuario</label>
+                        <input type="text" id="username" class="form-control" wire:model.lazy="username">
+                        @error('username')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                        <br>
+
+                        <label for="email">Correo</label>
+                        <input type="email" id="email" class="form-control" wire:model.debounce.500ms="email">
+                        @error('email')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                        <br>
+
+                        <label for="rol">Rol</label>
+                        <select wire:model="rol" id="rol">
+                            @foreach($roles as $rol)
+                            <option value="{{ $rol->id }}">{{ $rol->nombre }}</option>
+                            @endforeach
+                        </select>
+                        @error('rol')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                        <br>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" wire:click="cancelar"> Cancelar</button>
+                    <button type="submit" form="editing-form" class="btn btn-primary">Guardar cambios</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+    window.addEventListener('cerrar-modal', event => {
+        $('#modalDeCreacion').modal('hide');
+    });
+    window.addEventListener('cerrar-modal-edicion', event => {
+        $('#modalDeEdicion').modal('hide');
+    });
+</script>
+@endpush
