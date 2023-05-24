@@ -1,7 +1,6 @@
 <div>
     <h1>Vista de usuarios</h1>
     <input wire:model="busqueda" type="text" placeholder="Buscar...">
-    {{ $busqueda}}
     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Crear usuario</button>
 
     <table>
