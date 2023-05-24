@@ -29,6 +29,11 @@ Route::middleware('auth')->group(function () {
     });
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('/dashboard/roles', App\Http\Livewire\Tabla::class);
+    
+    Route::get('/dashboard/main',function (){
+        return view('main');
+    });
+
     Route::resource('/dashboard/funcionalidades', FuncionalidadController::class);
     Route::get('/dashboard/usuarios', \App\Http\Livewire\Usuarios::class);
     Route::resource('/dashboard/personas', PersonaController::class);

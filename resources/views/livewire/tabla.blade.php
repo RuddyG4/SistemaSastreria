@@ -89,8 +89,53 @@
     </div>  
     @endif
         
-    {{-- <h4>Permisos de cada rol:</h4>
-<ul>
+    <h4>Permisos de cada rol:</h4>
+
+    
+          <div class="col-15" style="max-width: 500px;">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Nombre del rol</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach($roles as $rol)
+                <tr>
+                  <input type="hidden" value={{$rol->id}}>
+                  <td>{{ $rol->nombre }}</td>
+                  <td style="max-width: 70px;">
+                    <button type="button" class="btn btn-primary ">Ver</button>
+                    <button type="button" class="btn btn-primary">Editar</button>
+                    
+                  </td>
+                </tr>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
+ 
+      
+
+    {{-- <table class="table table-striped" >
+        <thead>
+            <tr >
+                <th>Nombre del rol</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($roles as $rol)
+            <tr>
+                <input type="hidden" value={{$rol->id}}>
+                <td>{{ $rol->nombre }}</td>
+                <td>
+                    <button type="button" class="btn btn-primary" >Editar</button> 
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table> --}}
+{{-- <ul>
 @foreach($roles as $rol)
 <li>{{ $rol->nombre }}</li>
 <ul>
