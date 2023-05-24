@@ -44,35 +44,35 @@
                     <form wire:submit.prevent="store" id="form-id">
                         @csrf
                         <label for="nombre">Nombre</label>
-                        <input type="text" id="nombre" class="form-control" wire:model="nombre">
+                        <input type="text" id="nombre" class="form-control" wire:model.lazy="nombre">
                         @error('nombre')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
 
                         <label for="apellido">Apellido</label>
-                        <input type="text" id="apellido" class="form-control" wire:model="apellido">
+                        <input type="text" id="apellido" class="form-control" wire:model.lazy="apellido">
                         @error('apellido')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
 
                         <label for="ci">C.I.</label>
-                        <input type="number" id="ci" class="form-control" wire:model="ci">
+                        <input type="number" id="ci" class="form-control" wire:model.lazy="ci">
                         @error('ci')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
 
                         <label for="username">Nombre de usuario</label>
-                        <input type="text" id="username" class="form-control" wire:model="username">
+                        <input type="text" id="username" class="form-control" wire:model.lazy="username">
                         @error('username')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
 
                         <label for="email">Correo</label>
-                        <input type="email" id="email" class="form-control" wire:model="email">
+                        <input type="email" id="email" class="form-control" wire:model.debounce.500ms="email">
                         @error('email')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -91,7 +91,7 @@
                         <br>
 
                         <label for="password">Contraseña</label>
-                        <input type="password" id="password" class="form-control" wire:model="password">
+                        <input type="password" id="password" class="form-control" wire:model.debounce.500ms="password">
                         @error('password')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -120,35 +120,35 @@
                     <form wire:submit.prevent="update" id="editing-form">
                         @csrf
                         <label for="nombre">Nombre</label>
-                        <input type="text" id="nombre" class="form-control" wire:model="nombre">
+                        <input type="text" id="nombre" class="form-control" wire:model.lazy="nombre">
                         @error('nombre')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
 
                         <label for="apellido">Apellido</label>
-                        <input type="text" id="apellido" class="form-control" wire:model="apellido">
+                        <input type="text" id="apellido" class="form-control" wire:model.lazy="apellido">
                         @error('apellido')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
 
                         <label for="ci">C.I.</label>
-                        <input type="number" id="ci" class="form-control" wire:model="ci">
+                        <input type="number" id="ci" class="form-control" wire:model.lazy="ci">
                         @error('ci')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
 
                         <label for="username">Nombre de usuario</label>
-                        <input type="text" id="username" class="form-control" wire:model="username">
+                        <input type="text" id="username" class="form-control" wire:model.lazy="username">
                         @error('username')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
 
                         <label for="email">Correo</label>
-                        <input type="email" id="email" class="form-control" wire:model="email">
+                        <input type="email" id="email" class="form-control" wire:model.debounce.500ms="email">
                         @error('email')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
