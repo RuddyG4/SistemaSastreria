@@ -1,11 +1,8 @@
 <?php
 
-use App\Http\Controllers\usuarios\FuncionalidadController;
 use App\Http\Controllers\usuarios\PersonaController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\usuarios\RolController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\usuarios\UserController;
 
 
 /*
@@ -29,8 +26,8 @@ Route::middleware('auth')->group(function () {
     });
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('/dashboard/roles', App\Http\Livewire\Tabla::class);
-    Route::resource('/dashboard/funcionalidades', FuncionalidadController::class);
-    Route::get('/dashboard/usuarios', \App\Http\Livewire\Usuarios::class);
+    Route::get('/dashboard/funcionalidades', \App\Http\Livewire\usuarios\Funcionalidades::class);
+    Route::get('/dashboard/usuarios', \App\Http\Livewire\usuarios\Usuarios::class);
     Route::resource('/dashboard/personas', PersonaController::class);
     
 });

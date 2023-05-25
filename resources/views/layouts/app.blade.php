@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>titulo</title>
+    <title>{{ $title ? $title.' |': '' }} Sastreria Maya</title>
     <!-- Logo -->
     <link rel="shortcut icon" href="{{ asset('images/logo-icon.jpg') }}">
 
@@ -33,6 +33,7 @@
 <body>
 
     <div id="wrapper">
+        <!-- Menú lateral -->
         <nav class="navbar-default navbar-static-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav metismenu" id="side-menu">
@@ -63,9 +64,9 @@
                             <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li class="active">
-                                <a href="dashboard_1.html">Administrar Usuario</a>
+                                <a href="{{ url('/dashboard/usuarios') }}">Administrar Usuario</a>
                             </li>
-                            <li><a href="dashboard_2.html">Administrar Roles</a></li>
+                            <li><a href="{{ url('/dashboard/roles') }}">Administrar Roles</a></li>
                             <li>
                                 <a href="dashboard_3.html">Administrar Funcionalidad</a>
                             </li>
@@ -88,6 +89,8 @@
                 </ul>
             </div>
         </nav>
+
+        <!-- Contenido de pagina -->
         <div id="page-wrapper" class="gray-bg dashbard-1">
             <div class="row border-bottom">
                 <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -105,7 +108,7 @@
                             <span class="m-r-sm text-muted welcome-message">Bienvenido - Sastreria Maya.</span>
                         </li>
                         <li>
-                            <a href="login.html">
+                            <a href="{{url('logout')}}">
                                 <i class="fa fa-sign-out"></i> Cerrar Sesión
                             </a>
                         </li>
@@ -113,20 +116,21 @@
                 </nav>
             </div>
 
-            <!--------------------------------------------------------------------------------------------------------------->
+            <!-- Contenido principal -->
             {{ $slot }}
 
+            <!-- Footer -->
             <div class="footer">
                 <div><strong>Copyright</strong> Sastreria Maya &copy; 2023</div>
             </div>
         </div>
     </div>
     <!-- Mainly scripts -->
+    <script src="{{ asset('js\jquery-3.7.0.min.js') }}"></script>
     <script src="{{ asset('js/popper.min.js') }}"></script>
     <script src="{{ asset('js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
     <script src="{{ asset('js/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js\jquery-3.7.0.min.js') }}"></script>
 
     <!-- Flot -->
     <script src="{{ asset('js/plugins/flot/jquery.flot.js') }}"></script>
@@ -166,7 +170,7 @@
     @stack('scripts')
 
     <!-- Sweet alert -->
-    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="{{ asset('js/plugins/sweetalert/sweetalert.min.js') }}"></script>
     <script>
         $(".deleted").click(function() {
             swal({

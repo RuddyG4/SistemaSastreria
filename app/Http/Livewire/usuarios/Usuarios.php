@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Usuarios;
 
 use App\Models\usuarios\Persona;
 use App\Models\usuarios\Rol;
@@ -41,7 +41,7 @@ class Usuarios extends Component
     public function render()
     {
         return view(
-            'livewire.usuarios',
+            'livewire.usuarios.usuarios',
             [
                 'usuarios' => User::Where('username', 'LIKE', "%$this->busqueda%")
                     ->orWhere('email', 'LIKE', "%$this->busqueda%")->get(),
@@ -52,12 +52,26 @@ class Usuarios extends Component
 
     public function updated($propertyName)
     {
-        $this->validateOnly($propertyName);
+        if ($this->id_persona == null) {
+            $this->validateOnly($propertyName);
+        } else {
+            $this->validateOnly($propertyName, [
+                'nombre' => 'required',
+                'apellido' => 'required',
+                'ci' => 'required|numeric',
+                'username' => 'required|string',
+                'email' => 'required|email',
+                'rol' => 'required|numeric',
+                'password' => 'required|min:8',
+            ]);
+        }
     }
 
     public function cancelar()
     {
         $this->limpiarDatos();
+        $this->dispatchBrowserEvent('cerrar-modal');
+        $this->dispatchBrowserEvent('cerrar-modal-edicion');
         $this->resetErrorBag();
     }
 
@@ -93,6 +107,14 @@ class Usuarios extends Component
 
     public function update()
     {
+        $this->validate([
+            'nombre' => 'required',
+            'apellido' => 'required',
+            'ci' => 'required|numeric',
+            'username' => 'required|string',
+            'email' => 'required|email',
+            'rol' => 'required|numeric',
+        ]);
         $persona = Persona::find($this->id_persona);
         $persona->nombre = $this->nombre;
         $persona->apellido = $this->apellido;
@@ -103,10 +125,11 @@ class Usuarios extends Component
         $persona->push();
         $this->limpiarDatos();
         $this->dispatchBrowserEvent('cerrar-modal-edicion');
+        
     }
 
     public function limpiarDatos()
     {
-        $this->reset(['nombre', 'apellido', 'ci', 'username', 'email', 'rol', 'password']);
+        $this->reset(['nombre', 'apellido', 'ci', 'username', 'email', 'rol', 'password', 'id_persona']);
     }
 }
