@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Usuarios;
 use App\Models\usuarios\Rol;
 
 
@@ -103,7 +103,7 @@ class Tabla extends Component
     public function render()
     {
         $roles = Rol::paginate(10);
-        return view('livewire.tabla',compact('roles'));
+        return view('livewire.usuarios.tabla',compact('roles'));
     }
 
 

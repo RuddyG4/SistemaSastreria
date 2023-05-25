@@ -125,7 +125,6 @@ class Usuarios extends Component
         $persona->push();
         $this->limpiarDatos();
         $this->dispatchBrowserEvent('cerrar-modal-edicion');
-        
     }
 
     public function limpiarDatos()

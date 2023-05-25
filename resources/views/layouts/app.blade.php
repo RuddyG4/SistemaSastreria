@@ -68,7 +68,7 @@
                             </li>
                             <li><a href="{{ url('/dashboard/roles') }}">Administrar Roles</a></li>
                             <li>
-                                <a href="dashboard_3.html">Administrar Funcionalidad</a>
+                                <a href="{{ url('/dashboard/funcionalidades') }}">Administrar Funcionalidad</a>
                             </li>
                         </ul>
                     </li>
