@@ -1,3 +1,6 @@
+<x-slot:title>
+        Usuarios
+</x-slot>
 <div>
     <h1>Vista de usuarios</h1>
     <input wire:model="busqueda" type="text" placeholder="Buscar...">
@@ -58,21 +61,21 @@
                         <br>
 
                         <label for="ci">C.I.</label>
-                        <input type="number" id="ci" class="form-control" wire:model.lazy="ci">
+                        <input type="number" id="ci" class="form-control" wire:model="ci">
                         @error('ci')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
 
                         <label for="username">Nombre de usuario</label>
-                        <input type="text" id="username" class="form-control" wire:model.lazy="username">
+                        <input type="text" id="username" class="form-control" wire:model="username">
                         @error('username')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
 
                         <label for="email">Correo</label>
-                        <input type="email" id="email" class="form-control" wire:model.debounce.500ms="email">
+                        <input type="email" id="email" class="form-control" wire:model="email">
                         @error('email')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -100,7 +103,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" wire:click="cancelar"> Cancelar</button>
+                    <button type="button" class="btn btn-secondary" wire:click="cancelar"> Cancelar</button>
                     <button type="submit" form="form-id" class="btn btn-primary">Crear</button>
                 </div>
             </div>
@@ -119,43 +122,43 @@
                     <h6>Actualice los datos:</h6>
                     <form wire:submit.prevent="update" id="editing-form">
                         @csrf
-                        <label for="nombre">Nombre</label>
-                        <input type="text" id="nombre" class="form-control" wire:model.lazy="nombre">
+                        <label for="nombre-edit">Nombre</label>
+                        <input type="text" id="nombre-edit" class="form-control" wire:model.lazy="nombre">
                         @error('nombre')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
 
-                        <label for="apellido">Apellido</label>
-                        <input type="text" id="apellido" class="form-control" wire:model.lazy="apellido">
+                        <label for="apellido-edit">Apellido</label>
+                        <input type="text" id="apellido-edit" class="form-control" wire:model.lazy="apellido">
                         @error('apellido')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
 
-                        <label for="ci">C.I.</label>
-                        <input type="number" id="ci" class="form-control" wire:model.lazy="ci">
+                        <label for="ci-edit">C.I.</label>
+                        <input type="number" id="ci-edit" class="form-control" wire:model.lazy="ci">
                         @error('ci')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
 
-                        <label for="username">Nombre de usuario</label>
-                        <input type="text" id="username" class="form-control" wire:model.lazy="username">
+                        <label for="username-edit">Nombre de usuario</label>
+                        <input type="text" id="username-edit" class="form-control" wire:model.lazy="username">
                         @error('username')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
 
-                        <label for="email">Correo</label>
-                        <input type="email" id="email" class="form-control" wire:model.debounce.500ms="email">
+                        <label for="email-edit">Correo</label>
+                        <input type="email" id="email-edit" class="form-control" wire:model.debounce.500ms="email">
                         @error('email')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
 
-                        <label for="rol">Rol</label>
-                        <select wire:model="rol" id="rol">
+                        <label for="rol-edit">Rol</label>
+                        <select wire:model="rol" id="rol-edit">
                             @foreach($roles as $rol)
                             <option value="{{ $rol->id }}">{{ $rol->nombre }}</option>
                             @endforeach
@@ -168,7 +171,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" wire:click="cancelar"> Cancelar</button>
+                    <button type="button" class="btn btn-secondary" wire:click="cancelar"> Cancelar</button>
                     <button type="submit" form="editing-form" class="btn btn-primary">Guardar cambios</button>
                 </div>
             </div>

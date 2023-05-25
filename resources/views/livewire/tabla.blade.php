@@ -1,3 +1,6 @@
+<x-slot:title>
+    Roles
+</x-slot>
 <div>
     <h2> Gestión de Roles</h2>
     <h3>Lista de roles:</h3>
