@@ -48,7 +48,9 @@ class Usuarios extends Component
                     $query->where('nombre', 'like', "%$this->busqueda%")
                         ->orWhere('apellido', 'like', "%$this->busqueda%");
                 })->orWhere('username', 'like', "%$this->busqueda%")
-                    ->orWhere('email', 'like', "%$this->busqueda%")->get(),
+                    ->orWhere('email', 'like', "%$this->busqueda%")->get()->filter(function ($usuario) {
+                        return $usuario->activo == 0;
+                    }),
                 'roles' => Rol::all(),
             ]
         );
@@ -87,11 +89,12 @@ class Usuarios extends Component
             'apellido' => $this->apellido,
             'ci' => $this->ci,
         ]);
-        $user = new User;
-        $user->username = $this->username;
-        $user->email = $this->email;
-        $user->id_rol = $this->rol;
-        $user->password = $this->password;
+        $user = new User([
+            'username' => $this->username,
+            'email' => $this->email,
+            'id_rol' => $this->rol,
+            'password' => $this->password,
+        ]);
         $persona->usuario()->save($user);
         $this->limpiarDatos();
         $this->dispatchBrowserEvent('cerrar-modal');
@@ -129,6 +132,13 @@ class Usuarios extends Component
         $persona->push();
         $this->limpiarDatos();
         $this->dispatchBrowserEvent('cerrar-modal-edicion');
+    }
+
+    public function darBaja($id)
+    {
+        $user = User::find($id);
+        $user->activo = 1;
+        $user->save();
     }
 
     public function limpiarDatos()

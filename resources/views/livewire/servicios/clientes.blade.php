@@ -6,15 +6,15 @@
     <input wire:model="busqueda" type="text" placeholder="Buscar...">
     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Añadir cliente</button>
 
-    <table>
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>C.I.</th>
-                <th>Dirección</th>
-                <th>Opciones</th>
+                <th scope="col">ID</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">C.I.</th>
+                <th scope="col">Dirección</th>
+                <th scope="col">Opciones</th>
             </tr>
         </thead>
         <tbody>

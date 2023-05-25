@@ -30,8 +30,8 @@
                 <td>{{ $usuario->email }}</td>
                 <td>{{ $usuario->rol->nombre }}</td>
                 <td>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar({{ $usuario->id }})">Editar</button>
-                    <button class="btn btn-danger">Inactivar</button>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar( {{ $usuario->id }} )">Editar</button>
+                    <button class="btn btn-danger" wire:click="darBaja( {{ $usuario->id}} )">Dar baja</button>
                 </td>
             </tr>
             @endforeach
