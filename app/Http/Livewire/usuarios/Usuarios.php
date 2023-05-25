@@ -44,7 +44,7 @@ class Usuarios extends Component
             'livewire.usuarios.usuarios',
             [
                 'usuarios' => User::Where('username', 'LIKE', "%$this->busqueda%")
-                    ->orWhere('email', 'LIKE', "%$this->busqueda%")->get(),
+                ->orWhere('email', 'LIKE', "%$this->busqueda%")->get(),
                 'roles' => Rol::all(),
             ]
         );

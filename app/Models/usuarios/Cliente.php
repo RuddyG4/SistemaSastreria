@@ -12,9 +12,10 @@ class Cliente extends Model
     protected $table = 'cliente';
     public $timestamps = false;
     protected $fillable = [
+        'id',
         'direccion'
     ];
-    protected $guarded = ['id'];
+    // protected $guarded = ['id'];
 
     public function persona(): BelongsTo{
         return $this->belongsTo(Persona::class,'id','id');
