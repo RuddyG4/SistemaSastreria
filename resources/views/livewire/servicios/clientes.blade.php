@@ -21,10 +21,10 @@
             @foreach($clientes as $cliente)
             <tr>
                 <td>{{ $cliente->id }}</td>
-                <td>{{ $cliente->nombre }}</td>
-                <td>{{ $cliente->apellido }}</td>
-                <td>{{ $cliente->ci }}</td>
-                <td>{{ $cliente->cliente->direccion }}</td>
+                <td>{{ $cliente->persona->nombre }}</td>
+                <td>{{ $cliente->persona->apellido }}</td>
+                <td>{{ $cliente->persona->ci }}</td>
+                <td>{{ $cliente->direccion }}</td>
                 <td>
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar({{ $cliente->id }})">Editar</button>
                     <button class="btn btn-danger">Inactivar</button>

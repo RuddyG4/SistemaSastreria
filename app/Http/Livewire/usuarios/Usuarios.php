@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Usuarios;
 use App\Models\usuarios\Persona;
 use App\Models\usuarios\Rol;
 use App\Models\usuarios\User;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Livewire\Component;
 
 class Usuarios extends Component
@@ -43,8 +44,11 @@ class Usuarios extends Component
         return view(
             'livewire.usuarios.usuarios',
             [
-                'usuarios' => User::Where('username', 'LIKE', "%$this->busqueda%")
-                    ->orWhere('email', 'LIKE', "%$this->busqueda%")->get(),
+                'usuarios' => User::whereHas('persona', function (Builder $query) {
+                    $query->where('nombre', 'like', "%$this->busqueda%")
+                        ->orWhere('apellido', 'like', "%$this->busqueda%");
+                })->orWhere('username', 'like', "%$this->busqueda%")
+                    ->orWhere('email', 'like', "%$this->busqueda%")->get(),
                 'roles' => Rol::all(),
             ]
         );
