@@ -22,7 +22,7 @@ Route::get('/', function () {
     
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
-        return view('welcome');
+        return view('home-dashboard');
     });
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::get('/dashboard/roles', App\Http\Livewire\Usuarios\Roles::class);

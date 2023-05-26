@@ -13,8 +13,7 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap/bootstrap.min.css')}}">
 
     <!-- Iconos -->
-    <script src="https://kit.fontawesome.com/1d8ccf6f72.js" crossorigin="anonymous"></script>
-    <!-- <link href="{{ asset('css/font-awesome/font-awesome.css') }}" rel="stylesheet" /> -->
+    <link href="{{ asset('css/font-awesome/font-awesome.css') }}" rel="stylesheet" />
 
     <!-- Sweet Alert -->
     <link href="{{ asset('css/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet" />
@@ -40,7 +39,7 @@
                     <li class="nav-header">
                         <div class="dropdown profile-element">
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                <span class="block m-t-xs font-bold">{{Auth::user()->username}}</span>
+                                <span class="block m-t-xs font-bold">{{Auth::user()->persona->nombre}}</span>
                                 <span class="text-muted text-xs block">{{Auth::user()->rol->nombre}}<b></b></span>
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
@@ -53,8 +52,8 @@
                             </ul>
                         </div>
                     </li>
-                    <li>
-                        <a href="{{ url('/dashboard') }}"><i class="fa fa-th-large"></i>
+                    <li class="{{ Request::is('dashboard') ? 'active' : '' }}">
+                        <a href="#"><i class="fa fa-th-large"></i>
                             <span class="nav-label">INICIO</span></a>
                     </li>
                     <li class="{{ Request::is('dashboard/usuarios*', 'dashboard/roles*', 'dashboard/funcionalidades*') ? 'active' : '' }}">
@@ -65,7 +64,8 @@
                             <li class="{{ Request::is('dashboard/usuarios*') ? 'active' : '' }}">
                                 <a href="{{ url('/dashboard/usuarios') }}">Administrar Usuario</a>
                             </li>
-                            <li class="{{ Request::is('dashboard/roles*') ? 'active' : '' }}"><a href="{{ url('/dashboard/roles') }}">Administrar Roles</a>
+                            <li class="{{ Request::is('dashboard/roles*') ? 'active' : '' }}">
+                                <a href="{{ url('/dashboard/roles') }}">Administrar Roles</a>
                             </li>
                             <li class="{{ Request::is('dashboard/funcionalidades*') ? 'active' : '' }}">
                                 <a href="{{ url('/dashboard/funcionalidades') }}">Administrar Funcionalidad</a>
@@ -74,16 +74,25 @@
                     </li>
                     <li class="{{ Request::is('dashboard/clientes*') ? 'active' : '' }}">
                         <a href="#"><i class="fa fa-wrench"></i>
-                            <span class="nav-label">SERVICIO</span><span class="fa arrow"></span></a>
+                            <span class="nav-label">SERVICIO</span><span class="fa arrow"></span>
+                        </a>
                         <ul class="nav nav-second-level collapse">
-                            <li class="{{ Request::is('dashboard/clientes*') ? 'active' : '' }}"><a href="{{url('/dashboard/clientes')}}">Clientes</a></li>
+                            <li class="{{ Request::is('dashboard/clientes*') ? 'active' : '' }}">
+                                <a href="{{url('/dashboard/clientes')}}">Clientes</a>
+                            </li>
+                            <li class="{{ Request::is('dashboard/pedidos*') ? 'active' : '' }}">
+                                <a href="{{url('/dashboard/pedidos')}}">Pedidos</a>
+                            </li>
                         </ul>
                     </li>
                     <li class="">
                         <a href="#"><i class="fa fa-book"></i>
-                            <span class="nav-label">INVENTARIO</span><span class="fa arrow"></span></a>
+                            <span class="nav-label">INVENTARIO</span><span class="fa arrow"></span>
+                        </a>
                         <ul class="nav nav-second-level collapse">
-                            <li><a href="">PARTE 1</a></li>
+                            <li>
+                                <a href="">PARTE 1</a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -98,7 +107,7 @@
                         <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" href="#"><i class="fa fa-bars"></i>
                         </a>
                         <form role="search" class="navbar-form-custom" action="search_results.html">
-                           <!--  <div class="form-group">
+                            <!--  <div class="form-group">
                                 <input type="text" placeholder="Busca algo..." class="form-control" name="top-search" id="top-search" />
                             </div> -->
                         </form>
