@@ -1,37 +1,33 @@
 <x-slot:title>
-        Usuarios
+        Clientes
 </x-slot>
 <div>
-    <h1>Vista de usuarios</h1>
+    <h1>Vista de clientes</h1>
     <input wire:model="busqueda" type="text" placeholder="Buscar...">
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Crear usuario</button>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Añadir cliente</button>
 
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>C.I.</th>
-                <th>Nombre de usuario</th>
-                <th>Correo</th>
-                <th>Rol</th>
-                <th>Opciones</th>
+                <th scope="col">ID</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellido</th>
+                <th scope="col">C.I.</th>
+                <th scope="col">Dirección</th>
+                <th scope="col">Opciones</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($usuarios as $usuario)
+            @foreach($clientes as $cliente)
             <tr>
-                <td>{{ $usuario->id }}</td>
-                <td>{{ $usuario->persona->nombre }}</td>
-                <td>{{ $usuario->persona->apellido }}</td>
-                <td>{{ $usuario->persona->ci }}</td>
-                <td>{{ $usuario->username }}</td>
-                <td>{{ $usuario->email }}</td>
-                <td>{{ $usuario->rol->nombre }}</td>
+                <td>{{ $cliente->id }}</td>
+                <td>{{ $cliente->persona->nombre }}</td>
+                <td>{{ $cliente->persona->apellido }}</td>
+                <td>{{ $cliente->persona->ci }}</td>
+                <td>{{ $cliente->direccion }}</td>
                 <td>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar( {{ $usuario->id }} )">Editar</button>
-                    <button class="btn btn-danger" wire:click="darBaja( {{ $usuario->id}} )">Dar baja</button>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar({{ $cliente->id }})">Editar</button>
+                    <button class="btn btn-danger">Inactivar</button>
                 </td>
             </tr>
             @endforeach
@@ -41,11 +37,11 @@
     <!-- Modales -->
 
     <!-- Modal de creacion -->
-    <div wire:ignore.self id="modalDeCreacion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="crearUsuario" aria-hidden="true">
+    <div wire:ignore.self id="modalDeCreacion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="crearCliente" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="crearUsuario">Crear usuario</h5>
+                    <h5 class="modal-title" id="crearCliente">Crear cliente</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cancelar"></button>
                 </div>
                 <div class="modal-body">
@@ -73,35 +69,9 @@
                         @enderror
                         <br>
 
-                        <label for="username">Nombre de usuario</label>
-                        <input type="text" id="username" class="form-control" wire:model="username">
-                        @error('username')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                        <br>
-
-                        <label for="email">Correo</label>
-                        <input type="email" id="email" class="form-control" wire:model="email">
-                        @error('email')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                        <br>
-
-                        <label for="rol">Rol</label>
-                        <select wire:model="rol" id="rol">
-                            <option value="">Seleccione un rol</option>
-                            @foreach($roles as $rol)
-                            <option value="{{ $rol->id }}">{{ $rol->nombre }}</option>
-                            @endforeach
-                        </select>
-                        @error('rol')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                        <br>
-
-                        <label for="password">Contraseña</label>
-                        <input type="password" id="password" class="form-control" wire:model.debounce.500ms="password">
-                        @error('password')
+                        <label for="direccion">Dirección</label>
+                        <input type="text" id="direccion" class="form-control" wire:model="direccion">
+                        @error('direccion')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>
@@ -117,11 +87,11 @@
     </div>
 
     <!-- Modal de creacion -->
-    <div wire:ignore.self id="modalDeEdicion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editarUsuario" aria-hidden="true">
+    <div wire:ignore.self id="modalDeEdicion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editarCliente" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editarUsuario">Editar usuario</h5>
+                    <h5 class="modal-title" id="editarCliente">Editar cliente</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cancelar"></button>
                 </div>
                 <div class="modal-body">
@@ -149,27 +119,9 @@
                         @enderror
                         <br>
 
-                        <label for="username-edit">Nombre de usuario</label>
-                        <input type="text" id="username-edit" class="form-control" wire:model.lazy="username">
-                        @error('username')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                        <br>
-
-                        <label for="email-edit">Correo</label>
-                        <input type="email" id="email-edit" class="form-control" wire:model.debounce.500ms="email">
-                        @error('email')
-                        <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                        <br>
-
-                        <label for="rol-edit">Rol</label>
-                        <select wire:model="rol" id="rol-edit">
-                            @foreach($roles as $rol)
-                            <option value="{{ $rol->id }}">{{ $rol->nombre }}</option>
-                            @endforeach
-                        </select>
-                        @error('rol')
+                        <label for="direccion-edit">Dirección</label>
+                        <input type="text" id="direccion-edit" class="form-control" wire:model.lazy="direccion">
+                        @error('direccion')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <br>

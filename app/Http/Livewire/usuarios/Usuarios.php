@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Usuarios;
 use App\Models\usuarios\Persona;
 use App\Models\usuarios\Rol;
 use App\Models\usuarios\User;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Livewire\Component;
 
 class Usuarios extends Component
@@ -43,8 +44,13 @@ class Usuarios extends Component
         return view(
             'livewire.usuarios.usuarios',
             [
-                'usuarios' => User::Where('username', 'LIKE', "%$this->busqueda%")
-                ->orWhere('email', 'LIKE', "%$this->busqueda%")->get(),
+                'usuarios' => User::whereHas('persona', function (Builder $query) {
+                    $query->where('nombre', 'like', "%$this->busqueda%")
+                        ->orWhere('apellido', 'like', "%$this->busqueda%");
+                })->orWhere('username', 'like', "%$this->busqueda%")
+                    ->orWhere('email', 'like', "%$this->busqueda%")->get()->filter(function ($usuario) {
+                        return $usuario->activo == 0;
+                    }),
                 'roles' => Rol::all(),
             ]
         );
@@ -83,11 +89,12 @@ class Usuarios extends Component
             'apellido' => $this->apellido,
             'ci' => $this->ci,
         ]);
-        $user = new User;
-        $user->username = $this->username;
-        $user->email = $this->email;
-        $user->id_rol = $this->rol;
-        $user->password = $this->password;
+        $user = new User([
+            'username' => $this->username,
+            'email' => $this->email,
+            'id_rol' => $this->rol,
+            'password' => $this->password,
+        ]);
         $persona->usuario()->save($user);
         $this->limpiarDatos();
         $this->dispatchBrowserEvent('cerrar-modal');
@@ -125,7 +132,13 @@ class Usuarios extends Component
         $persona->push();
         $this->limpiarDatos();
         $this->dispatchBrowserEvent('cerrar-modal-edicion');
-        
+    }
+
+    public function darBaja($id)
+    {
+        $user = User::find($id);
+        $user->activo = 1;
+        $user->save();
     }
 
     public function limpiarDatos()

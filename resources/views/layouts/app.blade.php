@@ -68,7 +68,7 @@
                             </li>
                             <li><a href="{{ url('/dashboard/roles') }}">Administrar Roles</a></li>
                             <li>
-                                <a href="dashboard_3.html">Administrar Funcionalidad</a>
+                                <a href="{{ url('/dashboard/funcionalidades') }}">Administrar Funcionalidad</a>
                             </li>
                         </ul>
                     </li>
@@ -76,7 +76,7 @@
                         <a href="#"><i class="fa fa-wrench"></i>
                             <span class="nav-label">SERVICIO</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
-                            <li><a href="">PARTE 1</a></li>
+                            <li><a href="{{url('/dashboard/clientes')}}">Clientes</a></li>
                         </ul>
                     </li>
                     <li>
