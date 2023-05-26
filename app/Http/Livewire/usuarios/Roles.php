@@ -29,13 +29,6 @@ class Roles extends Component
         'descripcion.max' => 'La descripcion solo puede contener hasta 100 caracteres',
     ];
 
-    public function render()
-    {
-        return view('livewire..usuarios.roles', [
-            'roles' => Rol::get()
-        ]);
-    }
-
     public function updated($propertyName)
     {
         if ($this->idRol == null) {
@@ -51,16 +44,17 @@ class Roles extends Component
     public function store()
     {
         $this->validate();
-        if ($this->rolPermisos == null) {
+        if (!(count($this->rolPermisos) > 0)) {
             $this->addError('permisos', 'Tiene que seleccionar al menos 1 rol');
-        }else{
-            $rol = Rol::create([
-                'nombre' => $this->nombre,
-                'descripcion' => $this->descripcion
-            ]);
-            $rol->funcionalidades()->attach($this->rolPermisos);
-            $this->dispatchBrowserEvent('cerrar-modal-crear');
         }
+
+        $rol = Rol::create([
+            'nombre' => $this->nombre,
+            'descripcion' => $this->descripcion
+        ]);
+        $rol->funcionalidades()->attach($this->rolPermisos);
+
+        $this->cerrar();
     }
     public function view($idRol)
     {
@@ -79,8 +73,11 @@ class Roles extends Component
             $rol->funcionalidades()->detach();
             $rol->delete($this->idRol);
         }
-        $this->erase();
-        $this->dispatchBrowserEvent('cerrar-modal-eliminar');
+        // $this->afuera='elimino';
+
+        $this->cerrar();
+        // $this->dispatchBrowserEvent('cerrar-modal-eliminar');
+        $this->afuera = 'cerro';
     }
     public function edit($id)
     {
@@ -96,17 +93,18 @@ class Roles extends Component
     }
     public function update()
     {
+        $this->afuera = 'entro';
         $this->validate([
             'nombre' => 'required|max:30',
             'descripcion' => 'required|max:99',
         ]);
         $rol = Rol::find($this->idRol);
-        $rol->nombre = $this->nombre;
-        $rol->descripcion = $this->descripcion;
         if ($rol) {
             $rol->funcionalidades()->sync($this->rolPermisos);
-            $rol->push();
-        } 
+            $this->afuera = 'actulizao';
+        } else {
+            $this->afuera = 'fallo';
+        }
         $this->dispatchBrowserEvent('cerrar-modal-editar');
     }
 
@@ -129,5 +127,10 @@ class Roles extends Component
     {
         $this->reset(['nombre', 'descripcion', 'rolPermisos']);
     }
-    
+    public function render()
+    {
+        return view('livewire..usuarios.roles', [
+            'roles' => Rol::get()
+        ]);
+    }
 }
