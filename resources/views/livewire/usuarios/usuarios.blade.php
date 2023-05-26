@@ -6,7 +6,7 @@
     <input wire:model="busqueda" type="text" placeholder="Buscar...">
     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Crear usuario</button>
 
-    <table>
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>ID</th>
