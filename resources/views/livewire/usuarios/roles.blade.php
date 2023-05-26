@@ -100,7 +100,7 @@
         </div>
     </div>
 
-    {{-- delete modal --}}
+    <!-- Modal de eliminar -->
     <div wire:ignore.self id="modalDeDelete" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="eliminarrol" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -119,7 +119,7 @@
         </div>
     </div>
 
-    {{-- edit modal --}}
+    <!-- Modal de editar -->
     <div wire:ignore.self id="modalDeEditar" class="modal fade" tabindex="1" role="dialog" aria-labelledby="editarrol" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -134,8 +134,8 @@
                     
 
                     <form wire:submit.prevent="update" id="form-edit">
-                        {{-- @csrf --}}
-                        {{-- <label for="nombre">Nombre</label>
+                        @csrf
+                        <label for="nombre">Nombre</label>
                         <input type="text" id="nombre" class="form-control" wire:model.lazy="nombre">
                         @error('nombre')
                         <span class="text-danger">{{ $message }}</span>
@@ -147,7 +147,7 @@
                         @error('descripcion')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
-                        <br> --}}
+                        <br>
                         @foreach ($funcList as $funcion)
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="checkbox" wire:model="rolPermisos" value="{{$funcion->id}}">
@@ -160,11 +160,11 @@
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
 
-                        <button type="submit" form="form-edit">Save Contact</button>
+                        
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" form="form-edit">Guardar</button>
+                    <button type="submit" class="btn btn-primary" form="form-edit">Guardar</button>
                     <button type="button" class="btn btn-secondary" wire:click="cerrar"> Cancelar</button>
                     
                 </div>
