@@ -4,7 +4,7 @@
 <div>
     <h1>Vista de usuarios</h1>
     <input wire:model="busqueda" type="text" placeholder="Buscar...">
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Crear funcionalidad</button>
+    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Crear funcionalidad</button>
 
     <table class="table table-striped">
         <thead>
