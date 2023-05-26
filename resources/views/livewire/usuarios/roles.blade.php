@@ -3,7 +3,10 @@
 </x-slot>
 <div>
     <h2> Gestión de Roles</h2>
+    {{-- <h3>Lista de roles:</h3>     --}}
     <button class="btn btn-primary" wire:click="loadRol" data-bs-toggle="modal" data-bs-target="#modalDeCreacion" >Crear Rol</button>
+    idrol={{var_export($idRol)}}
+    {{var_export($afuera)}}
     <table class="table table-striped" >
         <thead>
             <tr >
@@ -29,7 +32,7 @@
     </table>
 
 
-    <!-- create modal -->
+    {{-- create modal --}}
     <div wire:ignore.self id="modalDeCreacion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="crearrol" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -38,6 +41,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cerrar"></button>
                 </div>
                 <div class="modal-body">
+                    {{var_export($rolPermisos)}}
                     <form wire:submit.prevent="store" id="form-id">
                         @csrf
                         <label for="nombre">Nombre</label>
@@ -49,7 +53,6 @@
 
                         <label for="descripcion">Descripcion</label>
                         <input type="text" id="descripcion" class="form-control" wire:model.lazy="descripcion">
-                        
                         @error('descripcion')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -89,7 +92,7 @@
                     @endforeach
                 </div>
                 <div class="modal-footer">
-                    {{-- <button type="button" form="form-id" class="btn btn-primary">Editar</button> --}}
+                    <button type="button" form="form-id" class="btn btn-primary">Editar</button>
                     <button type="button" class="btn btn-secondary" wire:click="cerrar"> Cerrar</button>
                     
                 </div>
@@ -126,6 +129,10 @@
                 </div>
                 <div class="modal-body">
                     <h3>editar</h3>
+                    {{-- <h2>{{$nombre}}</h2> --}}
+                    rol permisos{{var_export($rolPermisos)}}
+                    
+
                     <form wire:submit.prevent="update" id="form-edit">
                         @csrf
                         <label for="nombre">Nombre</label>
