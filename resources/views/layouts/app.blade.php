@@ -40,8 +40,8 @@
                     <li class="nav-header">
                         <div class="dropdown profile-element">
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                <span class="block m-t-xs font-bold">Jorge11</span>
-                                <span class="text-muted text-xs block">Administrador<b class="caret"></b></span>
+                                <span class="block m-t-xs font-bold">{{Auth::user()->username}}</span>
+                                <span class="text-muted text-xs block">{{Auth::user()->rol->nombre}}<b></b></span>
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
                                 <li>
@@ -52,34 +52,34 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="logo-element">IN+</div>
                     </li>
                     <li>
-                        <a href="index.html"><i class="fa fa-th-large"></i>
+                        <a href="{{ url('/dashboard') }}"><i class="fa fa-th-large"></i>
                             <span class="nav-label">INICIO</span></a>
                     </li>
-                    <li class="active">
-                        <a href="index.html"><i class="fa fa-user-o"></i>
+                    <li class="{{ Request::is('dashboard/usuarios*', 'dashboard/roles*', 'dashboard/funcionalidades*') ? 'active' : '' }}">
+                        <a href=""><i class="fa fa-user-o"></i>
                             <span class="nav-label">USUARIO</span>
                             <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li class="active">
+                            <li class="{{ Request::is('dashboard/usuarios*') ? 'active' : '' }}">
                                 <a href="{{ url('/dashboard/usuarios') }}">Administrar Usuario</a>
                             </li>
-                            <li><a href="{{ url('/dashboard/roles') }}">Administrar Roles</a></li>
-                            <li>
+                            <li class="{{ Request::is('dashboard/roles*') ? 'active' : '' }}"><a href="{{ url('/dashboard/roles') }}">Administrar Roles</a>
+                            </li>
+                            <li class="{{ Request::is('dashboard/funcionalidades*') ? 'active' : '' }}">
                                 <a href="{{ url('/dashboard/funcionalidades') }}">Administrar Funcionalidad</a>
                             </li>
                         </ul>
                     </li>
-                    <li>
+                    <li class="{{ Request::is('dashboard/clientes*') ? 'active' : '' }}">
                         <a href="#"><i class="fa fa-wrench"></i>
                             <span class="nav-label">SERVICIO</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
-                            <li><a href="{{url('/dashboard/clientes')}}">Clientes</a></li>
+                            <li class="{{ Request::is('dashboard/clientes*') ? 'active' : '' }}"><a href="{{url('/dashboard/clientes')}}">Clientes</a></li>
                         </ul>
                     </li>
-                    <li>
+                    <li class="">
                         <a href="#"><i class="fa fa-book"></i>
                             <span class="nav-label">INVENTARIO</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
@@ -98,9 +98,9 @@
                         <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" href="#"><i class="fa fa-bars"></i>
                         </a>
                         <form role="search" class="navbar-form-custom" action="search_results.html">
-                            <div class="form-group">
+                           <!--  <div class="form-group">
                                 <input type="text" placeholder="Busca algo..." class="form-control" name="top-search" id="top-search" />
-                            </div>
+                            </div> -->
                         </form>
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
@@ -140,30 +140,30 @@
     <script src="{{ asset('js/plugins/flot/jquery.flot.pie.js') }}"></script>
 
     <!-- Peity -->
-  <script src="{{ asset('js/plugins/peity/jquery.peity.min.js') }}"></script>
-  <script src="{{ asset('js/demo/peity-demo.js') }}"></script>
+    <script src="{{ asset('js/plugins/peity/jquery.peity.min.js') }}"></script>
+    <script src="{{ asset('js/demo/peity-demo.js') }}"></script>
 
-  <!-- Custom and plugin javascript -->
-  <script src="{{ asset('js/inspinia.js') }}"></script>
-  <script src="{{ asset('js/plugins/pace/pace.min.js') }}"></script>
+    <!-- Custom and plugin javascript -->
+    <script src="{{ asset('js/inspinia.js') }}"></script>
+    <script src="{{ asset('js/plugins/pace/pace.min.js') }}"></script>
 
-  <!-- jQuery UI -->
-  <script src="{{ asset('js/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
+    <!-- jQuery UI -->
+    <script src="{{ asset('js/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
 
-  <!-- GITTER -->
-  <script src="{{ asset('js/plugins/gritter/jquery.gritter.min.js') }}"></script>
+    <!-- GITTER -->
+    <script src="{{ asset('js/plugins/gritter/jquery.gritter.min.js') }}"></script>
 
-  <!-- Sparkline -->
-  <script src="{{ asset('js/plugins/sparkline/jquery.sparkline.min.js') }}"></script>
+    <!-- Sparkline -->
+    <script src="{{ asset('js/plugins/sparkline/jquery.sparkline.min.js') }}"></script>
 
-  <!-- Sparkline demo data  -->
-  <script src="{{ asset('js/demo/sparkline-demo.js') }}"></script>
+    <!-- Sparkline demo data  -->
+    <script src="{{ asset('js/demo/sparkline-demo.js') }}"></script>
 
-  <!-- ChartJS-->
-  <script src="{{ asset('js/plugins/chartJs/Chart.min.js') }}"></script>
+    <!-- ChartJS-->
+    <script src="{{ asset('js/plugins/chartJs/Chart.min.js') }}"></script>
 
-  <!-- Toastr -->
-  <script src="{{ asset('js/plugins/toastr/toastr.min.js') }}"></script>
+    <!-- Toastr -->
+    <script src="{{ asset('js/plugins/toastr/toastr.min.js') }}"></script>
 
     <!-- Livewire y js de modales -->
     @livewireScripts
