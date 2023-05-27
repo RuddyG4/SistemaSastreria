@@ -27,7 +27,7 @@
                 <td>{{ $cliente->direccion }}</td>
                 <td>
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar({{ $cliente->id }})">Editar</button>
-                    <button class="btn btn-danger">Inactivar</button>
+                    <button class="btn btn-danger" wire:click="$emit('confirmarEliminacion', {{ $cliente->id}} )">Eliminar</button>
                 </td>
             </tr>
             @endforeach
@@ -145,5 +145,44 @@
     window.addEventListener('cerrar-modal-edicion', event => {
         $('#modalDeEdicion').modal('hide');
     });
+</script>
+
+<script>
+    Livewire.on('confirmarEliminacion', id => {
+            Swal.fire({
+                title: '¿Está seguro?',
+                text: "El cliente seleccionado será eliminado",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#EC4758',
+                cancelButtonColor: '#808991',
+                confirmButtonText: 'Sí, eliminar!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Livewire.emitTo('servicios.clientes', 'delete', id);
+                    Swal.fire(
+                        'Cliente eliminado!',
+                        'El cliente ha sido eliminado.',
+                        'success'
+                    )
+                }
+            })
+        })
+
+    Livewire.on('clienteActualizado', function() {
+            Swal.fire(
+                'Cliente actualizado!',
+                'Los cambios se guardaron correctamente!',
+                'success'
+            )
+        })
+        
+        Livewire.on('clienteCreado', function() {
+            Swal.fire(
+                'Cliente creado!',
+                'El cliente ha sido creado correctamente!',
+                'success'
+            )
+        })
 </script>
 @endpush

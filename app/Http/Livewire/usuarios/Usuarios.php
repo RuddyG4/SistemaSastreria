@@ -13,6 +13,8 @@ class Usuarios extends Component
     public $busqueda;
     public $nombre, $apellido, $ci, $username, $email, $rol, $password, $id_persona;
 
+    protected $listeners = ['darBaja'];
+
     protected $rules = [
         'nombre' => 'required',
         'apellido' => 'required',
@@ -96,6 +98,7 @@ class Usuarios extends Component
             'password' => $this->password,
         ]);
         $persona->usuario()->save($user);
+        $this->emit('usuarioCreado');
         $this->limpiarDatos();
         $this->dispatchBrowserEvent('cerrar-modal');
     }
@@ -130,13 +133,13 @@ class Usuarios extends Component
         $persona->usuario->email = $this->email;
         $persona->usuario->id_rol = $this->rol;
         $persona->push();
+        $this->emit('usuarioActualizado');
         $this->limpiarDatos();
         $this->dispatchBrowserEvent('cerrar-modal-edicion');
     }
 
-    public function darBaja($id)
+    public function darBaja(User $user)
     {
-        $user = User::find($id);
         $user->activo = 1;
         $user->save();
     }

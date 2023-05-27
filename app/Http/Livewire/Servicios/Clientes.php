@@ -11,6 +11,8 @@ class Clientes extends Component
 {
     public $busqueda;
     public $nombre, $apellido, $ci, $direccion, $id_persona;
+
+    protected $listeners = ['delete'];
     
     public function render()
     {
@@ -74,6 +76,7 @@ class Clientes extends Component
         $cliente = new Cliente;
         $cliente->direccion = $this->direccion;
         $persona->cliente()->save($cliente);
+        $this->emit('clienteCreado');
         $this->limpiarDatos();
         $this->dispatchBrowserEvent('cerrar-modal');
     }
@@ -102,8 +105,15 @@ class Clientes extends Component
         $persona->ci = $this->ci;
         $persona->cliente->direccion = $this->direccion;
         $persona->push();
+        $this->emit('clienteActualizado');
         $this->limpiarDatos();
         $this->dispatchBrowserEvent('cerrar-modal-edicion');
+    }
+
+    public function delete(Persona $persona)
+    {
+        $persona->cliente()->delete();
+        $persona->delete();
     }
 
     public function limpiarDatos()

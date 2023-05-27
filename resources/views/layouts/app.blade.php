@@ -104,17 +104,13 @@
             <div class="row border-bottom">
                 <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
                     <div class="navbar-header">
-                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" href="#"><i class="fa fa-bars"></i>
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" href="#">
+                            <i class="fa fa-bars"></i>
                         </a>
-                        <form role="search" class="navbar-form-custom" action="search_results.html">
-                            <!--  <div class="form-group">
-                                <input type="text" placeholder="Busca algo..." class="form-control" name="top-search" id="top-search" />
-                            </div> -->
-                        </form>
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
                         <li style="padding: 20px">
-                            <span class="m-r-sm text-muted welcome-message">Bienvenido - Sastreria Maya.</span>
+                            <span class="m-r-sm text-muted welcome-message"><b>Bienvenido - Sastreria Maya.</b></span>
                         </li>
                         <li>
                             <a href="{{url('logout')}}">
@@ -176,34 +172,10 @@
 
     <!-- Livewire y js de modales -->
     @livewireScripts
+
+    <!-- Sweet alert - CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @stack('scripts')
-
-    <!-- Sweet alert -->
-    <script src="{{ asset('js/plugins/sweetalert/sweetalert.min.js') }}"></script>
-    <script>
-        $(".deleted").click(function() {
-            swal({
-                    title: "¿Estas Seguro?",
-                    text: "Eliminar Usuario",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "¡Sí, bórralo!",
-                    cancelButtonText: "¡No, cancela por favor!",
-                    closeOnConfirm: false,
-                    closeOnCancel: false,
-                },
-                function(isConfirm) {
-                    if (isConfirm) {
-                        swal("¡Eliminado!", "El usuario ha sido eliminado.", "success");
-                    } else {
-                        swal("Cancelado", "Usuario no eliminado", "error");
-                    }
-                }
-            );
-        });
-    </script>
-
 
 </body>
 

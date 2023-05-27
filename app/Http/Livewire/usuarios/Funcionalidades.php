@@ -9,6 +9,8 @@ class Funcionalidades extends Component
 {
     public $busqueda, $nombre, $descripcion, $id_funcionalidad;
 
+    protected $listeners = ['delete'];
+
     protected $rules = [
         'nombre' => 'required|unique:funcionalidad',
         'descripcion' => 'required',
@@ -53,15 +55,16 @@ class Funcionalidades extends Component
     {
         $datos = $this->validate();
         Funcionalidad::create($datos);
+        $this->emit('funcionalidadCreada');
         $this->limpiarDatos();
         $this->dispatchBrowserEvent('cerrar-modal');
     }
 
     public function editar($id)
     {
-        $persona = Funcionalidad::find($id);
-        $this->nombre = $persona->nombre;
-        $this->descripcion = $persona->descripcion;
+        $funcionalidad = Funcionalidad::find($id);
+        $this->nombre = $funcionalidad->nombre;
+        $this->descripcion = $funcionalidad->descripcion;
         $this->id_funcionalidad = $id;
     }
 
@@ -75,8 +78,14 @@ class Funcionalidades extends Component
         $funcionalidad->nombre = $this->nombre;
         $funcionalidad->descripcion = $this->descripcion;
         $funcionalidad->save();
+        $this->emit('funcionalidadActualizada');
         $this->limpiarDatos();
         $this->dispatchBrowserEvent('cerrar-modal-edicion');
+    }
+
+    public function delete(Funcionalidad $funcionalidad)
+    {
+        $funcionalidad->delete();
     }
 
     public function limpiarDatos()
