@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\usuarios\PersonaController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 

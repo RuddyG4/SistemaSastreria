@@ -40,7 +40,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cerrar"></button>
                     </div>
                     <div class="modal-body">
-                        {{var_export($rolPermisos)}}
+                        
                         <form wire:submit.prevent="store" id="form-id">
                             @csrf
                             <label for="nombre">Nombre</label>

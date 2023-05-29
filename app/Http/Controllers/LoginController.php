@@ -13,14 +13,14 @@ class LoginController extends Controller
 {
     public function show()
     {
-        return view('usuarios.login');
+        return view('login.login');
     }
 
     public function login(LoginRequest $request)
     {
         $credentials = $request->getCredentials();
         if (!Auth::validate($credentials)) {
-            return redirect('login')->withErrors('auth_failed', 'El nombre de usuario o contraseña son incorrectos, verifique e intente nuevamente');
+            return redirect('login')->withErrors('El nombre de usuario o contraseña son incorrectos, verifique e intente nuevamente');
         }
         $user = Auth::getProvider()->retrieveByCredentials($credentials); // Recupera la instancia User perteneciente a $credentials.
         Auth::login($user);
