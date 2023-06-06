@@ -24,10 +24,10 @@ Route::middleware('auth')->group(function () {
         return view('home-dashboard');
     });
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-    Route::get('/dashboard/roles', App\Http\Livewire\Usuarios\Roles::class);
-    Route::get('/dashboard/funcionalidades', \App\Http\Livewire\usuarios\Funcionalidades::class);
-    Route::get('/dashboard/usuarios', \App\Http\Livewire\usuarios\Usuarios::class);
-    Route::get('/dashboard/clientes', \App\Http\Livewire\servicios\Clientes::class);
+    Route::get('/dashboard/roles', App\Http\Livewire\usuarios\Roles::class);
+    Route::get('/dashboard/funcionalidades', App\Http\Livewire\usuarios\Funcionalidades::class);
+    Route::get('/dashboard/usuarios', App\Http\Livewire\usuarios\Usuarios::class);
+    Route::get('/dashboard/clientes', App\Http\Livewire\Servicios\Clientes::class);
     
 });
 
