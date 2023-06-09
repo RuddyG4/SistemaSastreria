@@ -65,4 +65,15 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Rol::class, 'id_rol');
     }
+
+    public function tieneFuncionalidad($funcionalidad)
+    {
+        // Verificar si el usuario tiene un rol asignado
+        if ($this->rol) {
+            // Verificar si el rol del usuario tiene la funcionalidad deseada
+            return $this->rol->funcionalidades()->where('nombre', $funcionalidad)->exists();
+        }
+
+        return false;
+    }
 }

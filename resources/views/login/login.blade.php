@@ -22,16 +22,24 @@
                     <div class="card fat">
                         <div class="card-body">
                             <h4 class="card-title">Iniciar Sesión</h4>
+                            @error('failedAuth')
+                            <div class="alert alert-danger">
+                                {{ $message }}
+                            </div>
+                            @enderror
                             <form method="POST" action="{{ route('login.submit') }}">
                                 @csrf
                                 <div class="form-group">
                                     <label for="email">Usuario o correo</label>
                                     <input type="text" id="username" name="username" class="form-control" value="{{ old('username') }}" required autofocus>
+                                    @error('username')
+                                    <span class="error" style="color:red">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Contraseña</label>
                                     <input type="password" id="password" name="password" class="form-control" required>
-                                    @error('error')
+                                    @error('password')
                                     <span class="error" style="color:red">{{ $message }}</span>
                                     @enderror
                                 </div>
