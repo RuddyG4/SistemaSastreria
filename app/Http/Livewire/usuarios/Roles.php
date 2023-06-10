@@ -105,6 +105,9 @@ class Roles extends Component
         if ($rol) {
             $rol->funcionalidades()->sync($this->rolPermisos);
         }
+        $rol->nombre = $this->nombre;
+        $rol->descripcion = $this->descripcion;
+        $rol->save();
         $this->dispatchBrowserEvent('cerrar-modal-editar');
         $this->erase();
     }

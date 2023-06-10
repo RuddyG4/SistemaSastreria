@@ -4,7 +4,9 @@
     <div>
         <h1>Vista de usuarios</h1>
         <input wire:model="busqueda" type="text" placeholder="Buscar...">
+        @if(Auth::user()->tieneFuncionalidad('usuario.crear'))
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Crear usuario</button>
+        @endif
         <div class="ibox-content">
             <table class="table table-striped">
                 <thead>

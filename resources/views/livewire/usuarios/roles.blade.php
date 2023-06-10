@@ -4,34 +4,44 @@
     <div>
         <h2> Gestión de Roles</h2>
         <h3>Lista de roles:</h3>
+        @if(Auth::user()->tieneFuncionalidad('rol.crear'))
         <button class="btn btn-success" wire:click="loadRol" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Crear Rol</button>
+        @endif
 
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Nombre del rol</th>
-                    <th>Descripción</th>
-                    <th>Opciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($roles as $rol)
-                <tr>
-                    <input type="hidden" value={{$rol->id}}>
-                    <td>{{ $rol->nombre }}</td>
-                    <td>{{ $rol->descripcion }}</td>
-                    <td>
-                        <button data-bs-toggle="modal" data-bs-target="#modalDeEditar" class="btn btn-primary" wire:click="edit({{$rol->id}})">Editar</button>
-                        <button data-bs-toggle="modal" data-bs-target="#modalDeVer" class="btn btn-secondary" wire:click="view({{$rol->id}})">Ver permisos</button>
-                        <button data-bs-toggle="modal" data-bs-target="#modalDeDelete" class="btn btn-danger" wire:click="$set('idRol', {{ $rol->id }})">Eliminar</button>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+        <div class="ibox-content">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre del rol</th>
+                        <th>Descripción</th>
+                        @if(Auth::user()->tieneFuncionalidad('rol.editar') || Auth::user()->tieneFuncionalidad('rol.eliminar'))
+                        <th>Opciones</th>
+                        @endif
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($roles as $rol)
+                    <tr>
+                        <input type="hidden" value={{$rol->id}}>
+                        <td>{{ $rol->nombre }}</td>
+                        <td>{{ $rol->descripcion }}</td>
+                        <td>
+                            @if(Auth::user()->tieneFuncionalidad('rol.modificar'))
+                            <button data-bs-toggle="modal" data-bs-target="#modalDeEditar" class="btn btn-primary" wire:click="edit({{$rol->id}})">Editar</button>
+                            @endif
+                            <button data-bs-toggle="modal" data-bs-target="#modalDeVer" class="btn btn-secondary" wire:click="view({{$rol->id}})">Ver permisos</button>
+                            @if(Auth::user()->tieneFuncionalidad('rol.eliminar'))
+                            <button data-bs-toggle="modal" data-bs-target="#modalDeDelete" class="btn btn-danger" wire:click="$set('idRol', {{ $rol->id }})">Eliminar</button>
+                            @endif
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
 
 
-        {{-- create modal --}}
+        <!-- Modal create -->
         <div wire:ignore.self id="modalDeCreacion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="crearrol" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -40,7 +50,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cerrar"></button>
                     </div>
                     <div class="modal-body">
-                        
+
                         <form wire:submit.prevent="store" id="form-id">
                             @csrf
                             <label for="nombre">Nombre</label>

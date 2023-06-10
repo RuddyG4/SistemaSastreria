@@ -4,30 +4,41 @@
     <div>
         <h1>Vista de usuarios</h1>
         <input wire:model="busqueda" type="text" placeholder="Buscar...">
+        @if(Auth::user()->tieneFuncionalidad('funcionalidad.crear'))
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Crear funcionalidad</button>
+        @endif
 
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre de funcionalidad</th>
-                    <th>Descripción</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($funcionalidades as $funcionalidad)
-                <tr>
-                    <td>{{ $funcionalidad->id }}</td>
-                    <td>{{ $funcionalidad->nombre }}</td>
-                    <td>{{ $funcionalidad->descripcion }}</td>
-                    <td>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar({{ $funcionalidad->id }})">Editar</button>
-                        <button class="btn btn-danger" wire:click="$emit('confirmarEliminacion', {{ $funcionalidad->id }} )">Eliminar</button>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+        <div class="ibox-content">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre de funcionalidad</th>
+                        <th>Descripción</th>
+                        @if(Auth::user()->tieneFuncionalidad('funcionalidad.modificar') || Auth::user()->tieneFuncionalidad('funcionalidad.eliminar'))
+                        <th>opciones</th>
+                        @endif
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($funcionalidades as $funcionalidad)
+                    <tr>
+                        <td>{{ $funcionalidad->id }}</td>
+                        <td>{{ $funcionalidad->nombre }}</td>
+                        <td>{{ $funcionalidad->descripcion }}</td>
+                        <td>
+                            @if(Auth::user()->tieneFuncionalidad('funcionalidad.modificar'))
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar({{ $funcionalidad->id }})">Editar</button>
+                            @endif
+                            @if(Auth::user()->tieneFuncionalidad('funcionalidad.eliminar'))
+                            <button class="btn btn-danger" wire:click="$emit('confirmarEliminacion', {{ $funcionalidad->id }} )">Eliminar</button>
+                            @endif
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
 
         <!-- Modales -->
 
@@ -143,7 +154,7 @@
                 'success'
             )
         })
-        
+
         Livewire.on('funcionalidadCreada', function() {
             Swal.fire(
                 'Funcionalidad creada!',
