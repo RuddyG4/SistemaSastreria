@@ -2,13 +2,14 @@
     Funcionalidades
     </x-slot>
     <div>
-        <h1>Gestion de funcionalidades</h1>
+        <h1><b>Gestion de funcionalidades</b></h1>
         <input wire:model="busqueda" type="text" placeholder="Buscar...">
         @if(in_array('funcionalidad.crear', $permisos))
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Crear funcionalidad</button>
         @endif
 
         <div class="ibox-content">
+            @if($funcionalidades->count())
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -38,6 +39,20 @@
                     @endforeach
                 </tbody>
             </table>
+            @elseif($busqueda != null)
+            <div>
+                <p><b>No existen coincidencias</b></p>
+            </div>
+            @else
+            <div>
+                <p><b>No existen datos</b></p>
+            </div>
+            @endif
+            @if( $funcionalidades->hasPages() )
+            <div class="px-6 py-3">
+                {{ $funcionalidades->links() }}
+            </div>
+            @endif
         </div>
 
         <!-- Modales -->

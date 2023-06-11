@@ -5,9 +5,11 @@ namespace App\Http\Livewire\Usuarios;
 use App\Models\usuarios\Funcionalidad;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Funcionalidades extends Component
 {
+    use WithPagination;
     public $busqueda, $nombre, $descripcion, $id_funcionalidad;
 
     protected $listeners = ['delete'];
@@ -29,7 +31,7 @@ class Funcionalidades extends Component
             'livewire.usuarios.funcionalidades',
             [
                 'funcionalidades' => Funcionalidad::Where('nombre', 'LIKE', "%$this->busqueda%")
-                    ->get(),
+                    ->paginate(12),
                 'permisos' => Funcionalidad::whereHas('roles', function ($query) {
                     $query->where('id', Auth::user()->rol->id);
                 })->where('nombre', 'LIKE', "funcionalidad%")
@@ -98,5 +100,10 @@ class Funcionalidades extends Component
     public function limpiarDatos()
     {
         $this->reset(['nombre', 'descripcion', 'id_funcionalidad']);
+    }
+
+    public function updatingBusqueda()
+    {
+        $this->resetPage();
     }
 }
