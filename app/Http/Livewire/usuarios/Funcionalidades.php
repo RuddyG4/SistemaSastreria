@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Usuarios;
 
 use App\Models\usuarios\Funcionalidad;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Funcionalidades extends Component
@@ -21,14 +22,20 @@ class Funcionalidades extends Component
         'nombre.unique' => 'Ya existe una funcionalidad con este nombre.',
         'descripcion.required' => 'La descripcion es obligatoria',
     ];
-    
+
     public function render()
     {
-        return view('livewire.usuarios.funcionalidades',
-        [
-            'funcionalidades' => Funcionalidad::Where('nombre', 'LIKE', "%$this->busqueda%")
-                ->get(),
-        ]);
+        return view(
+            'livewire.usuarios.funcionalidades',
+            [
+                'funcionalidades' => Funcionalidad::Where('nombre', 'LIKE', "%$this->busqueda%")
+                    ->get(),
+                'permisos' => Funcionalidad::whereHas('roles', function ($query) {
+                    $query->where('id', Auth::user()->rol->id);
+                })->where('nombre', 'LIKE', "funcionalidad%")
+                    ->pluck('nombre')->toArray()
+            ]
+        );
     }
 
     public function updated($propertyName)
@@ -92,5 +99,4 @@ class Funcionalidades extends Component
     {
         $this->reset(['nombre', 'descripcion', 'id_funcionalidad']);
     }
-
 }

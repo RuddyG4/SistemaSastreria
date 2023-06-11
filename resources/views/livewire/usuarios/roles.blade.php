@@ -4,7 +4,7 @@
     <div>
         <h2> Gestión de Roles</h2>
         <h3>Lista de roles:</h3>
-        @if(Auth::user()->tieneFuncionalidad('rol.crear'))
+        @if(in_array('rol.crear', $permisos))
         <button class="btn btn-success" wire:click="loadRol" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Crear Rol</button>
         @endif
 
@@ -14,7 +14,7 @@
                     <tr>
                         <th>Nombre del rol</th>
                         <th>Descripción</th>
-                        @if(Auth::user()->tieneFuncionalidad('rol.editar') || Auth::user()->tieneFuncionalidad('rol.eliminar'))
+                        @if(in_array('rol.modificar', $permisos) || in_array('rol.eliminar', $permisos))
                         <th>Opciones</th>
                         @endif
                     </tr>
@@ -26,11 +26,11 @@
                         <td>{{ $rol->nombre }}</td>
                         <td>{{ $rol->descripcion }}</td>
                         <td>
-                            @if(Auth::user()->tieneFuncionalidad('rol.modificar'))
+                        @if(in_array('rol.modificar', $permisos))
                             <button data-bs-toggle="modal" data-bs-target="#modalDeEditar" class="btn btn-primary" wire:click="edit({{$rol->id}})">Editar</button>
                             @endif
                             <button data-bs-toggle="modal" data-bs-target="#modalDeVer" class="btn btn-secondary" wire:click="view({{$rol->id}})">Ver permisos</button>
-                            @if(Auth::user()->tieneFuncionalidad('rol.eliminar'))
+                            @if(in_array('rol.eliminar', $permisos))
                             <button data-bs-toggle="modal" data-bs-target="#modalDeDelete" class="btn btn-danger" wire:click="$set('idRol', {{ $rol->id }})">Eliminar</button>
                             @endif
                         </td>

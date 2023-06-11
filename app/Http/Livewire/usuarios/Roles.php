@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Usuarios;
 
 use App\Models\usuarios\Rol;
 use App\Models\usuarios\Funcionalidad;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Roles extends Component
@@ -15,11 +16,15 @@ class Roles extends Component
     public $rolPermisos = [];
 
     public $nombre, $descripcion, $idRol;
-    
+
     public function render()
     {
         return view('livewire..usuarios.roles', [
-            'roles' => Rol::get()
+            'roles' => Rol::get(),
+            'permisos' => Funcionalidad::whereHas('roles', function ($query) {
+                $query->where('id', Auth::user()->rol->id);
+            })->where('nombre', 'LIKE', "rol.%")
+                ->pluck('nombre')->toArray(),
         ]);
     }
 

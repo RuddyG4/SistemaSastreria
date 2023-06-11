@@ -4,7 +4,7 @@
     <div>
         <h1>Vista de clientes</h1>
         <input wire:model="busqueda" type="text" placeholder="Buscar...">
-        @if(Auth::user()->tieneFuncionalidad('cliente.crear'))
+        @if(in_array('cliente.crear', $permisos))
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Añadir cliente</button>
         @endif
 
@@ -17,7 +17,7 @@
                         <th scope="col">Apellido</th>
                         <th scope="col">C.I.</th>
                         <th scope="col">Dirección</th>
-                        @if(Auth::user()->tieneFuncionalidad('funcionalidad.modificar') || Auth::user()->tieneFuncionalidad('funcionalidad.eliminar'))
+                        @if(in_array('cliente.modificar', $permisos) || in_array('cliente.eliminar', $permisos))
                         <th scope="col">Opciones</th>
                         @endif
                     </tr>
@@ -31,10 +31,10 @@
                         <td>{{ $cliente->persona->ci }}</td>
                         <td>{{ $cliente->direccion }}</td>
                         <td>
-                            @if(Auth::user()->tieneFuncionalidad('funcionalidad.modificar'))
+                            @if(in_array('cliente.modificar', $permisos))
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar({{ $cliente->id }})">Editar</button>
                             @endif
-                            @if(Auth::user()->tieneFuncionalidad('funcionalidad.eliminar'))
+                            @if(in_array('cliente.eliminar', $permisos))
                             <button class="btn btn-danger" wire:click="$emit('confirmarEliminacion', {{ $cliente->id}} )">Eliminar</button>
                             @endif
                         </td>

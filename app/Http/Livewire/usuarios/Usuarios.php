@@ -2,10 +2,12 @@
 
 namespace App\Http\Livewire\Usuarios;
 
+use App\Models\usuarios\Funcionalidad;
 use App\Models\usuarios\Persona;
 use App\Models\usuarios\Rol;
 use App\Models\usuarios\User;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Usuarios extends Component
@@ -54,6 +56,10 @@ class Usuarios extends Component
                         return $usuario->activo == 0;
                     }),
                 'roles' => Rol::all(),
+                'permisos' => Funcionalidad::whereHas('roles', function ($query) {
+                    $query->where('id', Auth::user()->rol->id);
+                })->where('nombre', 'LIKE', "usuario.%")
+                    ->pluck('nombre')->toArray(),
             ]
         );
     }

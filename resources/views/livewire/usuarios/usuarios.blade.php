@@ -4,7 +4,7 @@
     <div>
         <h1>Vista de usuarios</h1>
         <input wire:model="busqueda" type="text" placeholder="Buscar...">
-        @if(Auth::user()->tieneFuncionalidad('usuario.crear'))
+        @if(in_array('usuario.crear', $permisos))
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Crear usuario</button>
         @endif
         <div class="ibox-content">
@@ -18,7 +18,7 @@
                         <th>Nombre de usuario</th>
                         <th>Correo</th>
                         <th>Rol</th>
-                        @if(Auth::user()->tieneFuncionalidad('usuario.modificar') || Auth::user()->tieneFuncionalidad('usuario.inhabilitar'))
+                        @if(in_array('usuario.modificar', $permisos) || in_array('usuario.inhabilitar', $permisos))
                         <th>Opciones</th>
                         @endif
                     </tr>
@@ -33,16 +33,14 @@
                         <td>{{ $usuario->username }}</td>
                         <td>{{ $usuario->email }}</td>
                         <td>{{ $usuario->rol->nombre }}</td>
-                        @if(Auth::user()->tieneFuncionalidad('usuario.modificar') || Auth::user()->tieneFuncionalidad('usuario.inhabilitar'))
                         <td>
-                            @if(Auth::user()->tieneFuncionalidad('usuario.modificar'))
+                            @if(in_array('usuario.modificar', $permisos))
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar( {{ $usuario->id }} )">Editar</button>
                             @endif
-                            @if(Auth::user()->tieneFuncionalidad('usuario.inhabilitar'))
+                            @if(in_array('usuario.inhabilitar', $permisos))
                             <button class="btn btn-danger" wire:click="$emit('confirmarBaja', {{ $usuario->id}} )">Dar baja</button>
                             @endif
                         </td>
-                        @endif
                     </tr>
                     @endforeach
                 </tbody>
