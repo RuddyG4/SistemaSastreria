@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Servicios;
+namespace App\Http\Livewire\Inventario;
 
 use Livewire\Component;
 use App\Models\servicios\Almacen;
