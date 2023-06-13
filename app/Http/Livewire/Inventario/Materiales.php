@@ -22,7 +22,7 @@ class Materiales extends Component
         ->selectRaw('almacen.*, almacen.nombre as nombreAlma, material.*, inventario.*')
         ->get();
 
-        return view('livewire..servicios.materiales');
+        return view('livewire.inventario.materiales');
     }
 
     protected $rules = [

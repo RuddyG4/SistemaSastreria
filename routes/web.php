@@ -28,8 +28,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/adm_usuarios/funcionalidades', App\Http\Livewire\usuarios\Funcionalidades::class);
     Route::get('/dashboard/adm_usuarios/usuarios', App\Http\Livewire\usuarios\Usuarios::class);
     Route::get('/dashboard/adm_servicios/clientes', App\Http\Livewire\Servicios\Clientes::class);
-    Route::get('/dashboard/adm_servicios/almacenes', App\Http\Livewire\Servicios\Almacenes::class);
-    Route::get('/dashboard/adm_servicios/materiales', App\Http\Livewire\Servicios\Materiales::class);
+    Route::get('/dashboard/adm_inventario/almacenes', App\Http\Livewire\Inventario\Almacenes::class);
+    Route::get('/dashboard/adm_inventario/materiales', App\Http\Livewire\Inventario\Materiales::class);
     
 });
 

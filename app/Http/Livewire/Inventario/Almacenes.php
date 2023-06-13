@@ -13,7 +13,7 @@ class Almacenes extends Component
     // funciones
     public function render()
     {
-        return view('livewire.servicios.almacenes',[
+        return view('livewire.inventario.almacenes',[
             'almacenes' => Almacen::get()
         ]);
     }
