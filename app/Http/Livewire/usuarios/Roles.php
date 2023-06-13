@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Usuarios;
 
 use App\Models\usuarios\Rol;
 use App\Models\usuarios\Funcionalidad;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Roles extends Component
@@ -14,7 +15,18 @@ class Roles extends Component
     // lista que cambia segun el id del rol
     public $rolPermisos = [];
 
-    public $nombre, $descripcion, $idRol, $afuera;
+    public $nombre, $descripcion, $idRol;
+
+    public function render()
+    {
+        return view('livewire..usuarios.roles', [
+            'roles' => Rol::get(),
+            'permisos' => Funcionalidad::whereHas('roles', function ($query) {
+                $query->where('id', Auth::user()->rol->id);
+            })->where('nombre', 'LIKE', "rol.%")
+                ->pluck('nombre')->toArray(),
+        ]);
+    }
 
     protected $rules = [
         'nombre' => 'required|unique:rol|max:30',
@@ -73,11 +85,8 @@ class Roles extends Component
             $rol->funcionalidades()->detach();
             $rol->delete($this->idRol);
         }
-        // $this->afuera='elimino';
-
         $this->cerrar();
         // $this->dispatchBrowserEvent('cerrar-modal-eliminar');
-        $this->afuera = 'cerro';
     }
     public function edit($id)
     {
@@ -93,7 +102,6 @@ class Roles extends Component
     }
     public function update()
     {
-        $this->afuera = 'entro';
         $this->validate([
             'nombre' => 'required|max:30',
             'descripcion' => 'required|max:99',
@@ -101,11 +109,12 @@ class Roles extends Component
         $rol = Rol::find($this->idRol);
         if ($rol) {
             $rol->funcionalidades()->sync($this->rolPermisos);
-            $this->afuera = 'actulizao';
-        } else {
-            $this->afuera = 'fallo';
         }
+        $rol->nombre = $this->nombre;
+        $rol->descripcion = $this->descripcion;
+        $rol->save();
         $this->dispatchBrowserEvent('cerrar-modal-editar');
+        $this->erase();
     }
 
 
@@ -126,11 +135,5 @@ class Roles extends Component
     public function erase()
     {
         $this->reset(['nombre', 'descripcion', 'rolPermisos']);
-    }
-    public function render()
-    {
-        return view('livewire..usuarios.roles', [
-            'roles' => Rol::get()
-        ]);
     }
 }

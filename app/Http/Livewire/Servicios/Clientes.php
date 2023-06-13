@@ -3,8 +3,10 @@
 namespace App\Http\Livewire\Servicios;
 
 use App\Models\servicios\Cliente;
+use App\Models\usuarios\Funcionalidad;
 use App\Models\usuarios\Persona;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Clientes extends Component
@@ -23,6 +25,10 @@ class Clientes extends Component
                     $query->where('nombre', 'like', "%$this->busqueda%")
                     ->orWhere('apellido', 'like', "%$this->busqueda%");
                 })->get(),
+                'permisos' => Funcionalidad::whereHas('roles', function ($query) {
+                    $query->where('id', Auth::user()->rol->id);
+                })->where('nombre', 'LIKE', "cliente.%")
+                    ->pluck('nombre')->toArray(),
             ]
         );
     }

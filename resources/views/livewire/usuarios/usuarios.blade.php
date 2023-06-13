@@ -4,39 +4,48 @@
     <div>
         <h1>Vista de usuarios</h1>
         <input wire:model="busqueda" type="text" placeholder="Buscar...">
+        @if(in_array('usuario.crear', $permisos))
         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Crear usuario</button>
-
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>C.I.</th>
-                    <th>Nombre de usuario</th>
-                    <th>Correo</th>
-                    <th>Rol</th>
-                    <th>Opciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($usuarios as $usuario)
-                <tr>
-                    <td>{{ $usuario->id }}</td>
-                    <td>{{ $usuario->persona->nombre }}</td>
-                    <td>{{ $usuario->persona->apellido }}</td>
-                    <td>{{ $usuario->persona->ci }}</td>
-                    <td>{{ $usuario->username }}</td>
-                    <td>{{ $usuario->email }}</td>
-                    <td>{{ $usuario->rol->nombre }}</td>
-                    <td>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar( {{ $usuario->id }} )">Editar</button>
-                        <button class="btn btn-danger" wire:click="$emit('confirmarBaja', {{ $usuario->id}} )">Dar baja</button>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+        @endif
+        <div class="ibox-content">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>C.I.</th>
+                        <th>Nombre de usuario</th>
+                        <th>Correo</th>
+                        <th>Rol</th>
+                        @if(in_array('usuario.modificar', $permisos) || in_array('usuario.inhabilitar', $permisos))
+                        <th>Opciones</th>
+                        @endif
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($usuarios as $usuario)
+                    <tr>
+                        <td>{{ $usuario->id }}</td>
+                        <td>{{ $usuario->persona->nombre }}</td>
+                        <td>{{ $usuario->persona->apellido }}</td>
+                        <td>{{ $usuario->persona->ci }}</td>
+                        <td>{{ $usuario->username }}</td>
+                        <td>{{ $usuario->email }}</td>
+                        <td>{{ $usuario->rol->nombre }}</td>
+                        <td>
+                            @if(in_array('usuario.modificar', $permisos))
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar( {{ $usuario->id }} )">Editar</button>
+                            @endif
+                            @if(in_array('usuario.inhabilitar', $permisos))
+                            <button class="btn btn-danger" wire:click="$emit('confirmarBaja', {{ $usuario->id}} )">Dar baja</button>
+                            @endif
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
 
         <!-- Modales -->
 
@@ -224,7 +233,7 @@
                 'success'
             )
         })
-        
+
         Livewire.on('usuarioCreado', function() {
             Swal.fire(
                 'Usuario creado!',

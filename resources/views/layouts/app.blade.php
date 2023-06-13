@@ -56,45 +56,63 @@
                         <a href="#"><i class="fa fa-th-large"></i>
                             <span class="nav-label">INICIO</span></a>
                     </li>
-                    <li class="{{ Request::is('dashboard/usuarios*', 'dashboard/roles*', 'dashboard/funcionalidades*') ? 'active' : '' }}">
+                    @if(Auth::user()->tieneFuncionalidad('adm.usuario'))
+                    <li class="{{ Request::is('dashboard/adm_usuarios*') ? 'active' : '' }}">
                         <a href=""><i class="fa fa-user-o"></i>
-                            <span class="nav-label">USUARIO</span>
+                            <span class="nav-label">Adm. de Usuarios</span>
                             <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li class="{{ Request::is('dashboard/usuarios*') ? 'active' : '' }}">
-                                <a href="{{ url('/dashboard/usuarios') }}">Administrar Usuario</a>
+                            @if(Auth::user()->tieneFuncionalidad('usuario.ver'))
+                            <li class="{{ Request::is('dashboard/adm_usuarios/usuarios*') ? 'active' : '' }}">
+                                <a href="{{ url('/dashboard/adm_usuarios/usuarios') }}">Usuarios</a>
                             </li>
-                            <li class="{{ Request::is('dashboard/roles*') ? 'active' : '' }}">
-                                <a href="{{ url('/dashboard/roles') }}">Administrar Roles</a>
+                            @endif
+                            @if(Auth::user()->tieneFuncionalidad('rol.ver'))
+                            <li class="{{ Request::is('dashboard/adm_usuarios/roles*') ? 'active' : '' }}">
+                                <a href="{{ url('/dashboard/adm_usuarios/roles') }}">Roles</a>
                             </li>
-                            <li class="{{ Request::is('dashboard/funcionalidades*') ? 'active' : '' }}">
-                                <a href="{{ url('/dashboard/funcionalidades') }}">Administrar Funcionalidad</a>
+                            @endif
+                            @if(Auth::user()->tieneFuncionalidad('funcionalidad.ver'))
+                            <li class="{{ Request::is('dashboard/adm_usuarios/funcionalidades*') ? 'active' : '' }}">
+                                <a href="{{ url('/dashboard/adm_usuarios/funcionalidades') }}">Funcionalidad</a>
                             </li>
+                            @endif
                         </ul>
                     </li>
-                    <li class="{{ Request::is('dashboard/clientes*') ? 'active' : '' }}">
+                    @endif
+                    @if(Auth::user()->tieneFuncionalidad('adm.servicio'))
+                    <li class="{{ Request::is('dashboard/adm_servicios/*') ? 'active' : '' }}">
                         <a href="#"><i class="fa fa-wrench"></i>
-                            <span class="nav-label">SERVICIO</span><span class="fa arrow"></span>
+                            <span class="nav-label">Adm. de Servicios</span><span class="fa arrow"></span>
                         </a>
                         <ul class="nav nav-second-level collapse">
-                            <li class="{{ Request::is('dashboard/clientes*') ? 'active' : '' }}">
-                                <a href="{{url('/dashboard/clientes')}}">Clientes</a>
+                            <li class="{{ Request::is('dashboard/adm_servicios/clientes*') ? 'active' : '' }}">
+                                <a href="{{url('/dashboard/adm_servicios/clientes')}}">Clientes</a>
                             </li>
-                            <li class="{{ Request::is('dashboard/pedidos*') ? 'active' : '' }}">
-                                <a href="{{url('/dashboard/pedidos')}}">Pedidos</a>
+                            <li class="{{ Request::is('dashboard/adm_servicios/pedidos*') ? 'active' : '' }}">
+                                <a href="{{url('/dashboard/adm_servicios/pedidos')}}">Pedidos</a>
                             </li>
                         </ul>
                     </li>
-                    <li class="">
+                    @endif
+                    @if(Auth::user()->tieneFuncionalidad('adm.inventario'))
+                    <li class="{{ Request::is('dashboard/adm_inventario/*') ? 'active' : '' }}">
                         <a href="#"><i class="fa fa-book"></i>
-                            <span class="nav-label">INVENTARIO</span><span class="fa arrow"></span>
+                            <span class="nav-label">Adm. de Inventario</span><span class="fa arrow"></span>
                         </a>
                         <ul class="nav nav-second-level collapse">
-                            <li>
-                                <a href="">PARTE 1</a>
+                            <li class="{{ Request::is('dashboard/adm_inventario/inventario') ? 'active' : '' }}">
+                                <a href="{{url('/dashboard/adm_inventario/inventario')}}">Inventario</a>
+                            </li>
+                            <li class="{{ Request::is('dashboard/adm_inventario/almacenes') ? 'active' : '' }}">
+                                <a href="{{url('/dashboard/adm_inventario/almacenes')}}">Almacenes</a>
+                            </li>
+                            <li class="{{ Request::is('dashboard/adm_inventario/materiales') ? 'active' : '' }}">
+                                <a href="{{url('/dashboard/adm_inventario/materiales')}}">Materiales</a>
                             </li>
                         </ul>
                     </li>
+                    @endif
                 </ul>
             </div>
         </nav>

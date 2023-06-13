@@ -22,8 +22,14 @@ class LoginRequest extends FormRequest
      */
     public function rules(): array
     {
+        if ($this->isEmail($this->get('username'))) {
+            return [
+                'username' => 'required|exists:usuario,email',
+                'password' => 'required | min:8',
+            ];
+        }
         return [
-            'username' => 'required',
+            'username' => 'required|exists:usuario',
             'password' => 'required | min:8',
         ];
     }
@@ -38,6 +44,16 @@ class LoginRequest extends FormRequest
             ];
         }
         return $this->only('username', 'password');
+    }
+
+    public function messages(): array
+    {
+        return [
+            'username.required' => 'El nombre de usuario es requerido',
+            'username.exists' => 'El usuario o correo no estan registrados',
+            'password.required' => 'La contrasenha es requerida',
+            'password.min' => 'La contrasenha debe tener al menos 8 caracteres',
+        ];
     }
 
     public function isEmail($value)
