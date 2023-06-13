@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire\Inventario;
 
-use App\Models\servicios\Almacen;
-use App\Models\servicios\Material;
+use App\Models\inventario\Almacen;
+use App\Models\inventario\Material;
 use Livewire\Component;
 
 class Materiales extends Component
