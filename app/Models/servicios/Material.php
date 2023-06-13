@@ -14,7 +14,7 @@ class Material extends Model
     public $timestamps = false;
     protected $fillable = [
         'nombre',
-        'tipo_unidad'
+        'id_medida'
     ];
 
     // protected $guarded = ['id'];
@@ -22,5 +22,10 @@ class Material extends Model
     public function almacen() : BelongsToMany {
         return $this->belongsToMany(Almacen::class, 'inventario', 'id_material', 'id_almacen')
         ->withPivot('cantidad');
+    }
+
+    public function medida()
+    {
+        return $this->belongsTo(MedidaMaterial::class, 'id_medida');
     }
 }
