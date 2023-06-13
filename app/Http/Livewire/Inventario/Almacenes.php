@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Servicios;
+namespace App\Http\Livewire\Inventario;
 
 use Livewire\Component;
 use App\Models\servicios\Almacen;
@@ -13,7 +13,7 @@ class Almacenes extends Component
     // funciones
     public function render()
     {
-        return view('livewire.servicios.almacenes',[
+        return view('livewire.inventario.almacenes',[
             'almacenes' => Almacen::get()
         ]);
     }
