@@ -21,7 +21,7 @@ class Almacen extends Model
 
     // protected $guarded = ['id'];
 
-    public function material(): BelongsToMany
+    public function materiales(): BelongsToMany
     {
         return $this->belongsToMany(Material::class, 'inventario', 'id_almacen', 'id_material')
             ->using(Inventario::class)
