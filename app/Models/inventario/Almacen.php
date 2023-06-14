@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models\servicios;
+namespace App\Models\inventario;
 
+use App\Models\inventario\Inventario;
 use Illuminate\Database\DBAL\TimestampType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,8 +21,10 @@ class Almacen extends Model
 
     // protected $guarded = ['id'];
 
-    public function material() : BelongsToMany {
+    public function materiales(): BelongsToMany
+    {
         return $this->belongsToMany(Material::class, 'inventario', 'id_almacen', 'id_material')
-        ->withPivot('cantidad');
+            ->using(Inventario::class)
+            ->withPivot('cantidad');
     }
 }

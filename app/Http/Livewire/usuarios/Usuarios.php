@@ -48,13 +48,16 @@ class Usuarios extends Component
         return view(
             'livewire.usuarios.usuarios',
             [
-                'usuarios' => User::whereHas('persona', function (Builder $query) {
-                    $query->where('nombre', 'like', "%$this->busqueda%")
-                        ->orWhere('apellido', 'like', "%$this->busqueda%");
-                })->orWhere('username', 'like', "%$this->busqueda%")
-                    ->orWhere('email', 'like', "%$this->busqueda%")->get()->filter(function ($usuario) {
+                'usuarios' => User::where('activo', 0)->where(function (Builder $query) {
+                    $query->whereHas('persona', function (Builder $query) {
+                        $query->where('nombre', 'like', "%$this->busqueda%")
+                            ->orWhere('apellido', 'like', "%$this->busqueda%");
+                    })->orWhere('username', 'like', "%$this->busqueda%")
+                        ->orWhere('email', 'like', "%$this->busqueda%");
+                })->get()
+                /* ->filter(function ($usuario) {  // YA NO USO FILTER PORQUE ES MENOS EFECTIVO
                         return $usuario->activo == 0;
-                    }),
+                    }) */,
                 'roles' => Rol::all(),
                 'permisos' => Funcionalidad::whereHas('roles', function ($query) {
                     $query->where('id', Auth::user()->rol->id);

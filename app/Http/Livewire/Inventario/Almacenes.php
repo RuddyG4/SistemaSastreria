@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Inventario;
 
 use Livewire\Component;
-use App\Models\servicios\Almacen;
+use App\Models\inventario\Almacen;
 
 class Almacenes extends Component
 {
