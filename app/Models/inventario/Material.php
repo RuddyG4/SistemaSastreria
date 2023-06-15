@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\servicios;
+namespace App\Models\inventario;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,9 +19,11 @@ class Material extends Model
 
     // protected $guarded = ['id'];
 
-    public function almacen() : BelongsToMany {
+    public function almacen(): BelongsToMany
+    {
         return $this->belongsToMany(Almacen::class, 'inventario', 'id_material', 'id_almacen')
-        ->withPivot('cantidad');
+            ->using(Inventario::class)
+            ->withPivot('cantidad');
     }
 
     public function medida()

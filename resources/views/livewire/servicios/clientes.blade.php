@@ -2,7 +2,7 @@
     Clientes
     </x-slot>
     <div>
-        <h1>Vista de clientes</h1>
+        <h1><b>Vista de clientes</b></h1>
         <input wire:model="busqueda" type="text" placeholder="Buscar...">
         @if(in_array('cliente.crear', $permisos))
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Añadir cliente</button>
