@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models\servicios;
+namespace App\Models\inventario;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Medida_Material extends Model
+class MedidaMaterial extends Model
 {
     use HasFactory;
     protected $table = 'medida_material';

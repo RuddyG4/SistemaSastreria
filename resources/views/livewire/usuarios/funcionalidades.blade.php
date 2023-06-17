@@ -28,7 +28,7 @@
                         <td>{{ $funcionalidad->nombre }}</td>
                         <td>{{ $funcionalidad->descripcion }}</td>
                         <td>
-                        @if(in_array('funcionalidad.modificar', $permisos))
+                            @if(in_array('funcionalidad.modificar', $permisos))
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar({{ $funcionalidad->id }})">Editar</button>
                             @endif
                             @if(in_array('funcionalidad.eliminar', $permisos))
@@ -76,8 +76,10 @@
                             @enderror
                             <br>
 
-                            <label for="descripcion">Descripción</label>
-                            <input type="text" id="descripcion" class="form-control" wire:model.lazy="descripcion">
+                            <div class="form-group">
+                                <label for="descripcion">Descripción</label>
+                                <textarea id="descripcion" class="form-control" wire:model.lazy="descripcion"></textarea>
+                            </div>
                             @error('descripcion')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -93,7 +95,7 @@
             </div>
         </div>
 
-        <!-- Modal de creacion -->
+        <!-- Modal de edicion -->
         <div wire:ignore.self id="modalDeEdicion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editarFuncionalidad" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -112,8 +114,10 @@
                             @enderror
                             <br>
 
-                            <label for="descripcion-edit">Descripcion</label>
-                            <input type="text" id="descripcion-edit" class="form-control" wire:model.lazy="descripcion">
+                            <div class="form-group">
+                                <label for="descripcion-edit">Descripcion</label>
+                                <textarea id="descripcion-edit" class="form-control" rows="2" wire:model.lazy="descripcion"></textarea>
+                            </div>
                             @error('descripcion')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror

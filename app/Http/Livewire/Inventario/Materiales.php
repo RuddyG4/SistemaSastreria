@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Inventario;
 
 use App\Models\inventario\Almacen;
 use App\Models\inventario\Material;
+use App\Models\inventario\MedidaMaterial;
 use App\Models\servicios\Medida_Material;
 use Livewire\Component;
 
@@ -17,7 +18,7 @@ class Materiales extends Component
     public function render()
     {
         // query para obtener la lista de almacenes para el modal :crear:   
-        $this->listMedida = Medida_Material::where('activo', 0)->get();
+        $this->listMedida = MedidaMaterial::where('activo', 0)->get();
 
         $this->listMaterial = Material::join('medida_material', 'material.id_medida', '=', 'medida_material.id')
                             ->select('material.*', 'medida_material.tipo_medida')
@@ -101,15 +102,15 @@ class Materiales extends Component
             'nombreMedida' => 'required',
         ]);
 
-        $registro = Medida_Material::where('tipo_medida', $this->nombreMedida)->pluck('id');
+        $registro = MedidaMaterial::where('tipo_medida', $this->nombreMedida)->pluck('id');
 
         if ($registro->isNotEmpty()) {
             $idExistente = $registro[0];
-            $medida= Medida_Material::findOrFail($idExistente);
+            $medida= MedidaMaterial::findOrFail($idExistente);
             $medida->activo = 0;
             $medida->push();
         } else {
-            Medida_Material::create([
+            MedidaMaterial::create([
                 'tipo_medida' => $this->nombreMedida,
             ]);
         }
@@ -136,7 +137,7 @@ class Materiales extends Component
 
     public function DarBaja()
     {
-        $medida= Medida_Material::findOrFail($this->idMedida);
+        $medida= MedidaMaterial::findOrFail($this->idMedida);
         $medida->activo = 1;
         
         $medida->push();

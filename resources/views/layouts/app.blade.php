@@ -18,9 +18,6 @@
     <!-- Sweet Alert -->
     <link href="{{ asset('css/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet" />
 
-    <!-- Toastr style -->
-    <link href="{{ asset('css/plugins/toastr/toastr.min.css') }}" rel="stylesheet" />
-
     <!-- Gritter -->
     <link href="{{ asset('js/plugins/gritter/jquery.gritter.css') }}" rel="stylesheet" />
 
@@ -53,7 +50,7 @@
                         </div>
                     </li>
                     <li class="{{ Request::is('dashboard') ? 'active' : '' }}">
-                        <a href="#"><i class="fa fa-th-large"></i>
+                        <a href="{{ url('/dashboard') }}"><i class="fa fa-th-large"></i>
                             <span class="nav-label">INICIO</span></a>
                     </li>
                     @if(Auth::user()->tieneFuncionalidad('adm.usuario'))
@@ -173,9 +170,6 @@
     <!-- jQuery UI -->
     <script src="{{ asset('js/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
 
-    <!-- GITTER -->
-    <script src="{{ asset('js/plugins/gritter/jquery.gritter.min.js') }}"></script>
-
     <!-- Sparkline -->
     <script src="{{ asset('js/plugins/sparkline/jquery.sparkline.min.js') }}"></script>
 
@@ -184,9 +178,6 @@
 
     <!-- ChartJS-->
     <script src="{{ asset('js/plugins/chartJs/Chart.min.js') }}"></script>
-
-    <!-- Toastr -->
-    <script src="{{ asset('js/plugins/toastr/toastr.min.js') }}"></script>
 
     <!-- Livewire y js de modales -->
     @livewireScripts

@@ -59,19 +59,23 @@ class Inventario extends Component
 
     public function guardarNotaIngreso()
     {
-        $nota = NotaIngreso::create([
-            'id_usuario' => Auth::user()->id,
-            'id_almacen' => $this->almacen->id,
-            'fecha' => now(),
-            'monto total' => 0,
-        ]);
-        foreach($this->detalles as $detalle) {
-            $detalle->id_nota = $nota->id;
-            $detalle->save();
+        if (!$this->detalles->isEmpty()) {
+            $nota = NotaIngreso::create([
+                'id_usuario' => Auth::user()->id,
+                'id_almacen' => $this->almacen->id,
+                'fecha' => now(),
+                'monto total' => 0,
+            ]);
+            foreach($this->detalles as $detalle) {
+                $detalle->id_nota = $nota->id;
+                $detalle->save();
+            }
+            $this->limpiarDatos();
+            $this->dispatchBrowserEvent('cerrar-modal');
+            $this->emit('notaIngresoCreada');
+        } else {
+            $this->emit('notaIngresoVacia');
         }
-        $this->limpiarDatos();
-        $this->dispatchBrowserEvent('cerrar-modal');
-        $this->emit('notaIngresoCreada');
     }
 
     public function adicionarMaterialIngreso()
