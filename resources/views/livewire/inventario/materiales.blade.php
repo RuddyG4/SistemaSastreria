@@ -3,14 +3,13 @@
     </x-slot>
 
 <div>
-    {{-- {{var_export($listMaterial)}} --}}
+    <h1>Materiales</h1>
+
+    <input type="text" wire:model="busqueda" name="busqueda" id="busqueda">
 
     <button class="btn btn-success" wire:click="" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Nuevo Material</button>
 
     <button class="btn btn-success" wire:click="" data-bs-toggle="modal" data-bs-target="#modalMedida">Medida</button>
-    <label>Almance:</label>
-    
-
 
     <table class="table table-striped">
         <thead>

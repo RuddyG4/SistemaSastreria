@@ -9,7 +9,7 @@ use Livewire\Component;
 
 class Materiales extends Component
 {
-    public $idMaterial, $nombre, $medida, $mensaje;
+    public $busqueda, $idMaterial, $nombre, $medida, $mensaje;
 
     public $idMedida, $nombreMedida;
     public $example;
@@ -21,6 +21,7 @@ class Materiales extends Component
 
         $this->listMaterial = Material::join('medida_material', 'material.id_medida', '=', 'medida_material.id')
                             ->select('material.*', 'medida_material.tipo_medida')
+                            ->where('nombre', 'like', "%$this->busqueda%")
                             ->get();
         return view('livewire.inventario.materiales');
     }
