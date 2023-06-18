@@ -74,8 +74,9 @@ class Inventario extends Component
             $this->dispatchBrowserEvent('cerrar-modal');
             $this->emit('notaIngresoCreada');
         } else {
-            $this->emit('notaIngresoVacia');
+            session()->flash('message');
         }
+        $this->resetErrorBag();
     }
 
     public function adicionarMaterialIngreso()
@@ -95,7 +96,7 @@ class Inventario extends Component
     {
         $this->limpiarDatos();
         $this->dispatchBrowserEvent('cerrar-modal');
-        $this->dispatchBrowserEvent('cerrar-modal-edicion');
+        $this->dispatchBrowserEvent('cerrar-modal-sm');
         $this->resetErrorBag();
     }
 

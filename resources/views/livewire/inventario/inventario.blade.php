@@ -58,34 +58,6 @@
                     </div>
                     <div class="modal-body">
 
-                        <h4>Agregados</h4>
-                        @if(!$detalles->isEmpty())
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">ID Material</th>
-                                    <th scope="col">Cantidad</th>
-                                    <th scope="col">Precio</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($detalles as $index => $detalle)
-                                <tr>
-                                    <td><input type="text" class="form-control col-md-4" wire:model="detalles.{{$index}}.id_material" value="hola" id=""></td>
-                                    <td><input type="text" class="form-control col-md-3" wire:model="detalles.{{$index}}.cantidad" id=""></td>
-                                    <td><input type="text" class="form-control col-md-3" wire:model="detalles.{{$index}}.precio" id=""></td>
-                                    <td>
-                                        <button wire:click="quitarMaterialIngreso({{$index}})" class="btn btn-outline btn-danger dim col" type="button"><i class="fa fa-minus"></i></button>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        @else
-                        <div class="alert alert-warning">
-                            <p style="display: flex; justify-content: center;">No se han agregado materiales!!</p>
-                        </div>
-                        @endif
                         <h4>Agregar</h4>
                         <form wire:submit.prevent="guardarNotaIngreso" id="form-id">
                             @csrf
@@ -94,7 +66,7 @@
 
                                 <div class="col-md-4">
                                     <label for="id_material">Material</label>
-                                    <select wire:model="id_material" id="rol" class="form-control">
+                                    <select wire:model="id_material" id="id_material" class="form-control">
                                         <option value="">Seleccione uno</option>
                                         @foreach($materiales as $material)
                                         <option value="{{ $material->id }}">{{ $material->nombre }}</option>
@@ -128,6 +100,42 @@
                             </div>
 
                         </form>
+
+                        <h4>Agregados</h4>
+                        @if(!$detalles->isEmpty())
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Material</th>
+                                    <th scope="col">Cantidad</th>
+                                    <th scope="col">Precio</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($detalles as $index => $detalle)
+                                <tr>
+                                    <td><input readonly type="text" class="form-control col-md-4" value="{{ $detalle->material->nombre }} " id=""></td>
+                                    <td><input readonly type="text" class="form-control col-md-3" wire:model="detalles.{{$index}}.cantidad" id=""></td>
+                                    <td><input readonly type="text" class="form-control col-md-3" wire:model="detalles.{{$index}}.precio" id=""></td>
+                                    <td>
+                                        <button wire:click="quitarMaterialIngreso({{$index}})" class="btn btn-outline btn-danger dim col" type="button"><i class="fa fa-minus"></i></button>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        @else
+
+                        @if (session()->has('message'))
+                        <div class="alert alert-danger">
+                            <p style="display: flex; justify-content: center;">Nota de ingreso vacia!!</p>
+                        </div>
+                        @else
+                        <div class="alert alert-warning">
+                            <p style="display: flex; justify-content: center;">Nota de ingreso vacia!!</p>
+                        </div>
+                        @endif
+                        @endif
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" wire:click="cancelar"> Cancelar</button>
@@ -149,74 +157,33 @@
 
                         <h4><b><span class="text-danger">NOTA: Solo se mostraran materiales con stock > 0</span></b></h4>
 
-                        <h4>Agregados</h4>
-                        @if(!$detalles->isEmpty())
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">ID Material</th>
-                                    <th scope="col">Cantidad</th>
-                                    <th scope="col">Precio</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($detalles as $index => $detalle)
-                                <tr>
-                                    <td><input type="text" class="form-control col-md-4" wire:model="detalles.{{$index}}.id_material" value="hola" id=""></td>
-                                    <td><input type="text" class="form-control col-md-3" wire:model="detalles.{{$index}}.cantidad" id=""></td>
-                                    <td><input type="text" class="form-control col-md-3" wire:model="detalles.{{$index}}.precio" id=""></td>
-                                    <td>
-                                        <button wire:click="quitarMaterialIngreso({{$index}})" class="btn btn-outline btn-danger dim col" type="button"><i class="fa fa-minus"></i></button>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        @else
-                        <div class="alert alert-warning">
-                            <p style="display: flex; justify-content: center;">No se han agregado materiales!!</p>
+
+                        <div class="row">
+                            <div class="col">
+                                <label for="id_material_sm">Material</label>
+                                <select wire:model="id_material" id="id_material_sm" class="form-control">
+                                    <option value="">Seleccione uno</option>
+                                    @foreach($datos as $dato)
+                                    @if($dato->cantidad > 0)
+                                    <option value="{{ $dato->material->id }}">{{ $dato->material->nombre }}</option>
+                                    @endif
+                                    @endforeach
+                                </select>
+                                @error('id_material')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div class="col-auto">
+                                <br>
+                                <button wire:click="" class="btn btn-outline btn-success dim" type="button"><i class="fa fa-arrow-down"></i></button>
+                            </div>
                         </div>
-                        @endif
-                        <h4>Agregar</h4>
+
+                        <h4>Materiales a sacar</h4>
+
                         <form wire:submit.prevent="guardarNotaIngreso" id="form-id-sm">
                             @csrf
-
-                            <div class="row">
-
-                                <div class="col-md-4">
-                                    <label for="id_material">Material</label>
-                                    <select wire:model="id_material" id="rol" class="form-control">
-                                        <option value="">Seleccione uno</option>
-                                        @foreach($materiales as $material)
-                                        <option value="{{ $material->id }}">{{ $material->nombre }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('id_material')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-
-                                <div class="col-md-3">
-                                    <label for="cantidad">Cantidad</label>
-                                    <input type="number" id="cantidad" class="form-control" wire:model.lazy="cantidad">
-                                    @error('cantidad')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-
-                                <div class="col-md-3">
-                                    <label for="precio">Precio</label>
-                                    <input type="number" id="precio" class="form-control" wire:model.lazy="precio">
-                                    @error('precio')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-
-                                <div class="col">
-                                    <br>
-                                    <button wire:click="adicionarMaterialIngreso" class="btn btn-outline btn-primary dim" type="button"><i class="fa fa-plus"></i></button>
-                                </div>
-                            </div>
 
                         </form>
                     </div>
