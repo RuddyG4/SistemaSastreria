@@ -8,9 +8,11 @@ use App\Models\usuarios\Persona;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Clientes extends Component
 {
+    use WithPagination;
     public $busqueda;
     public $nombre, $apellido, $ci, $direccion, $id_persona;
 
@@ -24,7 +26,7 @@ class Clientes extends Component
                 'clientes' => Cliente::whereHas('persona', function (Builder $query) {
                     $query->where('nombre', 'like', "%$this->busqueda%")
                     ->orWhere('apellido', 'like', "%$this->busqueda%");
-                })->get(),
+                })->paginate(12),
                 'permisos' => Funcionalidad::whereHas('roles', function ($query) {
                     $query->where('id', Auth::user()->rol->id);
                 })->where('nombre', 'LIKE', "cliente.%")
@@ -125,6 +127,11 @@ class Clientes extends Component
     public function limpiarDatos()
     {
         $this->reset(['nombre', 'apellido', 'ci', 'direccion', 'id_persona']);
+    }
+
+    public function updatingBusqueda()
+    {
+        $this->resetPage();
     }
 
 }

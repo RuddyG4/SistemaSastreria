@@ -3,10 +3,19 @@
     </x-slot>
     <div>
         <h1>Vista de usuarios</h1>
-        <input wire:model="busqueda" type="text" placeholder="Buscar...">
-        @if(in_array('usuario.crear', $permisos))
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Crear usuario</button>
-        @endif
+
+        <div class="row">
+            <div class="col">
+                <input wire:model="busqueda" class="form-control" type="text" placeholder="Buscar...">
+            </div>
+            <div class="col-auto">
+                @if(in_array('usuario.crear', $permisos))
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Crear usuario</button>
+                @endif
+            </div>
+        </div>
+        <br>
+
         <div class="ibox-content">
             <table class="table table-striped">
                 <thead>

@@ -3,12 +3,20 @@
     </x-slot>
     <div>
         <h1><b>Vista de clientes</b></h1>
-        <input wire:model="busqueda" type="text" placeholder="Buscar...">
-        @if(in_array('cliente.crear', $permisos))
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Añadir cliente</button>
-        @endif
+        <div class="row">
+            <div class="col">
+                <input wire:model="busqueda" class="form-control" type="text" placeholder="Buscar...">
+            </div>
+            <div class="col-auto">
+                @if(in_array('cliente.crear', $permisos))
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Añadir cliente</button>
+                @endif
+            </div>
+        </div>
+        <br>
 
         <div class="ibox-content">
+        @if($clientes->count())
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -42,6 +50,21 @@
                     @endforeach
                 </tbody>
             </table>
+            @elseif($busqueda != null)
+            <div>
+                <p><b>No existen coincidencias</b></p>
+            </div>
+            @else
+            <div>
+                <p><b>No existen datos</b></p>
+            </div>
+            @endif
+            @if( $clientes->hasPages() )
+            <div class="px-6 py-3">
+                {{ $clientes->links() }}
+            </div>
+            @endif
+            <br>
         </div>
 
         <!-- Modales -->

@@ -3,10 +3,18 @@
     </x-slot>
     <div>
         <h1><b>Gestion de funcionalidades</b></h1>
-        <input wire:model="busqueda" type="text" placeholder="Buscar...">
-        @if(in_array('funcionalidad.crear', $permisos))
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Crear funcionalidad</button>
-        @endif
+
+        <div class="row">
+            <div class="col">
+                <input wire:model="busqueda" class="form-control" type="text" placeholder="Buscar...">
+            </div>
+            <div class="col-auto">
+                @if(in_array('funcionalidad.crear', $permisos))
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Crear funcionalidad</button>
+                @endif
+            </div>
+        </div>
+        <br>
 
         <div class="ibox-content">
             @if($funcionalidades->count())
@@ -53,6 +61,7 @@
                 {{ $funcionalidades->links() }}
             </div>
             @endif
+            <br>
         </div>
 
         <!-- Modales -->

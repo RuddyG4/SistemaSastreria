@@ -18,8 +18,8 @@
                 <input wire:model="busqueda" class="form-control col-md-6" type="text" placeholder="Buscar...">
             </div>
             <div class="col-auto">
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarMaterial">Agregar materiales</button>
-                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalSacarMaterial">Sacar materiales</button>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarMaterial"><i class="fa fa-plus"></i> Agregar materiales</button>
+                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalSacarMaterial"><i class="fa fa-minus"></i> Sacar materiales</button>
             </div>
         </div>
 
