@@ -5,6 +5,7 @@ namespace App\Models\inventario;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Material extends Model
 {
@@ -29,5 +30,10 @@ class Material extends Model
     public function medida()
     {
         return $this->belongsTo(MedidaMaterial::class, 'id_medida');
+    }
+
+    public function inventario(): HasMany
+    {
+        return $this->hasMany(Inventario::class, 'id_material');
     }
 }

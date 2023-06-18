@@ -287,34 +287,62 @@ foreign key(id_medida_vestimenta) references medida_vestimenta(id)
 -- DROP database SASTRERIA;
 
 -- Triggers and stored procedures
+
+-- triggers para notas de ingreso
 delimiter $$
 create trigger tr_ai_detalle_nota_ingreso after insert on detalle_nota_ingreso
 for each row
 begin
 call actualizar_monto_total_nota_ingreso(new.id);
-call sumar_cantidad_inventario(new.id);
+call sumar_cantidad_inventario(new.id, 0);
 end $$
  
 create trigger tr_bu_detalle_nota_ingreso before update on detalle_nota_ingreso
 for each row
 begin
-call restar_cantidad_inventario(old.id);
+call restar_cantidad_inventario(old.id, 0);
 end $$
 
 create trigger tr_au_detalle_nota_ingreso after update on detalle_nota_ingreso
 for each row
 begin
 call actualizar_monto_total_nota_ingreso(new.id);
-call sumar_cantidad_inventario(new.id);
+call sumar_cantidad_inventario(new.id, 0);
 end $$
 
-create trigger tr_bd_detalle_nota before delete on detalle_nota_ingreso
+create trigger tr_bd_detalle_nota_ingreso before delete on detalle_nota_ingreso
 for each row
 begin
 call actualizar_monto_total_nota_ingreso(old.id);
-call restar_cantidad_inventario(old.id);
+call restar_cantidad_inventario(old.id, 0);
 end $$
 
+-- Triggers para las notas de salida
+create trigger tr_ai_detalle_nota_salida after insert on detalle_nota_salida
+for each row
+begin
+call restar_cantidad_inventario(new.id, 1);
+end $$
+
+create trigger tr_bu_detalle_nota_salida before update on detalle_nota_salida
+for each row
+begin
+call sumar_cantidad_inventario(old.id, 1);
+end $$
+
+create trigger tr_au_detalle_nota_salida after update on detalle_nota_salida
+for each row
+begin
+call restar_cantidad_inventario(new.id, 1);
+end $$
+
+create trigger tr_bd_detalle_nota_salida before delete on detalle_nota_salida
+for each row
+begin
+call sumar_cantidad_inventario(old.id, 1);
+end $$
+
+-- Procedimientos almacenados
 create procedure actualizar_monto_total_nota_ingreso (in id_detalle_nota int)
 begin
 	update nota_ingreso set monto_total = (select sum(cantidad * precio) from detalle_nota_ingreso 
@@ -322,18 +350,30 @@ begin
 	where id = (select id_nota from detalle_nota_ingreso where id = id_detalle_nota);
 end $$
 
-create procedure sumar_cantidad_inventario (in id_detalle_nota int)
+create procedure sumar_cantidad_inventario (in id_detalle_nota int, in bandera int)
 begin
-    update inventario set cantidad = cantidad + (select cantidad from detalle_nota_ingreso where id = id_detalle_nota)
-    where id_material = (select id_material from detalle_nota_ingreso where id = id_detalle_nota limit 1) and id_almacen = (select id_almacen from nota_ingreso 
+    if (bandera = 0) then
+		update inventario set cantidad = cantidad + (select cantidad from detalle_nota_ingreso where id = id_detalle_nota)
+		where id_material = (select id_material from detalle_nota_ingreso where id = id_detalle_nota limit 1) and id_almacen = (select id_almacen from nota_ingreso 
 						where id = (select id_nota from detalle_nota_ingreso where id = id_detalle_nota) limit 1);
+	else
+		update inventario set cantidad = cantidad + (select cantidad from detalle_nota_salida where id = id_detalle_nota)
+		where id_material = (select id_material from detalle_nota_salida where id = id_detalle_nota limit 1) and id_almacen = (select id_almacen from nota_salida
+						where id = (select id_nota from detalle_nota_salida where id = id_detalle_nota) limit 1);
+	end if;
 end $$
 
-create procedure restar_cantidad_inventario (in id_detalle_nota int)
+create procedure restar_cantidad_inventario (in id_detalle_nota int, in bandera int)
 begin
-    update inventario set cantidad = cantidad - (select cantidad from detalle_nota_ingreso where id = id_detalle_nota)
-    where id_material = (select id_material from detalle_nota_ingreso where id = id_detalle_nota limit 1) and id_almacen = (select id_almacen from nota_ingreso 
+	if (bandera = 0) then
+		update inventario set cantidad = cantidad - (select cantidad from detalle_nota_ingreso where id = id_detalle_nota)
+		where id_material = (select id_material from detalle_nota_ingreso where id = id_detalle_nota limit 1) and id_almacen = (select id_almacen from nota_ingreso 
 						where id = (select id_nota from detalle_nota_ingreso where id = id_detalle_nota) limit 1);
+	else
+		update inventario set cantidad = cantidad - (select cantidad from detalle_nota_salida where id = id_detalle_nota)
+		where id_material = (select id_material from detalle_nota_salida where id = id_detalle_nota limit 1) and id_almacen = (select id_almacen from nota_salida 
+						where id = (select id_nota from detalle_nota_salida where id = id_detalle_nota) limit 1);
+    end if;
 end $$
 
 delimiter ;
@@ -445,17 +485,20 @@ insert into usuario values(2,'gonzaloqh','ruddygonzqh@gmail.com', "$2y$10$xfCjPs
 insert into almacen values(null,'tienda 1','av. ballivian puesto/105');
 
 insert into nota_ingreso values(null,now(),0.0,1,1);
-insert into nota_ingreso values(null,now(),70.0,1,1);
+insert into nota_ingreso values(null,now(),0.0,1,1);
+
+-- id, fecha, descripcion, id_usuario, id_almacen 
+insert into nota_salida values(null,now(), "Descripcion de prueba", 1, 1);
 
 insert into medida_material values(null,'metros',0);
 insert into medida_material values(null,'unidades',0);
 insert into medida_material values(null, 'cm',0);
 
-insert into material values(null,'tela optima',1);
-insert into material values(null,'tela roja',1);
-insert into material values(null,'tela casimir',1);
-insert into material values(null,'botones',2);
-insert into material values(null,'cierres',2);
+insert into material values(null,'Tela optima',1);
+insert into material values(null,'Tela roja',1);
+insert into material values(null,'Tela casimir',1);
+insert into material values(null,'Botones',2);
+insert into material values(null,'Cierres',2);
 
 insert into inventario values(0,1,1);
 insert into inventario values(0,2,1);
@@ -463,8 +506,12 @@ insert into inventario values(0,3,1);
 insert into inventario values(0,4,1);
 insert into inventario values(0,5,1);
 
-insert into detalle_nota_ingreso values(null,5,10,1,1);
-insert into detalle_nota_ingreso values(null,1,10,2,2);
+-- id, cantidad, precio, id_nota, id_material
+insert into detalle_nota_ingreso values(null, 5, 10, 1, 1);
+insert into detalle_nota_ingreso values(null, 2, 10, 2, 2);
+
+-- id, cantidad, id_nota, id_material
+insert into detalle_nota_salida values(null, 1, 1, 2);
 
 insert into cliente values(3,'av/lujan');
 insert into telefono values(70015434,0,3);

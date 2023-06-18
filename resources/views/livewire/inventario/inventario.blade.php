@@ -79,7 +79,7 @@
 
                                 <div class="col-md-3">
                                     <label for="cantidad">Cantidad</label>
-                                    <input type="number" id="cantidad" class="form-control" wire:model.lazy="cantidad">
+                                    <input type="number" min="1" step="1" id="cantidad" class="form-control" wire:model.lazy="cantidad">
                                     @error('cantidad')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -87,7 +87,7 @@
 
                                 <div class="col-md-3">
                                     <label for="precio">Precio</label>
-                                    <input type="number" id="precio" class="form-control" wire:model.lazy="precio">
+                                    <input type="number" id="precio" min="0" class="form-control" wire:model.lazy="precio">
                                     @error('precio')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -157,39 +157,102 @@
 
                         <h4><b><span class="text-danger">NOTA: Solo se mostraran materiales con stock > 0</span></b></h4>
 
+                        <form wire:submit.prevent="adicionarMaterialSalida" id="form-id-sm">
+                            @csrf
 
-                        <div class="row">
-                            <div class="col">
-                                <label for="id_material_sm">Material</label>
-                                <select wire:model="id_material" id="id_material_sm" class="form-control">
-                                    <option value="">Seleccione uno</option>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="id_material_sm">Material</label>
+                                    <select wire:model="id_material" id="id_material_sm" class="form-control">
+                                        <option value="">Seleccione uno</option>
+                                        @foreach($datos as $dato)
+                                        @if($dato->cantidad > 0)
+                                        <option value="{{ $dato->material->id }}">{{ $dato->material->nombre }}</option>
+                                        @endif
+                                        @endforeach
+                                    </select>
+                                    @error('id_material')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="stock">Stock</label>
+                                    @if($id_material != null)
                                     @foreach($datos as $dato)
-                                    @if($dato->cantidad > 0)
-                                    <option value="{{ $dato->material->id }}">{{ $dato->material->nombre }}</option>
+                                    @if($dato->id_material == $id_material)
+                                    <input readonly type="number" id="stock" class="form-control" disabled value="{{ $dato->cantidad }}">
+                                    @break
                                     @endif
                                     @endforeach
-                                </select>
-                                @error('id_material')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
+                                    @else
+                                    <input readonly type="number" id="stock" class="form-control" disabled value="">
+                                    @endif
+                                </div>
 
-                            <div class="col-auto">
-                                <br>
-                                <button wire:click="" class="btn btn-outline btn-success dim" type="button"><i class="fa fa-arrow-down"></i></button>
+                                <div class="col-md-3">
+                                    <label for="cantidad-sm">Cant. a sacar</label>
+                                    <input type="number" min="1" step="1" id="cantidad-sm" class="form-control" wire:model.lazy="cantidad">
+                                    @error('cantidad')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                <div class="col">
+                                    <br>
+                                    <button type="submit" form="form-id-sm" class="btn btn-outline btn-success dim" type="button"><i class="fa fa-arrow-down"></i></button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
 
                         <h4>Materiales a sacar</h4>
 
-                        <form wire:submit.prevent="guardarNotaIngreso" id="form-id-sm">
-                            @csrf
+                        @if(!$detallesSalida->isEmpty())
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Material</th>
+                                    <th scope="col">Cant. a sacar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($detallesSalida as $index => $detalle)
+                                <tr>
+                                    <td><input readonly type="text" class="form-control col-md-4" value="{{ $detalle->material->nombre }} " id=""></td>
+                                    <td><input readonly type="text" class="form-control col-md-3" wire:model="detallesSalida.{{$index}}.cantidad" id=""></td>
+                                    <td>
+                                        <button wire:click="quitarMaterialSalida({{$index}})" class="btn btn-outline btn-danger dim col" type="button"><i class="fa fa-minus"></i></button>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
 
-                        </form>
+                        <div class="form-group">
+                            <label for="descripcion">Descripcion (Motivo de salida de inventario)</label>
+                            <textarea wire:model="descripcion" class="form-control" id="descripcion" maxlength="100" rows="3"></textarea>
+                        </div>
+                        @error('descripcion')
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                        @else
+
+                        @if (session()->has('message'))
+                        <div class="alert alert-danger">
+                            <p style="display: flex; justify-content: center;">Nota de salida vacia!!</p>
+                        </div>
+                        @else
+                        <div class="alert alert-warning">
+                            <p style="display: flex; justify-content: center;">Nota de salida vacia!!</p>
+                        </div>
+                        @endif
+                        @endif
+
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" wire:click="cancelar"> Cancelar</button>
-                        <button type="submit" form="form-id-sm" class="btn btn-primary">Crear nota de ingreso</button>
+                        <button wire:click="guardarNotaSalida" class="btn btn-primary">Crear nota de ingreso</button>
                     </div>
                 </div>
             </div>
@@ -208,35 +271,6 @@
     </script>
 
     <script>
-        Livewire.on('confirmarBaja', id => {
-            Swal.fire({
-                title: '¿Está seguro?',
-                text: "El usuario seleccionado ya no podrá acceder al sistema",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#EC4758',
-                cancelButtonColor: '#808991',
-                confirmButtonText: 'Sí, dar de baja!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Livewire.emitTo('usuarios.usuarios', 'darBaja', id);
-                    Swal.fire(
-                        'Usuario inactivo!',
-                        'El usuario seleccionado ha sido dado de baja.',
-                        'success'
-                    )
-                }
-            })
-        })
-
-        Livewire.on('usuarioActualizado', function() {
-            Swal.fire(
-                'Usuario actualizado!',
-                'Los cambios se guardaron correctamente!',
-                'success'
-            )
-        })
-
         Livewire.on('notaIngresoCreada', function() {
             Swal.fire(
                 'Nota de Ingreso agregada!',
@@ -245,10 +279,10 @@
             )
         })
 
-        Livewire.on('notaIngresoVacia', function() {
+        Livewire.on('notaSalidaCreada', function() {
             Swal.fire(
-                'Nota de Ingreso vacia!',
-                'La Nota de Ingreso esta vacia, rellene los datos!',
+                'Nota de Salida creada!',
+                'La Nota de Salida ha sido registrada correctamente!',
                 'success'
             )
         })
