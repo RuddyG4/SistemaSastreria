@@ -209,6 +209,7 @@ create table medida
 (
 id integer not null auto_increment,
 nombre varchar(30) unique not null,
+eliminado bool not null default 0,
 primary key (id)
 );
 
@@ -536,20 +537,23 @@ insert into vestimenta values(8,'camisa hombre',1,0);
 insert into vestimenta values(9,'pantalón hombre',1,0);
 insert into vestimenta values(10,'chaleco hombre',1,0);
 insert into vestimenta values(11,'polera hombre',1,0);
-insert into medida values(1,'cintura');
-insert into medida values(2,'largo espalda');
-insert into medida values(3,'pecho');
-insert into medida values(4,'talla');
-insert into medida values(5,'largo');
-insert into medida values(6,'hombro');
-insert into medida values(7,'largo manga');
-insert into medida values(8,'ancho pie');
-insert into medida values(9,'ancho brazo');
-insert into medida values(10,'cadera');
-insert into medida values(11,'ancho pierna');
-insert into medida values(12,'largo falda');
-insert into medida values(13,'bota pie');
-insert into medida values(14,'cuello'); 
+
+
+
+insert into medida values(1,'cintura',0);
+insert into medida values(2,'largo espalda',0);
+insert into medida values(3,'pecho',0);
+insert into medida values(4,'talla',0);
+insert into medida values(5,'largo',0);
+insert into medida values(6,'hombro',0);
+insert into medida values(7,'largo manga',0);
+insert into medida values(8,'ancho pie',0);
+insert into medida values(9,'ancho brazo',0);
+insert into medida values(10,'cadera',0);
+insert into medida values(11,'ancho pierna',0);
+insert into medida values(12,'largo falda',0);
+insert into medida values(13,'bota pie',0);
+insert into medida values(14,'cuello',0); 
 
 -- hombre
 -- saco hombre pecho, espalda,  cuello,  largo,  hombro,  largo manga
