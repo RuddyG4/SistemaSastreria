@@ -217,6 +217,7 @@ create table vestimenta
 id integer not null auto_increment,
 nombre varchar(30) unique not null,
 genero bool not null, -- 0=mujer   1=hombre
+activo bool not null default 0,
 primary key (id)
 );
 
@@ -521,20 +522,20 @@ insert into pedido values(null,now(),0,2,3,0);
 insert into fecha_pago values(null,now(),'primer pago',1);
 
 --									mujer
-insert into vestimenta values(1,'saco mujer',0);
-insert into vestimenta values(2,'camisa mujer',0);
-insert into vestimenta values(3,'pantalón mujer',0);
-insert into vestimenta values(4,'chaleco mujer',0);
-insert into vestimenta values(5,'polera mujer',0);
-insert into vestimenta values(6,'falda',0);
+insert into vestimenta values(1,'saco mujer',0,0);
+insert into vestimenta values(2,'camisa mujer',0,0);
+insert into vestimenta values(3,'pantalón mujer',0,0);
+insert into vestimenta values(4,'chaleco mujer',0,0);
+insert into vestimenta values(5,'polera mujer',0,0);
+insert into vestimenta values(6,'falda',0,0);
 
 --									hombre 
-insert into vestimenta values(7,'saco hombre',1);
-insert into vestimenta values(8,'camisa hombre',1);
-insert into vestimenta values(9,'pantalón hombre',1);
-insert into vestimenta values(10,'chaleco hombre',1);
-insert into vestimenta values(11,'polera hombre',1);
 
+insert into vestimenta values(7,'saco hombre',1,0);
+insert into vestimenta values(8,'camisa hombre',1,0);
+insert into vestimenta values(9,'pantalón hombre',1,0);
+insert into vestimenta values(10,'chaleco hombre',1,0);
+insert into vestimenta values(11,'polera hombre',1,0);
 insert into medida values(1,'cintura');
 insert into medida values(2,'largo espalda');
 insert into medida values(3,'pecho');
