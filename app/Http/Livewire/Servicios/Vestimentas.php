@@ -4,11 +4,15 @@ namespace App\Http\Livewire\Servicios;
 
 use Livewire\Component;
 use App\models\servicios\Vestimenta;
-use Illuminate\Contracts\Database\Eloquent\Builder;;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Livewire\WithPagination;
+
+;
 
 
 class Vestimentas extends Component
 {   
+    use WithPagination;
     public $id_vestimenta, $nombre, $nombreEdit, $genero, $generoEdit, $eleccion, $busqueda;
     public $listDeHabilitada;
     public function render()
@@ -17,6 +21,7 @@ class Vestimentas extends Component
 
         return view('livewire.servicios.vestimentas',[
             'listVestimenta' => Vestimenta::where('nombre', 'LIKE', "%$this->busqueda%")
+            ->where('activo', 0)
             ->paginate(8)
         ]);
     }
