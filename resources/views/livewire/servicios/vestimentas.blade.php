@@ -4,13 +4,13 @@
 
     <div>
 
-    <h1>Vista de vestimentas</h1>
+    <h1><b>Vista de vestimentas</b></h1>
 
     <h2>Agregar nueva vestimenta</h2>
     <form form wire:submit.prevent="store" id="form-id">
 
             <div class="input-group mb-3">
-                <input wire:model="nombre" placeholder="Agregar vestimenta" type="text" class="form-control" aria-label="Text input with dropdown button">
+                <input wire:model.lazy="nombre" placeholder="Nombre vestimenta..." type="text" class="form-control" aria-label="Text input with dropdown button">
 
                 <select class="form-select " id="genero" wire:model="genero">
                     <option value="1">Hombre</option>
@@ -63,8 +63,8 @@
                             @error('generoEdit')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
-
-
+                            
+                            
                             @else
                             @if ($list->genero == 0)
                             <span class="badge text-bg-danger">Mujer</span>
@@ -88,18 +88,19 @@
                     @endforeach
                 </tbody>
             </table>
-
+            
             @if( $listVestimenta->hasPages() )
             <div class="px-6 py-3">
                 {{ $listVestimenta->links() }}
             </div>
             @endif
         </div>
+        
+        <div class="col-auto">
+            <button class="btn btn-success" wire:click="" data-bs-toggle="modal" data-bs-target="#modalVista">Deshabilitado</button>
+        </div>
 
-
-
-
-
+        <!-- Modal de vista -->
         <div wire:ignore.self id="modalVista" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="newMaterial" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -145,9 +146,6 @@
         </div>
 
 
-        <div class="col-auto">
-            <button class="btn btn-success" wire:click="" data-bs-toggle="modal" data-bs-target="#modalVista">Deshabilitado</button>
-        </div>
     </div>
 
 

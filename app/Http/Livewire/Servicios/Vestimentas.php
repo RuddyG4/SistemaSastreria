@@ -3,8 +3,7 @@
 namespace App\Http\Livewire\Servicios;
 
 use Livewire\Component;
-use App\models\servicios\Vestimenta;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use App\Models\servicios\Vestimenta;
 use Livewire\WithPagination;
 
 ;
@@ -22,7 +21,7 @@ class Vestimentas extends Component
         return view('livewire.servicios.vestimentas',[
             'listVestimenta' => Vestimenta::where('nombre', 'LIKE', "%$this->busqueda%")
             ->where('activo', 0)
-            ->paginate(8)
+            ->paginate(10)
         ]);
     }
 

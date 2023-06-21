@@ -105,6 +105,16 @@
                                 <a href="{{url('/dashboard/adm_servicios/pedidos')}}">Pedidos</a>
                             </li>
                             @endif
+                            @if(in_array('vestimenta.lista', $permisos))
+                            <li class="{{ Request::is('dashboard/adm_servicios/vestimentas*') ? 'active' : '' }}">
+                                <a href="{{url('/dashboard/adm_servicios/vestimentas')}}">Vestimentas</a>
+                            </li>
+                            @endif
+                            @if(in_array('medida.lista', $permisos))
+                            <li class="{{ Request::is('dashboard/adm_servicios/medidas*') ? 'active' : '' }}">
+                                <a href="{{url('/dashboard/adm_servicios/medidas')}}">Medidas</a>
+                            </li>
+                            @endif
                         </ul>
                     </li>
                     @endif
