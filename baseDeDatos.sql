@@ -290,8 +290,16 @@ foreign key(id_medida_vestimenta) references medida_vestimenta(id)
 
 -- Triggers and stored procedures
 
--- triggers para notas de ingreso
 delimiter $$
+
+-- trigger para funcionalidad
+create trigger tr_ai_asignacionAutomaticaAdminGen after insert on funcionalidad
+for each row
+begin
+insert into permiso_rol values(1,new.id);
+end$$
+
+-- triggers para notas de ingreso
 create trigger tr_ai_detalle_nota_ingreso after insert on detalle_nota_ingreso
 for each row
 begin
@@ -394,65 +402,74 @@ insert into funcionalidad values(null,'adm.usuario','Permite controlar los aspec
 insert into funcionalidad values(null,'adm.servicio','Permite controlar los aspectos relacionados con los servicios.');
 insert into funcionalidad values(null,'adm.inventario','Permite controlar los aspectos relacionados con el inventario.');
 
-insert into funcionalidad values(null,'usuario.ver','permite visualizar los usuarios registrados en el sistema');
+insert into funcionalidad values(null,'usuario.lista','Permite visualizarla lista de los usuarios registrados en el sistema');
+insert into funcionalidad values(null,'usuario.ver','Permite visualizar detalles de un usuario especifico en el sistema');
 insert into funcionalidad values(null,'usuario.crear','permite registrar nuevos usuarios en el sistema');
 insert into funcionalidad values(null,'usuario.modificar','permite modificar los usuarios registrados en el sistema');
 insert into funcionalidad values(null,'usuario.inhabilitar','permite inhabilitar usuarios registrados en el sistema');
 insert into funcionalidad values(null,'usuario.habilitar','permite habilitar usuarios registrados en el sistema');
 
-insert into funcionalidad values(null,'rol.ver','permite ver los roles registrados en el sistema');
+insert into funcionalidad values(null,'rol.lista','permite ver los roles registrados en el sistema');
+insert into funcionalidad values(null,'rol.ver','permite ver detalles de un rol especifico registrado en el sistema');
 insert into funcionalidad values(null,'rol.crear','permite crear nuevos roles en el sistema');
 insert into funcionalidad values(null,'rol.modificar','permite modificar los roles registrados en el sistema');
 insert into funcionalidad values(null,'rol.eliminar','permite eliminar los roles registrados en el sistema');
 
-insert into funcionalidad values(null,'funcionalidad.ver','permite ver las funcionalidades registradas en el sistema');
+insert into funcionalidad values(null,'funcionalidad.lista','Permite ver las funcionalidades registradas en el sistema');
+insert into funcionalidad values(null,'funcionalidad.ver','Permite ver los detalles de una funcionalidad registrada en el sistema');
 insert into funcionalidad values(null,'funcionalidad.crear','permite crear nuevas funcionalidades en el sistema');
 insert into funcionalidad values(null,'funcionalidad.modificar','permite modificar las funcionalidades registradas en el sistema');
 insert into funcionalidad values(null,'funcionalidad.eliminar','permite eliminar las funcionalidades registradas en el sistema');
 
-insert into funcionalidad values(null,'cliente.ver','permite ver los clientes registrados en el sistema');
+insert into funcionalidad values(null,'cliente.lista','permite ver los clientes registrados en el sistema');
+insert into funcionalidad values(null,'cliente.ver','Permite ver los detalles de un cliente específico registrado en el sistema');
 insert into funcionalidad values(null,'cliente.crear','permite crear nuevos clientes en el sistema');
 insert into funcionalidad values(null,'cliente.modificar','permite modificar los clientes registrados en el sistema');
 insert into funcionalidad values(null,'cliente.eliminar','permite eliminar los clientes registrados en el sistema');
 
-insert into funcionalidad values(null,'pedido.ver','permite ver todo los pedidos y sus estados');
+insert into funcionalidad values(null,'pedido.lista','Permite ver todo los pedidos');
+insert into funcionalidad values(null,'pedido.ver','Permite ver los detalles de un pedido específico');
 insert into funcionalidad values(null,'pedido.crear','permite crear nuevos pedidos');
 insert into funcionalidad values(null,'pedido.modificar','permite modificar los pedidos creados');
 insert into funcionalidad values(null,'pedido.eliminar','permite eliminar un pedido');
 -- --------------------------------------------------------------------------------------------
-insert into funcionalidad values(null,'vestimenta.ver','permite ver las vestimentas disponibles');
+insert into funcionalidad values(null,'vestimenta.lista','Permite ver las vestimentas disponibles');
+insert into funcionalidad values(null,'vestimenta.ver','Permite ver los detalles de una vestimenta específica');
 insert into funcionalidad values(null,'vestimenta.crear','permite añadir una nueva vestimenta');
 insert into funcionalidad values(null,'vestimenta.modificar','permite modificar los datos de una vestimenta');
 insert into funcionalidad values(null,'vestimenta.eliminar','permite eliminar una vestimenta');
 
-insert into permiso_rol values(1,1);
-insert into permiso_rol values(1,2);
-insert into permiso_rol values(1,3);
-insert into permiso_rol values(1,4);
-insert into permiso_rol values(1,5);
-insert into permiso_rol values(1,6);
-insert into permiso_rol values(1,7);
-insert into permiso_rol values(1,8);
-insert into permiso_rol values(1,9);
-insert into permiso_rol values(1,10);
-insert into permiso_rol values(1,11);
-insert into permiso_rol values(1,12);
-insert into permiso_rol values(1,13);
-insert into permiso_rol values(1,14);
-insert into permiso_rol values(1,15);
-insert into permiso_rol values(1,16);
-insert into permiso_rol values(1,17);
-insert into permiso_rol values(1,18);
-insert into permiso_rol values(1,19);
-insert into permiso_rol values(1,20);
-insert into permiso_rol values(1,21);
-insert into permiso_rol values(1,22);
-insert into permiso_rol values(1,23);
-insert into permiso_rol values(1,24);
-insert into permiso_rol values(1,25);
-insert into permiso_rol values(1,26);
-insert into permiso_rol values(1,27);
-insert into permiso_rol values(1,28);
+insert into funcionalidad values(null,'inventario.lista','Permite ver la lista de inventario');
+
+insert into funcionalidad values(null,'almacen.lista','Permite ver los almacenes registrados');
+insert into funcionalidad values(null,'almacen.ver','Permite ver los detalles de un almacén');
+insert into funcionalidad values(null,'almacen.crear','Permite crear nuevos almacenes');
+insert into funcionalidad values(null,'almacen.modificar','Permite modificar los detalles de un almacén');
+insert into funcionalidad values(null,'almacen.eliminar','Permite eliminar un almacén');
+
+insert into funcionalidad values(null,'material.lista','Permite ver los materiales registrados');
+insert into funcionalidad values(null,'material.ver','Permite ver los detalles de un material');
+insert into funcionalidad values(null,'material.crear','Permite crear nuevos materiales');
+insert into funcionalidad values(null,'material.modificar','Permite modificar los detalles de un material');
+insert into funcionalidad values(null,'material.eliminar','Permite eliminar un material');
+
+insert into funcionalidad values(null,'unidad_medida.lista','Permite ver las unidades de medida registradas');
+insert into funcionalidad values(null,'unidad_medida.ver','Permite ver los detalles de una unidad de medida');
+insert into funcionalidad values(null,'unidad_medida.crear','Permite crear nuevas unidades de medida');
+insert into funcionalidad values(null,'unidad_medida.modificar','Permite modificar los detalles de una unidad de medida');
+insert into funcionalidad values(null,'unidad_medida.eliminar','Permite eliminar una unidad de medida');
+
+insert into funcionalidad values(null,'nota_ingreso.lista','Permite ver las notas de ingreso registradas');
+insert into funcionalidad values(null,'nota_ingreso.ver','Permite ver los detalles de una nota de ingreso');
+insert into funcionalidad values(null,'nota_ingreso.crear','Permite crear nuevas notas de ingreso');
+insert into funcionalidad values(null,'nota_ingreso.modificar','Permite modificar los detalles de notas de ingreso');
+insert into funcionalidad values(null,'nota_ingreso.eliminar','Permite eliminar notas de ingreso');
+
+insert into funcionalidad values(null,'nota_salida.lista','Permite ver las notas de salida registradas');
+insert into funcionalidad values(null,'nota_salida.ver','Permite ver los detalles de una nota de salida');
+insert into funcionalidad values(null,'nota_salida.crear','Permite crear nuevas nota de salida');
+insert into funcionalidad values(null,'nota_salida.modificar','Permite modificar los detalles de una nota de salida');
+insert into funcionalidad values(null,'nota_salida.eliminar','Permite eliminar notas de salida');
 
 insert into permiso_rol values(3,2);
 insert into permiso_rol values(3,3);

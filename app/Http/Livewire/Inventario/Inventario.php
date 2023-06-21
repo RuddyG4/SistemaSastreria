@@ -9,7 +9,8 @@ use App\Models\inventario\Inventario as MInventario;
 use App\Models\inventario\Material;
 use App\Models\inventario\NotaIngreso;
 use App\Models\inventario\NotaSalida;
-use Illuminate\Contracts\Database\Eloquent\Builder;;
+use App\Models\usuarios\Funcionalidad;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -53,6 +54,10 @@ class Inventario extends Component
                     $query->where('nombre', 'like', "%$this->busqueda%");
                 })->get(),
                 // 'datos' => MInventario::Where('id_almacen', $this->almacen->id)->get(),
+                'permisos' => Funcionalidad::whereHas('roles', function ($query) {
+                    $query->where('id', Auth::user()->rol->id);
+                })->where('nombre', 'LIKE', "nota_%.crear")
+                    ->pluck('nombre')->toArray(),
             ]);
         }
     }

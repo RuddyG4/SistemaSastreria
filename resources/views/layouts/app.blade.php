@@ -28,6 +28,18 @@
 
 <body>
 
+    <?php
+
+    use App\Models\usuarios\Funcionalidad;
+    use Illuminate\Contracts\Database\Eloquent\Builder;
+    use Illuminate\Support\Facades\Auth;
+
+    $permisos = Funcionalidad::whereHas('roles', function ($query) {
+        $query->where('id', Auth::user()->rol->id);
+    })->where('nombre', 'LIKE', "adm.%")
+        ->orWhere('nombre', 'like', "%.lista")
+        ->pluck('nombre')->toArray();
+    ?>
     <div id="wrapper">
         <!-- Menú lateral -->
         <nav class="navbar-default navbar-static-side" role="navigation">
@@ -53,23 +65,23 @@
                         <a href="{{ url('/dashboard') }}"><i class="fa fa-th-large"></i>
                             <span class="nav-label">INICIO</span></a>
                     </li>
-                    @if(Auth::user()->tieneFuncionalidad('adm.usuario'))
+                    @if(in_array('adm.usuario', $permisos))
                     <li class="{{ Request::is('dashboard/adm_usuarios*') ? 'active' : '' }}">
                         <a href=""><i class="fa fa-user-o"></i>
                             <span class="nav-label">Adm. de Usuarios</span>
                             <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            @if(Auth::user()->tieneFuncionalidad('usuario.ver'))
+                            @if(in_array('usuario.lista', $permisos))
                             <li class="{{ Request::is('dashboard/adm_usuarios/usuarios*') ? 'active' : '' }}">
                                 <a href="{{ url('/dashboard/adm_usuarios/usuarios') }}">Usuarios</a>
                             </li>
                             @endif
-                            @if(Auth::user()->tieneFuncionalidad('rol.ver'))
+                            @if(in_array('rol.lista', $permisos))
                             <li class="{{ Request::is('dashboard/adm_usuarios/roles*') ? 'active' : '' }}">
                                 <a href="{{ url('/dashboard/adm_usuarios/roles') }}">Roles</a>
                             </li>
                             @endif
-                            @if(Auth::user()->tieneFuncionalidad('funcionalidad.ver'))
+                            @if(in_array('funcionalidad.lista', $permisos))
                             <li class="{{ Request::is('dashboard/adm_usuarios/funcionalidades*') ? 'active' : '' }}">
                                 <a href="{{ url('/dashboard/adm_usuarios/funcionalidades') }}">Funcionalidad</a>
                             </li>
@@ -77,36 +89,46 @@
                         </ul>
                     </li>
                     @endif
-                    @if(Auth::user()->tieneFuncionalidad('adm.servicio'))
+                    @if(in_array('adm.servicio', $permisos))
                     <li class="{{ Request::is('dashboard/adm_servicios/*') ? 'active' : '' }}">
                         <a href="#"><i class="fa fa-wrench"></i>
                             <span class="nav-label">Adm. de Servicios</span><span class="fa arrow"></span>
                         </a>
                         <ul class="nav nav-second-level collapse">
+                            @if(in_array('cliente.lista', $permisos))
                             <li class="{{ Request::is('dashboard/adm_servicios/clientes*') ? 'active' : '' }}">
                                 <a href="{{url('/dashboard/adm_servicios/clientes')}}">Clientes</a>
                             </li>
+                            @endif
+                            @if(in_array('pedido.lista', $permisos))
                             <li class="{{ Request::is('dashboard/adm_servicios/pedidos*') ? 'active' : '' }}">
                                 <a href="{{url('/dashboard/adm_servicios/pedidos')}}">Pedidos</a>
                             </li>
+                            @endif
                         </ul>
                     </li>
                     @endif
-                    @if(Auth::user()->tieneFuncionalidad('adm.inventario'))
+                    @if(in_array('adm.inventario', $permisos))
                     <li class="{{ Request::is('dashboard/adm_inventario/*') ? 'active' : '' }}">
                         <a href="#"><i class="fa fa-book"></i>
                             <span class="nav-label">Adm. de Inventario</span><span class="fa arrow"></span>
                         </a>
                         <ul class="nav nav-second-level collapse">
+                        @if(in_array('inventario.lista', $permisos))
                             <li class="{{ Request::is('dashboard/adm_inventario/inventario') ? 'active' : '' }}">
                                 <a href="{{url('/dashboard/adm_inventario/inventario')}}">Inventario</a>
                             </li>
+                            @endif
+                            @if(in_array('almacen.lista', $permisos))
                             <li class="{{ Request::is('dashboard/adm_inventario/almacenes') ? 'active' : '' }}">
                                 <a href="{{url('/dashboard/adm_inventario/almacenes')}}">Almacenes</a>
                             </li>
+                            @endif
+                            @if(in_array('material.lista', $permisos))
                             <li class="{{ Request::is('dashboard/adm_inventario/materiales') ? 'active' : '' }}">
                                 <a href="{{url('/dashboard/adm_inventario/materiales')}}">Materiales</a>
                             </li>
+                            @endif
                         </ul>
                     </li>
                     @endif
