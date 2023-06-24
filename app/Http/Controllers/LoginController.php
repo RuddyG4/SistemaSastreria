@@ -24,11 +24,13 @@ class LoginController extends Controller
         }
         $user = Auth::getProvider()->retrieveByCredentials($credentials); // Recupera la instancia User perteneciente a $credentials.
         Auth::login($user);
+        Auth::user()->generarBitacora("Sesión iniciada");
         return redirect()->intended('dashboard');
     }
 
     public function logout()
     {
+        Auth::user()->generarBitacora("Sesión finalizada manualmente");
         Session::flush();
         Auth::logout();
         return redirect()->to('/login');

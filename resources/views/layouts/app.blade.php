@@ -31,7 +31,6 @@
     <?php
 
     use App\Models\usuarios\Funcionalidad;
-    use Illuminate\Contracts\Database\Eloquent\Builder;
     use Illuminate\Support\Facades\Auth;
 
     $permisos = Funcionalidad::whereHas('roles', function ($query) {
@@ -124,7 +123,7 @@
                             <span class="nav-label">Adm. de Inventario</span><span class="fa arrow"></span>
                         </a>
                         <ul class="nav nav-second-level collapse">
-                        @if(in_array('inventario.lista', $permisos))
+                            @if(in_array('inventario.lista', $permisos))
                             <li class="{{ Request::is('dashboard/adm_inventario/inventario') ? 'active' : '' }}">
                                 <a href="{{url('/dashboard/adm_inventario/inventario')}}">Inventario</a>
                             </li>
@@ -169,7 +168,9 @@
             </div>
 
             <!-- Contenido principal -->
-            {{ $slot }}
+            <div class="wrapper wrapper-content">
+                    {{ $slot }}
+            </div>
 
             <!-- Footer -->
             <div class="footer">

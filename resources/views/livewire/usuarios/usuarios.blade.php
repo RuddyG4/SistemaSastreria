@@ -2,7 +2,7 @@
     Usuarios
     </x-slot>
     <div>
-        <h1>Vista de usuarios</h1>
+        <h1><b>Vista de usuarios</b></h1>
 
         <div class="row">
             <div class="col">
@@ -106,13 +106,13 @@
                             <br>
 
                             <label for="rol">Rol</label>
-                            <select wire:model="rol" id="rol">
+                            <select wire:model="id_rol" id="rol">
                                 <option value="">Seleccione un rol</option>
                                 @foreach($roles as $rol)
                                 <option value="{{ $rol->id }}">{{ $rol->nombre }}</option>
                                 @endforeach
                             </select>
-                            @error('rol')
+                            @error('id_rol')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>
@@ -182,12 +182,12 @@
                             <br>
 
                             <label for="rol-edit">Rol</label>
-                            <select wire:model="rol" id="rol-edit">
+                            <select wire:model="id_rol" id="rol-edit">
                                 @foreach($roles as $rol)
                                 <option value="{{ $rol->id }}">{{ $rol->nombre }}</option>
                                 @endforeach
                             </select>
-                            @error('rol')
+                            @error('id_rol')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>

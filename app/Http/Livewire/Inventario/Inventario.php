@@ -82,6 +82,7 @@ class Inventario extends Component
                 $detalle->id_nota = $nota->id;
                 $detalle->save();
             }
+            Auth::user()->generarBitacora("Nota de ingreso creada, id: $nota->id");
             $this->limpiarDatos();
             $this->dispatchBrowserEvent('cerrar-modal');
             $this->emit('notaIngresoCreada');
@@ -117,6 +118,7 @@ class Inventario extends Component
                 'fecha' => now(),
                 'descripcion' => $this->descripcion,
             ]);
+            Auth::user()->generarBitacora("Nota de salida creada, id: $nota->id");
             foreach($this->detallesSalida as $detalle) {
                 $detalle->id_nota = $nota->id;
                 $detalle->save();

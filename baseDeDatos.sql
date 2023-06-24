@@ -150,14 +150,15 @@ foreign key (id_material) references material(id)
 create table bitacora
 (
 id integer not null auto_increment,
-fechahora datetime not null,
+accion_realizada varchar(100) not null,
+fecha_hora datetime not null,
 id_usuario integer not null,
-id_funcionalidad integer not null,
+-- id_funcionalidad integer not null,
 primary key (id),
 foreign key (id_usuario) references usuario(id)
-	on update cascade on delete cascade,
-foreign key (id_funcionalidad) references funcionalidad(id)
 	on update cascade on delete cascade
+-- foreign key (id_funcionalidad) references funcionalidad(id)
+-- 	on update cascade on delete cascade
 );
 
 create table cliente
@@ -396,7 +397,7 @@ insert into persona values(null,'Maria','Hernades',846185);
 
 insert into rol values(null,'Administrador general', 'usuario con el máximo control del sistema');
 insert into rol values(null,'Administrador', 'administra las funcionalidades de servicio e inventario');
-insert into rol values(null,'Atención al cliente', 'tiene acceso a funcionalidades básicas de atención al cliente');
+insert into rol values(null,'Recepcionista', 'tiene acceso a funcionalidades básicas de atención al cliente');
 
 insert into funcionalidad values(null,'adm.usuario','Permite controlar los aspectos relacionados con los usuarios.');
 insert into funcionalidad values(null,'adm.servicio','Permite controlar los aspectos relacionados con los servicios.');

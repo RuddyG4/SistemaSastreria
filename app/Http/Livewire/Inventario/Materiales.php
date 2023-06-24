@@ -6,6 +6,7 @@ use App\Models\inventario\Almacen;
 use App\Models\inventario\Material;
 use App\Models\inventario\MedidaMaterial;
 use App\Models\servicios\Medida_Material;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Materiales extends Component
@@ -42,11 +43,11 @@ class Materiales extends Component
             'nombre' => 'required',
             'medida' => 'required',
         ]);
-        Material::create([
+        $material = Material::create([
             'nombre' => $this->nombre,
             'id_medida' => $this->medida
         ]);
-
+        Auth::user()->generarBitacora("Material creado, id: $material->id");
         $this->cerrar();
     }   
 
@@ -55,6 +56,7 @@ class Materiales extends Component
         $material = Material::find($this->idMaterial);
         if ($material) {
             $material->delete($this->idMaterial);
+            Auth::user()->generarBitacora("Material eliminado, id: $material->id");
         }
         $this->cerrar();
     }
@@ -78,6 +80,7 @@ class Materiales extends Component
         $material->id_medida = $this->medida;
         
         $material->push();
+        Auth::user()->generarBitacora("Material modificado, id: $material->id");
         $this->cerrar();
     }
 

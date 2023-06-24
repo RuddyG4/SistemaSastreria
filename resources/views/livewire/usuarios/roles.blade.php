@@ -2,7 +2,7 @@
     Roles
     </x-slot>
     <div>
-        <h2> Gestión de Roles</h2>
+        <h2><b>Gestión de Roles</b></h2>
         <h3>Lista de roles:</h3>
         @if(in_array('rol.crear', $permisos))
         <button class="btn btn-success" wire:click="loadRol" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Crear Rol</button>
@@ -26,7 +26,7 @@
                         <td>{{ $rol->nombre }}</td>
                         <td>{{ $rol->descripcion }}</td>
                         <td>
-                        @if(in_array('rol.modificar', $permisos))
+                            @if(in_array('rol.modificar', $permisos))
                             <button data-bs-toggle="modal" data-bs-target="#modalDeEditar" class="btn btn-primary" wire:click="edit({{$rol->id}})">Editar</button>
                             @endif
                             <button data-bs-toggle="modal" data-bs-target="#modalDeVer" class="btn btn-secondary" wire:click="view({{$rol->id}})">Ver permisos</button>
@@ -43,7 +43,7 @@
 
         <!-- Modal create -->
         <div wire:ignore.self id="modalDeCreacion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="crearrol" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="crearrol">Crear rol</h5>
@@ -88,7 +88,7 @@
 
         <!-- Modal view -->
         <div wire:ignore.self id="modalDeVer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="verrol" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="verrol">Ver rol</h5>
