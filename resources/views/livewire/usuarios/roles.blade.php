@@ -91,14 +91,16 @@
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="verrol">Ver rol</h5>
+                        <h2 class="modal-title" id="verrol"><b>{{$nombre}}</b></h2>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cerrar"></button>
                     </div>
                     <div class="modal-body">
-                        <h2>{{$nombre}}</h2>
-                        @foreach ($rolPermisos as $permiso )
-                        <li>{{ $permiso }}</li>
-                        @endforeach
+                        <h3>Permisos:</h3>
+                        <ul class="todo-list small-list">
+                            @foreach ($rolPermisos as $permiso )
+                            <li>{{ $permiso }}</li>
+                            @endforeach
+                        </ul>
                     </div>
                     <div class="modal-footer">
                         <button type="button" form="form-id" class="btn btn-primary">Editar</button>
