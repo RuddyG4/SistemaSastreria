@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Servicios;
 
 use Livewire\Component;
 use App\Models\servicios\Vestimenta;
+use Illuminate\Support\Facades\Auth;
 use Livewire\WithPagination;
 
 ;
@@ -44,10 +45,11 @@ class Vestimentas extends Component
     public function store()
     {
         // $this->validate();
-        Vestimenta::create([
+        $vestimenta = Vestimenta::create([
             'nombre' => $this->nombre,
             'genero' => $this->genero
         ]);
+        Auth::user()->generarBitacora("Vestimenta creada, id: $vestimenta->id");
         $this->close();
     }
 
@@ -70,6 +72,7 @@ class Vestimentas extends Component
         $vestimenta->nombre = $this->nombreEdit;
         $vestimenta->genero = $this->generoEdit;
         $vestimenta->push();
+        Auth::user()->generarBitacora("Vestimenta modificada, id: $vestimenta->id");
         $this->cancelEdit();
     }
     public function cancelEdit()
@@ -82,6 +85,7 @@ class Vestimentas extends Component
         $this->generoEdit = $id;
         $vestimenta = Vestimenta::findOrFail($id);
         $vestimenta->activo = '1';
+        Auth::user()->generarBitacora("Vestimenta eliminada, id: $vestimenta->id");
         $vestimenta->push();
     }
 

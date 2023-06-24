@@ -29,6 +29,7 @@
 
 
         <div class="ibox-content">
+        @if($datos->count())
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -45,6 +46,15 @@
                     @endforeach
                 </tbody>
             </table>
+            @else
+            <span>No hay datos en el inventario</span>
+            @endif
+
+            @if( $datos->hasPages() )
+            <div class="px-6 py-3">
+                {{ $datos->links() }}
+            </div>
+            @endif
         </div>
         @else
         <p>No existen almacenes.</p>
@@ -57,7 +67,7 @@
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h3 class="modal-title" id="agregarMaterial">Crear Nota de ingreso</h5>
+                        <h2 class="modal-title" id="agregarMaterial"><b>Crear Nota de ingreso</b></h2>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cancelar"></button>
                     </div>
                     <div class="modal-body">
@@ -154,7 +164,7 @@
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h3 class="modal-title" id="sacarMaterial"><b>Crear Nota de salida</b></h5>
+                        <h2 class="modal-title" id="sacarMaterial"><b>Crear Nota de salida</b></h2>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cancelar"></button>
                     </div>
                     <div class="modal-body">

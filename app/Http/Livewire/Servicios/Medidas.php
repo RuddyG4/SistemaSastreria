@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Servicios;
 
 use Livewire\Component;
 use App\Models\servicios\Medida;
+use Illuminate\Support\Facades\Auth;
 use Livewire\WithPagination;
 class Medidas extends Component
 {
@@ -19,10 +20,10 @@ class Medidas extends Component
     }
     public function store()
     {
-        Medida::create([
+        $medida = Medida::create([
             'nombre' => $this->nombre
         ]);
-
+        Auth::user()->generarBitacora("Vestimenta creada, id: $medida->id");
         $this->close();
         
     }
@@ -31,6 +32,7 @@ class Medidas extends Component
     {
         $medida = Medida::findOrFail($id);
         $medida->eliminado = '1';
+        Auth::user()->generarBitacora("Vestimenta eliminada, id: $medida->id");
         $medida->push();
     }
 
@@ -51,6 +53,7 @@ class Medidas extends Component
         $medida = Medida::findOrFail($this->id_medida);
         $medida->nombre = $this->nombreEdit;
         $medida->push();
+        Auth::user()->generarBitacora("Vestimenta modificada, id: $medida->id");
         $this->close();
 
     }

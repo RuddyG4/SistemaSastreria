@@ -4,20 +4,23 @@ namespace App\Http\Livewire\Inventario;
 
 use Livewire\Component;
 use App\Models\inventario\Almacen;
+use App\Models\usuarios\Funcionalidad;
+use Illuminate\Support\Facades\Auth;
 
 class Almacenes extends Component
 {
-    public $idAlma,$nombre,$ubicacion;
+    public $idAlma, $nombre, $ubicacion;
 
-
-    // funciones
     public function render()
     {
-        return view('livewire.inventario.almacenes',[
-            'almacenes' => Almacen::get()
+        return view('livewire.inventario.almacenes', [
+            'almacenes' => Almacen::get(),
+            'permisos' => Funcionalidad::whereHas('roles', function ($query) {
+                $query->where('id', Auth::user()->rol->id);
+            })->where('nombre', 'LIKE', "almacen%")
+                ->pluck('nombre')->toArray(),
         ]);
     }
-
 
     protected $rules = [
         'nombre' => 'required|unique:funcionalidad',
@@ -32,43 +35,38 @@ class Almacenes extends Component
 
     public function store()
     {
-        $datos = $this->validate();
-        Almacen::create($datos);
+        $almacen = Almacen::create($this->validate());
+        Auth::user()->generarBitacora("Almacen creado, id: $almacen->id");
         $this->cerrar();
     }
 
-    public function delete()
+    public function delete(Almacen $almacen)
     {
-        $almacen = Almacen::find($this->idAlma);
-        if ($almacen) {
-            $almacen->delete($this->idAlma);
-        }
+        $almacen->update(['eliminado' => 1]);
+        Auth::user()->generarBitacora("Almacen eliminado, id: $almacen->id");
         $this->cerrar();
     }
 
-    public function editar($id_alma)
+    public function editar(Almacen $almacen)
     {
-        $this->idAlma = $id_alma;
-        $almacen = Almacen::findOrFail($id_alma);
+        $this->idAlma = $almacen->id;
         $this->nombre = $almacen->nombre;
         $this->ubicacion = $almacen->ubicacion;
-
     }
     public function update()
     {
-        $this->validate([
+        $datos = $this->validate([
             'nombre' => 'required',
             'ubicacion' => 'required',
         ]);
         $almacen = Almacen::find($this->idAlma);
-        $almacen->nombre = $this->nombre;
-        $almacen->ubicacion = $this->ubicacion;
-        $almacen->push();
+        $almacen->update($datos);
+        Auth::user()->generarBitacora("Almacen modificado, id: $almacen->id");
         $this->cerrar();
     }
 
     public function cerrar()
-    {     
+    {
         $this->reset(['nombre', 'ubicacion', 'idAlma']);
         $this->dispatchBrowserEvent('cerrar-modal-crear');
         $this->dispatchBrowserEvent('cerrar-modal-eliminar');
