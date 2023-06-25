@@ -15,27 +15,33 @@
         </div>
         <br>
 
-
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Tipo Unidad</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ( $listMaterial as $materiales )
-                <tr>
-                    <td> {{$materiales->nombre}}</td>
-                    <td> {{$materiales->tipo_medida}}</td>
-                    <td>
-                        <button data-bs-toggle="modal" data-bs-target="#modalDeEditar" class="btn btn-primary" wire:click="editar({{$materiales->id}})">Editar</button>
-                        <button data-bs-toggle="modal" data-bs-target="#modalDeDelete" class="btn btn-danger" wire:click="$set('idMaterial', {{ $materiales->id }})">Eliminar</button>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+        <div class="ibox-content">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Tipo Unidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ( $materiales as $material )
+                    <tr>
+                        <td> {{$material->nombre}}</td>
+                        <td> {{$material->tipo_medida}}</td>
+                        <td>
+                            <button data-bs-toggle="modal" data-bs-target="#modalDeEditar" class="btn btn-primary" wire:click="editar({{$material->id}})">Editar</button>
+                            <button data-bs-toggle="modal" data-bs-target="#modalDeDelete" class="btn btn-danger" wire:click="$set('idMaterial', {{ $material->id }})">Eliminar</button>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            @if( $materiales->hasPages() )
+            <div class="px-6 py-3">
+                {{ $materiales->links() }}
+            </div>
+            @endif
+        </div>
 
 
         <div wire:ignore.self id="modalDeCreacion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="newMaterial" aria-hidden="true">

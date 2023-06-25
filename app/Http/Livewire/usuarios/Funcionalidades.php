@@ -62,31 +62,28 @@ class Funcionalidades extends Component
 
     public function store()
     {
-        $datos = $this->validate();
-        Funcionalidad::create($datos);
+        $funcionalidad = Funcionalidad::create($this->validate());
+        Auth::user()->generarBitacora("Funcionalidad creada, id: $funcionalidad->id");
         $this->emit('funcionalidadCreada');
         $this->limpiarDatos();
         $this->dispatchBrowserEvent('cerrar-modal');
     }
 
-    public function editar($id)
+    public function editar(Funcionalidad $funcionalidad)
     {
-        $funcionalidad = Funcionalidad::find($id);
         $this->nombre = $funcionalidad->nombre;
         $this->descripcion = $funcionalidad->descripcion;
-        $this->id_funcionalidad = $id;
+        $this->id_funcionalidad = $funcionalidad->id;
     }
 
-    public function update()
+    public function update(Funcionalidad $funcionalidad)
     {
-        $this->validate([
+        $datos = $this->validate([
             'nombre' => 'required',
             'descripcion' => 'required',
         ]);
-        $funcionalidad = Funcionalidad::find($this->id_funcionalidad);
-        $funcionalidad->nombre = $this->nombre;
-        $funcionalidad->descripcion = $this->descripcion;
-        $funcionalidad->save();
+        $funcionalidad->update($datos);
+        Auth::user()->generarBitacora("Funcionalidad actualizada, id: $funcionalidad->id");
         $this->emit('funcionalidadActualizada');
         $this->limpiarDatos();
         $this->dispatchBrowserEvent('cerrar-modal-edicion');
@@ -95,6 +92,7 @@ class Funcionalidades extends Component
     public function delete(Funcionalidad $funcionalidad)
     {
         $funcionalidad->delete();
+        Auth::user()->generarBitacora("Funcionalidad eliminada, id: $funcionalidad->id");
     }
 
     public function limpiarDatos()

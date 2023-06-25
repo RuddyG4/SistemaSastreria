@@ -13,7 +13,7 @@ use Livewire\Component;
 class Usuarios extends Component
 {
     public $busqueda;
-    public $nombre, $apellido, $ci, $username, $email, $rol, $password, $id_persona;
+    public $nombre, $apellido, $ci, $username, $email, $id_rol, $password, $id_persona;
 
     protected $listeners = ['darBaja'];
 
@@ -23,7 +23,7 @@ class Usuarios extends Component
         'ci' => 'required|numeric|unique:persona',
         'username' => 'required|string|unique:usuario',
         'email' => 'required|email|unique:usuario',
-        'rol' => 'required|numeric',
+        'id_rol' => 'required|numeric',
         'password' => 'required|min:8',
     ];
 
@@ -38,7 +38,7 @@ class Usuarios extends Component
         'email.required' => 'Debe ingresar un correo electronico.',
         'email.email' => 'Debe ingresar un formato de correo válido.',
         'email.unique' => 'El correo ingresado ya existe.',
-        'rol.required' => 'Debe seleccionar un rol.',
+        'id_rol.required' => 'Debe seleccionar un rol.',
         'password.required' => 'Debe ingresar una contraseña.',
         'password.min' => 'La contraseña debe tener al menos 8 carácteres.',
     ];
@@ -78,7 +78,7 @@ class Usuarios extends Component
                 'ci' => 'required|numeric',
                 'username' => 'required|string',
                 'email' => 'required|email',
-                'rol' => 'required|numeric',
+                'id_rol' => 'required|numeric',
                 'password' => 'required|min:8',
             ]);
         }
@@ -94,19 +94,11 @@ class Usuarios extends Component
 
     public function store()
     {
-        $this->validate();
-        $persona = Persona::create([
-            'nombre' => $this->nombre,
-            'apellido' => $this->apellido,
-            'ci' => $this->ci,
-        ]);
-        $user = new User([
-            'username' => $this->username,
-            'email' => $this->email,
-            'id_rol' => $this->rol,
-            'password' => $this->password,
-        ]);
+        $datos = $this->validate();
+        $persona = Persona::create($datos);
+        $user = new User($datos);
         $persona->usuario()->save($user);
+        Auth::user()->generarBitacora("Usuario creado, id: $persona->id");
         $this->emit('usuarioCreado');
         $this->limpiarDatos();
         $this->dispatchBrowserEvent('cerrar-modal');
@@ -120,41 +112,37 @@ class Usuarios extends Component
         $this->ci = $persona->ci;
         $this->username = $persona->usuario->username;
         $this->email = $persona->usuario->email;
-        $this->rol = $persona->usuario->id_rol;
+        $this->id_rol = $persona->usuario->id_rol;
         $this->id_persona = $id;
     }
 
     public function update()
     {
-        $this->validate([
+        $datos = $this->validate([
             'nombre' => 'required',
             'apellido' => 'required',
             'ci' => 'required|numeric',
             'username' => 'required|string',
             'email' => 'required|email',
-            'rol' => 'required|numeric',
+            'id_rol' => 'required|numeric',
         ]);
         $persona = Persona::find($this->id_persona);
-        $persona->nombre = $this->nombre;
-        $persona->apellido = $this->apellido;
-        $persona->ci = $this->ci;
-        $persona->usuario->username = $this->username;
-        $persona->usuario->email = $this->email;
-        $persona->usuario->id_rol = $this->rol;
-        $persona->push();
+        $persona->update($datos);
+        $persona->usuario->update($datos);
+        Auth::user()->generarBitacora("Usuario modificado, id: $persona->id");
         $this->emit('usuarioActualizado');
         $this->limpiarDatos();
         $this->dispatchBrowserEvent('cerrar-modal-edicion');
     }
 
-    public function darBaja(User $user)
+    public function darBaja(User $usuario)
     {
-        $user->activo = 1;
-        $user->save();
+        $usuario->update(['activo' => 1]);
+        Auth::user()->generarBitacora("Usuario deshabilitado, id: $usuario->id");
     }
 
     public function limpiarDatos()
     {
-        $this->reset(['nombre', 'apellido', 'ci', 'username', 'email', 'rol', 'password', 'id_persona']);
+        $this->reset(['nombre', 'apellido', 'ci', 'username', 'email', 'id_rol', 'password', 'id_persona']);
     }
 }

@@ -75,15 +75,11 @@ class Clientes extends Component
 
     public function store()
     {
-        $this->validate();
-        $persona = Persona::create([
-            'nombre' => $this->nombre,
-            'apellido' => $this->apellido,
-            'ci' => $this->ci,
-        ]);
-        $cliente = new Cliente;
-        $cliente->direccion = $this->direccion;
+        $datos = $this->validate();
+        $persona = Persona::create($datos);
+        $cliente = new Cliente($datos);
         $persona->cliente()->save($cliente);
+        Auth::user()->generarBitacora("Cliente creado, id: $persona->id");
         $this->emit('clienteCreado');
         $this->limpiarDatos();
         $this->dispatchBrowserEvent('cerrar-modal');
@@ -101,18 +97,16 @@ class Clientes extends Component
 
     public function update()
     {
-        $this->validate([
+        $datos = $this->validate([
             'nombre' => 'required',
             'apellido' => 'required',
             'ci' => 'required|numeric',
             'direccion' => 'required',
         ]);
         $persona = Persona::find($this->id_persona);
-        $persona->nombre = $this->nombre;
-        $persona->apellido = $this->apellido;
-        $persona->ci = $this->ci;
-        $persona->cliente->direccion = $this->direccion;
-        $persona->push();
+        $persona->update($datos);
+        $persona->cliente->update($datos);
+        Auth::user()->generarBitacora("Cliente modificado, id: $persona->id");
         $this->emit('clienteActualizado');
         $this->limpiarDatos();
         $this->dispatchBrowserEvent('cerrar-modal-edicion');
@@ -122,6 +116,7 @@ class Clientes extends Component
     {
         $persona->cliente()->delete();
         $persona->delete();
+        Auth::user()->generarBitacora("Cliente eliminado, id: $persona->id");
     }
 
     public function limpiarDatos()

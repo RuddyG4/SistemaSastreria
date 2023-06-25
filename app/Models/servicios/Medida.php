@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Medida extends Model
 {
     use HasFactory;
-    protected $table = 'Medida';
+    protected $table = 'medida';
 
     public $timestamps = false;
 

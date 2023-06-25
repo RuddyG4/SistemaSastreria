@@ -18,13 +18,18 @@
                 <input wire:model="busqueda" class="form-control col-md-6" type="text" placeholder="Buscar...">
             </div>
             <div class="col-auto">
+                @if(in_array('nota_ingreso.crear', $permisos))
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarMaterial"><i class="fa fa-plus"></i> Agregar materiales</button>
+                @endif
+                @if(in_array('nota_salida.crear', $permisos))
                 <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalSacarMaterial"><i class="fa fa-minus"></i> Sacar materiales</button>
+                @endif
             </div>
         </div>
 
 
         <div class="ibox-content">
+        @if($datos->count())
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -41,6 +46,15 @@
                     @endforeach
                 </tbody>
             </table>
+            @else
+            <span>No hay datos en el inventario</span>
+            @endif
+
+            @if( $datos->hasPages() )
+            <div class="px-6 py-3">
+                {{ $datos->links() }}
+            </div>
+            @endif
         </div>
         @else
         <p>No existen almacenes.</p>
@@ -53,7 +67,7 @@
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h3 class="modal-title" id="agregarMaterial">Crear Nota de ingreso</h5>
+                        <h2 class="modal-title" id="agregarMaterial"><b>Crear Nota de ingreso</b></h2>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cancelar"></button>
                     </div>
                     <div class="modal-body">
@@ -150,7 +164,7 @@
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h3 class="modal-title" id="sacarMaterial"><b>Crear Nota de salida</b></h5>
+                        <h2 class="modal-title" id="sacarMaterial"><b>Crear Nota de salida</b></h2>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cancelar"></button>
                     </div>
                     <div class="modal-body">

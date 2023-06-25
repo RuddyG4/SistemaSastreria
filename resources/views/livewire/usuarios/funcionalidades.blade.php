@@ -61,7 +61,6 @@
                 {{ $funcionalidades->links() }}
             </div>
             @endif
-            <br>
         </div>
 
         <!-- Modales -->
@@ -79,7 +78,7 @@
                         <form wire:submit.prevent="store" id="form-id">
                             @csrf
                             <label for="nombre">Nombre</label>
-                            <input type="text" id="nombre" class="form-control" wire:model.lazy="nombre">
+                            <input type="text" id="nombre" class="form-control" wire:model="nombre">
                             @error('nombre')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -106,7 +105,7 @@
 
         <!-- Modal de edicion -->
         <div wire:ignore.self id="modalDeEdicion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editarFuncionalidad" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="editarFuncionalidad">Editar funcionalidad</h5>
@@ -114,7 +113,7 @@
                     </div>
                     <div class="modal-body">
                         <h6>Actualice los datos:</h6>
-                        <form wire:submit.prevent="update" id="editing-form">
+                        <form wire:submit.prevent="update({{ $id_funcionalidad }})" id="editing-form">
                             @csrf
                             <label for="nombre-edit">Nombre</label>
                             <input type="text" id="nombre-edit" class="form-control" wire:model.lazy="nombre">

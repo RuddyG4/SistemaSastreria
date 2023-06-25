@@ -9,12 +9,14 @@ use App\Models\inventario\Inventario as MInventario;
 use App\Models\inventario\Material;
 use App\Models\inventario\NotaIngreso;
 use App\Models\inventario\NotaSalida;
-use Illuminate\Contracts\Database\Eloquent\Builder;;
+use App\Models\usuarios\Funcionalidad;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Inventario extends Component
 {
+    use WithPagination;
     public $busqueda, $almacen;
     public $detalles, $detallesSalida, $id_material, $cantidad, $precio, $descripcion;
 
@@ -49,10 +51,14 @@ class Inventario extends Component
             return view('livewire.inventario.inventario', [
                 'almacenes' => $almacenes,
                 'materiales' => Material::all(),
-                'datos' => MInventario::Where('id_almacen', $this->almacen->id)->whereHas('material', function (Builder $query) {
+                'datos' => MInventario::Where('id_almacen', $this->almacen->id)->whereHas('material', function ($query) {
                     $query->where('nombre', 'like', "%$this->busqueda%");
-                })->get(),
+                })->paginate(12),
                 // 'datos' => MInventario::Where('id_almacen', $this->almacen->id)->get(),
+                'permisos' => Funcionalidad::whereHas('roles', function ($query) {
+                    $query->where('id', Auth::user()->rol->id);
+                })->where('nombre', 'LIKE', "nota_%.crear")
+                    ->pluck('nombre')->toArray(),
             ]);
         }
     }
@@ -77,6 +83,7 @@ class Inventario extends Component
                 $detalle->id_nota = $nota->id;
                 $detalle->save();
             }
+            Auth::user()->generarBitacora("Nota de ingreso creada, id: $nota->id");
             $this->limpiarDatos();
             $this->dispatchBrowserEvent('cerrar-modal');
             $this->emit('notaIngresoCreada');
@@ -112,6 +119,7 @@ class Inventario extends Component
                 'fecha' => now(),
                 'descripcion' => $this->descripcion,
             ]);
+            Auth::user()->generarBitacora("Nota de salida creada, id: $nota->id");
             foreach($this->detallesSalida as $detalle) {
                 $detalle->id_nota = $nota->id;
                 $detalle->save();
@@ -160,5 +168,10 @@ class Inventario extends Component
         $this->reset(['id_material', 'cantidad', 'precio', 'descripcion']);
         $this->detalles = new \Illuminate\Database\Eloquent\Collection();
         $this->detallesSalida = new \Illuminate\Database\Eloquent\Collection();
+    }
+
+    public function updatingBusqueda()
+    {
+        $this->resetPage();
     }
 }
