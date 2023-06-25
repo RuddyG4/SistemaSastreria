@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Servicios;
 
 use Livewire\Component;
 use App\models\servicios\Vestimenta;
+use App\models\servicios\Medida;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Livewire\WithPagination;
 
@@ -13,12 +14,15 @@ use Livewire\WithPagination;
 class Vestimentas extends Component
 {   
     use WithPagination;
-    public $id_vestimenta, $nombre, $nombreEdit, $genero, $generoEdit, $eleccion, $busqueda;
-    public $listDeHabilitada;
+    public $id_vestimenta, $nombre, $genero, $busqueda, $id_medida;    
+    public $listDeHabilitada, $listMedidas;
+    public $listIdMedida, $listaEditar, $listVer, $listaCargar = [];
+    
+
     public function render()
     {
         $this->listDeHabilitada = Vestimenta::where('activo', 1)->get();
-
+        $this->listMedidas = Medida::get();
         return view('livewire.servicios.vestimentas',[
             'listVestimenta' => Vestimenta::where('nombre', 'LIKE', "%$this->busqueda%")
             ->where('activo', 0)
@@ -45,62 +49,89 @@ class Vestimentas extends Component
     public function store()
     {
         // $this->validate();
-        Vestimenta::create([
+        $vestimenta = Vestimenta::create([
             'nombre' => $this->nombre,
             'genero' => $this->genero
         ]);
+
+        $vestimenta->medida()->attach($this->listIdMedida);
         $this->close();
     }
 
-
-    public function edit($idVestimenta)
+    public function cargar()
     {
-        $this->id_vestimenta = $idVestimenta;
-        $vestimenta = Vestimenta::findOrFail($idVestimenta);
-        $this->nombreEdit = $vestimenta->nombre;
-        $this->generoEdit = $vestimenta->genero;
+        $this->listIdMedida[] = $this->id_medida;
+        $this->listIdMedida = array_unique($this->listIdMedida);
+        $this->listaCargar[] = $this->id_medida;
+        $this->listaCargar = array_unique($this->listIdMedida);
+    }
+    
+    
+
+    public function loadView($id)
+    {
+        $vestimenta = Vestimenta::findOrFail($id);
+        $this->nombre = $vestimenta->nombre;
+        $this->genero = $vestimenta->genero;
+
+        $this->listVer = Medida::whereHas('vestimenta', 
+            function ($query) use ($id) {
+                $query->where('id', $id);}
+        )->pluck('nombre');
+    }
+
+
+    public function edit($id)
+    {
+        $this->id_vestimenta = $id;
+        $vestimenta = Vestimenta::findOrFail($id);
+        $this->nombre = $vestimenta->nombre;
+        $this->genero = $vestimenta->genero;
+
+        $this->listaEditar = Medida::whereHas('vestimenta', 
+            function ($query) use ($id) {
+                $query->where('id', $id);}
+        )->get();
+
+        foreach($this->listaEditar as $list)
+            $this->listIdMedida[] = $list->id;
     }
 
     public function update()
     {
-        $this->validate([
-            'nombreEdit' => 'required',
-            'generoEdit' => 'required'
-        ]);
+        // $this->validate([
+        //     'nombreEdit' => 'required',
+        //     'generoEdit' => 'required'
+        // ]);
         $vestimenta = Vestimenta::findOrFail($this->id_vestimenta);
-        $vestimenta->nombre = $this->nombreEdit;
-        $vestimenta->genero = $this->generoEdit;
-        $vestimenta->push();
-        $this->cancelEdit();
+        $vestimenta->nombre = $this->nombre;
+        $vestimenta->genero = $this->genero;
+        $this->listIdMedida = array_filter($this->listIdMedida, function ($value) {
+            return $value !== null;
+        });
+        $vestimenta->medida()->sync($this->listIdMedida);
+        
+        $this->close();
     }
-    public function cancelEdit()
-    {
-        $this->id_vestimenta = null;
-    }
-
-    public function disactivate($id)
-    {
-        $this->generoEdit = $id;
-        $vestimenta = Vestimenta::findOrFail($id);
-        $vestimenta->activo = '1';
-        $vestimenta->push();
-    }
-
-    public function activate($id)
-    {
-        $vestimenta = Vestimenta::findOrFail($id);
-        $vestimenta->activo = '0';
-        $vestimenta->push();
-    }
-
     public function close()
     {
-        $this->reset(['id_vestimenta', 'nombre']);
+        $this->reset(['id_vestimenta', 'nombre', 'listIdMedida', 'genero', 'id_medida','listaEditar','listaCargar']);
         $this->dispatchBrowserEvent('cerrar-modal-vista');
+        $this->dispatchBrowserEvent('cerrar-modal-crear');
+        $this->dispatchBrowserEvent('cerrar-modal-editar');
         $this->resetErrorBag();
     }
-    public function mount()
+    
+    public function EliminarLista($valor)
     {
-        $this->genero = '1';
+        $clave = array_search($valor, $this->listIdMedida);
+        if ($clave !== false) {
+            unset($this->listIdMedida[$clave]);
+}
     }
+    public function updatingBusqueda()
+    {
+        $this->resetPage();
+    }
+    
 }
