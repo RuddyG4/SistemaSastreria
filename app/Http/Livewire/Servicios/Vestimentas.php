@@ -3,10 +3,10 @@
 namespace App\Http\Livewire\Servicios;
 
 use Livewire\Component;
-use App\models\servicios\Vestimenta;
-use App\models\servicios\Medida;
+use App\Models\servicios\Vestimenta;
+use App\Models\servicios\Medida;
+use App\Models\usuarios\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Livewire\WithPagination;
 
 ;
@@ -18,6 +18,7 @@ class Vestimentas extends Component
     public $id_vestimenta, $nombre, $genero, $busqueda, $id_medida;    
     public $listDeHabilitada, $listMedidas;
     public $listIdMedida, $listaEditar, $listVer, $listaCargar = [];
+    public User $usuario;
     
 
     public $medidaNombre,$idMedida;
@@ -33,6 +34,10 @@ class Vestimentas extends Component
         ]);
     }
 
+    public function mount()
+    {
+        $this->usuario = Auth::user();
+    }
 
     protected $rules = [
         'nombre' => 'required',
@@ -53,7 +58,7 @@ class Vestimentas extends Component
 
         $listaLimpia = $this->limpiarNull($this->listIdMedida);
         $vestimenta->medida()->attach($listaLimpia);
-        Auth::user()->generarBitacora("Vestimenta creada, id: $vestimenta->id");
+        $this->usuario->generarBitacora("Vestimenta creada, id: $vestimenta->id");
         $this->close();
     }
 
@@ -101,7 +106,7 @@ class Vestimentas extends Component
         $vesimenta= Vestimenta::findOrFail($this->id_vestimenta);
         $vesimenta->activo = '1';
         $vesimenta->push();
-        Auth::user()->generarBitacora("Vestimenta eliminada, id: $vesimenta->id");
+        $this->usuario->generarBitacora("Vestimenta eliminada, id: $vesimenta->id");
 
         $this->close();
     }
@@ -118,7 +123,7 @@ class Vestimentas extends Component
         $listaLimpia = $this->limpiarNull($this->listIdMedida);
         $vestimenta->medida()->sync($listaLimpia);
         $vestimenta->push();
-        Auth::user()->generarBitacora("Vestimenta editada, id: $vestimenta->id");
+        $this->usuario->generarBitacora("Vestimenta modificada, id: $vestimenta->id");
 
         $this->close();
     }
@@ -140,7 +145,7 @@ class Vestimentas extends Component
             'nombre' => $this->medidaNombre,
             'eliminado' => 0
         ]);
-        Auth::user()->generarBitacora("Medida creada, id: $medida->id");
+        $this->usuario->generarBitacora("Medida creada, id: $medida->id");
 
         $this->closeMedida();
     }
@@ -157,7 +162,7 @@ class Vestimentas extends Component
         $medida= Medida::findOrFail($this->idMedida);
         $medida->eliminado = '1';
         $medida->push();
-        Auth::user()->generarBitacora("Medida creada, id: $medida->id");
+        $this->usuario->generarBitacora("Medida eliminada, id: $medida->id");
 
         $this->closeMedida();
         
