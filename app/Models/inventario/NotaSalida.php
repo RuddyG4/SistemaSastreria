@@ -21,7 +21,7 @@ class NotaSalida extends Model
         'fecha',
     ];
 
-    public function detalleNota() : HasMany 
+    public function detalles() : HasMany 
     {
         return $this->hasMany(DetalleNotaSalida::class, 'id_nota');   
     }
