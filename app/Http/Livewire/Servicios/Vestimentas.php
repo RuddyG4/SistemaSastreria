@@ -19,42 +19,38 @@ class Vestimentas extends Component
     public $listIdMedida, $listaEditar, $listVer, $listaCargar = [];
     
 
+    public $medidaNombre,$idMedida;
     public function render()
     {
         $this->listDeHabilitada = Vestimenta::where('activo', 1)->get();
-        $this->listMedidas = Medida::get();
+        $this->listMedidas = Medida::where('eliminado', 0)->get();
         return view('livewire.servicios.vestimentas',[
             'listVestimenta' => Vestimenta::where('nombre', 'LIKE', "%$this->busqueda%")
             ->where('activo', 0)
             ->paginate(8)
+            
         ]);
     }
 
 
     protected $rules = [
         'nombre' => 'required',
-        'nombreEdit' => 'required',
         'genero' => 'required',
-        'generoEdit' => 'required',
     ];
 
     protected $messages = [
         'nombre.required' => 'El nombre es obligatorio',
         'genero.required' => 'El genero es obligatorio',
-        'nombreEdit.required' => 'El nombre es obligatorio',
-        'generoEdit.required' => 'El genero es obligatorio',
     ];
 
 
     public function store()
     {
-        // $this->validate();
-        $vestimenta = Vestimenta::create([
-            'nombre' => $this->nombre,
-            'genero' => $this->genero
-        ]);
+        $datos = $this->validate();
+        $vestimenta = Vestimenta::create($datos);
 
-        $vestimenta->medida()->attach($this->listIdMedida);
+        $listaLimpia = $this->limpiarNull($this->listIdMedida);
+        $vestimenta->medida()->attach($listaLimpia);
         $this->close();
     }
 
@@ -67,10 +63,10 @@ class Vestimentas extends Component
     }
     
     
-
     public function loadView($id)
     {
         $vestimenta = Vestimenta::findOrFail($id);
+        $this->id_vestimenta = $id;
         $this->nombre = $vestimenta->nombre;
         $this->genero = $vestimenta->genero;
 
@@ -97,20 +93,26 @@ class Vestimentas extends Component
             $this->listIdMedida[] = $list->id;
     }
 
+    public function delete()
+    {
+        $vesimenta= Vestimenta::findOrFail($this->id_vestimenta);
+        $vesimenta->activo = '1';
+        $vesimenta->push();
+        $this->close();
+    }
+
     public function update()
     {
-        // $this->validate([
-        //     'nombreEdit' => 'required',
-        //     'generoEdit' => 'required'
-        // ]);
-        $vestimenta = Vestimenta::findOrFail($this->id_vestimenta);
+        $this->validate([
+            'nombre' => 'required',
+            'genero' => 'required'
+        ]);
+        $vestimenta = Vestimenta::find($this->id_vestimenta);
         $vestimenta->nombre = $this->nombre;
         $vestimenta->genero = $this->genero;
-        $this->listIdMedida = array_filter($this->listIdMedida, function ($value) {
-            return $value !== null;
-        });
-        $vestimenta->medida()->sync($this->listIdMedida);
-        
+        $listaLimpia = $this->limpiarNull($this->listIdMedida);
+        $vestimenta->medida()->sync($listaLimpia);
+        $vestimenta->push();
         $this->close();
     }
     public function close()
@@ -119,9 +121,53 @@ class Vestimentas extends Component
         $this->dispatchBrowserEvent('cerrar-modal-vista');
         $this->dispatchBrowserEvent('cerrar-modal-crear');
         $this->dispatchBrowserEvent('cerrar-modal-editar');
+        $this->dispatchBrowserEvent('cerrar-modal-eliminar');
         $this->resetErrorBag();
     }
-    
+    // funciones de medida
+
+    public function storeMedida()
+    {
+
+        Medida::create([
+            'nombre' => $this->medidaNombre,
+            'eliminado' => 0
+        ]);
+        $this->closeMedida();
+    }
+
+    public function loadData($id)
+    {
+        $medida= Medida::findOrFail($id);
+        $this->idMedida = $medida->id;
+        $this->medidaNombre = $medida->nombre;
+    }
+
+    public function deleteMedida()
+    {
+        $medida= Medida::findOrFail($this->idMedida);
+        $medida->eliminado = '1';
+        $medida->push();
+        $this->closeMedida();
+        
+    }
+
+    public function closeMedida()
+    {
+        $this->reset(['idMedida', 'medidaNombre']);
+        $this->dispatchBrowserEvent('cerrar-modal-medida-vista');
+        $this->dispatchBrowserEvent('cerrar-modal-medida-crear');
+        $this->dispatchBrowserEvent('cerrar-modal-medida-eliminar');
+        $this->resetErrorBag();
+    }
+
+    // funciones adicionales
+    public function limpiarNull($valor)
+    {
+        return array_filter($valor, function ($value) {
+            return $value !== null;
+        });
+    }
     public function EliminarLista($valor)
     {
         $clave = array_search($valor, $this->listIdMedida);
