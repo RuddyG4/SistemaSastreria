@@ -133,6 +133,11 @@
                                 <a href="{{url('/dashboard/adm_inventario/almacenes')}}">Almacenes</a>
                             </li>
                             @endif
+                            @if(in_array('nota_ingreso.lista', $permisos) || in_array('nota_salida.lista', $permisos))
+                            <li class="{{ Request::is('dashboard/adm_inventario/notas') ? 'active' : '' }}">
+                                <a href="{{url('/dashboard/adm_inventario/notas')}}">Notas ingreso/salida</a>
+                            </li>
+                            @endif
                             @if(in_array('material.lista', $permisos))
                             <li class="{{ Request::is('dashboard/adm_inventario/materiales') ? 'active' : '' }}">
                                 <a href="{{url('/dashboard/adm_inventario/materiales')}}">Materiales</a>

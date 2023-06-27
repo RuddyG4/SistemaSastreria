@@ -2,6 +2,7 @@
 
 namespace App\Models\inventario;
 
+use App\Models\usuarios\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,7 +21,7 @@ class NotaIngreso extends Model
         'monto_total',
     ];
 
-    public function detalleNota() : HasMany 
+    public function detalles() : HasMany 
     {
         return $this->hasMany(DetalleNotaIngreso::class, 'id_nota');   
     }
