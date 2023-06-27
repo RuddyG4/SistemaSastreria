@@ -92,6 +92,8 @@ class Notas extends Component
     {
         $this->dispatchBrowserEvent('cerrar-detalles-ni');
         $this->dispatchBrowserEvent('cerrar-detalles-ns');
+        $this->dispatchBrowserEvent('cerrar-edicion-ns');
+        $this->dispatchBrowserEvent('cerrar-edicion-ni');
         $this->reiniciarPropiedades();
         $this->resetErrorBag();
     }

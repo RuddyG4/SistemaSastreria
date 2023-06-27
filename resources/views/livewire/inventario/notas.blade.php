@@ -257,7 +257,7 @@
                                         </td>
 
                                         <td class="col-md-3">
-                                            <input type="text" class="form-control" wire:model="notaSalida.detalles.{{ $i }}.cantidad">
+                                            <input type="number" min="1" max="{{ $detalle->material->getInventario->cantidad + $detalle->getOriginal('cantidad') }}" class="form-control" wire:model.lazy="notaSalida.detalles.{{ $i }}.cantidad">
                                             @error('notaSalida.detalles.'.$i.'.cantidad')
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror
