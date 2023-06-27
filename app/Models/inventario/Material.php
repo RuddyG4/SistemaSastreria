@@ -38,8 +38,8 @@ class Material extends Model
         return $this->hasMany(Inventario::class, 'id_material');
     }
     
-    public function getInventario(): HasOne
+    public function getInventario($idAlmacen)
     {
-        return $this->inventario()->one();
+        return $this->inventario()->where('id_almacen', $idAlmacen)->first();
     }
 }

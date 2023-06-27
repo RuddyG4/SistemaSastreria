@@ -5,7 +5,8 @@ namespace App\Http\Livewire\Inventario;
 use App\Models\inventario\Material;
 use App\Models\inventario\NotaIngreso;
 use App\Models\inventario\NotaSalida;
-use Illuminate\Database\Eloquent\Collection;
+use App\Models\usuarios\User;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -15,6 +16,7 @@ class Notas extends Component
 
     public NotaIngreso $notaIngreso;
     public NotaSalida $notaSalida;
+    public User $usuario;
 
     protected $rules = [
         'notaIngreso.fecha' => 'required',
@@ -25,6 +27,12 @@ class Notas extends Component
         'notaIngreso.detalles.*.precio' => 'required',
         'notaSalida.detalles.*.cantidad' => 'required',
         'notaSalida.detalles.*.id_material' => 'required',
+    ];
+
+    protected $messages = [
+        'notaIngreso.detalles.*.cantidad.required' => 'Debe introducir la cantidad',
+        'notaIngreso.detalles.*.precio.required' => 'Debe introducir el precio',
+        'notaIngreso.detalles.*.id_material.required' => 'Debe seleccionar un material',
     ];
 
     public function render()
@@ -40,6 +48,7 @@ class Notas extends Component
     {
         $this->notaIngreso = new NotaIngreso();
         $this->notaSalida = new NotaSalida();
+        $this->usuario = Auth::user();
     }
 
     // Métodos para Notas de Ingreso
@@ -64,8 +73,10 @@ class Notas extends Component
             'notaIngreso.detalles.*.precio' => 'required',
         ]);
         $this->notaIngreso->detalles->each->save();
+        $this->usuario->generarBitacora('Nota de ingreso actualizada, id: '.$this->notaIngreso->id);
         $this->emit('notaIngresoActualizada');
         $this->dispatchBrowserEvent('cerrar-edicion-ni');
+        $this->resetErrorBag();
     }
 
     // Métodos para Notas de Salida
@@ -81,8 +92,8 @@ class Notas extends Component
             'notaSalida.detalles.*.cantidad' => 'required',
             'notaSalida.detalles.*.id_material' => 'required',
         ]);
-        $this->notaSalida->save();
-        $this->notaSalida->detalles->each->save();
+        $this->notaSalida->push();
+        $this->usuario->generarBitacora('Nota de salida actualizada, id: '.$this->notaSalida->id);
         $this->emit('notaSalidaActualizada');
         $this->dispatchBrowserEvent('cerrar-edicion-ns');
     }

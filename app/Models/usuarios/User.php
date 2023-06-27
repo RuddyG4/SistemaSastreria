@@ -10,9 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -83,7 +81,7 @@ class User extends Authenticatable
         Bitacora::create([
             'accion_realizada' => $accion,
             'fecha_hora' => now(),
-            'id_usuario' => Auth::user()->id,
+            'id_usuario' => $this->id,
         ]);
     }
 

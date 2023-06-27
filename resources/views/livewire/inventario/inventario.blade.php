@@ -206,7 +206,16 @@
 
                                 <div class="col-md-3">
                                     <label for="cantidad-sm">Cant. a sacar</label>
+                                    @if($id_material != null)
+                                    @foreach($datos as $dato)
+                                    @if($dato->id_material == $id_material)
+                                    <input type="number" min="1" max="{{ $dato->cantidad }}" step="1" id="cantidad-sm" class="form-control" wire:model.lazy="cantidad">
+                                    @break
+                                    @endif
+                                    @endforeach
+                                    @else
                                     <input type="number" min="1" step="1" id="cantidad-sm" class="form-control" wire:model.lazy="cantidad">
+                                    @endif
                                     @error('cantidad')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror

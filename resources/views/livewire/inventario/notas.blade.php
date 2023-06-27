@@ -102,13 +102,13 @@
                     <div class="modal-body">
                         <form wire:submit.prevent="actualizarNotaIngreso" id="editarNIForm">
 
-                            <label for="id-nie"><strong>ID Nota de ingreso :</strong></label>
+                            <label><strong>ID Nota de ingreso :</strong></label>
                             <span>{{ $notaIngreso->id}}</span>
                             <br>
-                            <label for="fecha-nie"><strong>Fecha:</strong></label>
+                            <label><strong>Fecha:</strong></label>
                             <span>{{ $notaIngreso->fecha }}</span>
                             <br>
-                            <label for="monto_total-nie"><strong>Monto Total actual:</strong></label>
+                            <label><strong>Monto Total actual:</strong></label>
                             <span>{{ $notaIngreso->monto_total }}</span>
                             <br>
                             <span><strong>Detalles:</strong></span>
@@ -116,6 +116,7 @@
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
+                                        <th>ID</th>
                                         <th>Material</th>
                                         <th>Cantidad</th>
                                         <th>Precio</th>
@@ -124,6 +125,7 @@
                                 <tbody>
                                     @foreach($notaIngreso->detalles as $i => $detalle)
                                     <tr>
+                                        <td>{{ $detalle->id }}</td>
                                         <td class="col-md-4">
                                             <select wire:model="notaIngreso.detalles.{{ $i }}.id_material" class="form-control">
                                                 @foreach($materiales as $material)
@@ -136,14 +138,14 @@
                                         </td>
 
                                         <td class="col-md-3">
-                                            <input type="text" class="form-control" wire:model.lazy="notaIngreso.detalles.{{ $i }}.cantidad">
+                                            <input type="number" class="form-control" min="{{ $detalle->getOriginal('cantidad') - $detalle->material->getInventario($notaIngreso->id_almacen)->cantidad }}" wire:model.lazy="notaIngreso.detalles.{{ $i }}.cantidad">
                                             @error('notaIngreso.detalles.'.$i.'.cantidad')
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </td>
 
                                         <td class="col-md-3">
-                                            <input type="text" class="form-control" wire:model.lazy="notaIngreso.detalles.{{ $i }}.precio">
+                                            <input type="number" class="form-control" wire:model.lazy="notaIngreso.detalles.{{ $i }}.precio">
                                             @error('notaIngreso.detalles.'.$i.'.precio')
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -176,13 +178,13 @@
                     </div>
                     <div class="modal-body">
 
-                        <label for="id-nie"><strong>ID:</strong></label>
+                        <label><strong>ID:</strong></label>
                         <span>{{ $notaIngreso->id}}</span>
                         <br>
-                        <label for="fecha-ni"><strong>Fecha:</strong></label>
+                        <label><strong>Fecha:</strong></label>
                         <span>{{ $notaIngreso->fecha }}</span>
                         <br>
-                        <label for="monto_total-ni"><strong>Monto Total actual:</strong></label>
+                        <label><strong>Monto Total actual:</strong></label>
                         <span>{{ $notaIngreso->monto_total }}</span>
                         <br>
                         <span><strong>Detalles:</strong></span>
@@ -224,13 +226,13 @@
                     <div class="modal-body">
                         <form wire:submit.prevent="actualizarNotaSalida" id="editarNSForm">
 
-                            <label for="id-nse"><strong>ID :</strong></label>
+                            <label><strong>ID :</strong></label>
                             <span>{{ $notaSalida->id}}</span>
                             <br>
-                            <label for="fecha-nse"><strong>Fecha - Hora:</strong></label>
+                            <label><strong>Fecha - Hora:</strong></label>
                             <span>{{ $notaSalida->fecha }}</span>
                             <br>
-                            <label for="descripcion-nse"><strong>Descripcion (Motivo de salida de inventario)</strong></label>
+                            <label><strong>Descripcion (Motivo de salida de inventario)</strong></label>
                             <textarea wire:model.lazy="notaSalida.descripcion" class="form-control" id="descripcion-nse" maxlength="100" rows="3"></textarea>
                             <br>
                             <span><strong>Detalles:</strong></span>
@@ -257,7 +259,7 @@
                                         </td>
 
                                         <td class="col-md-3">
-                                            <input type="number" min="1" max="{{ $detalle->material->getInventario->cantidad + $detalle->getOriginal('cantidad') }}" class="form-control" wire:model.lazy="notaSalida.detalles.{{ $i }}.cantidad">
+                                            <input type="number" min="1" max="{{ $detalle->material->getInventario($notaSalida->id_almacen)->cantidad + $detalle->getOriginal('cantidad') }}" class="form-control" wire:model.lazy="notaSalida.detalles.{{ $i }}.cantidad">
                                             @error('notaSalida.detalles.'.$i.'.cantidad')
                                             <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -290,13 +292,13 @@
                     </div>
                     <div class="modal-body">
 
-                        <label for="id-ns"><strong>ID :</strong></label>
+                        <label><strong>ID :</strong></label>
                         <span>{{ $notaSalida->id}}</span>
                         <br>
-                        <label for="fecha-ns"><strong>Fecha - Hora:</strong></label>
+                        <label><strong>Fecha - Hora:</strong></label>
                         <span>{{ $notaSalida->fecha }}</span>
                         <br>
-                        <label for="descripcion-ns"><strong>Descripcion:</strong></label>
+                        <label><strong>Descripcion:</strong></label>
                         <span>{{ $notaSalida->descripcion }}</span>
                         <br>
                         <span><strong>Detalles:</strong></span>

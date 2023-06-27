@@ -110,7 +110,7 @@ primary key (id)
 
 create table inventario
 (
-cantidad integer not null check (cantidad >= 0),
+cantidad integer not null,
 id_material integer not null,
 id_almacen integer not null,
 primary key (id_material,id_almacen),
