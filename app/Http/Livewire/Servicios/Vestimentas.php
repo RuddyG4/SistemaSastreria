@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Servicios;
 use Livewire\Component;
 use App\models\servicios\Vestimenta;
 use App\models\servicios\Medida;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Livewire\WithPagination;
 
@@ -48,9 +49,11 @@ class Vestimentas extends Component
     {
         $datos = $this->validate();
         $vestimenta = Vestimenta::create($datos);
+        
 
         $listaLimpia = $this->limpiarNull($this->listIdMedida);
         $vestimenta->medida()->attach($listaLimpia);
+        Auth::user()->generarBitacora("Vestimenta creada, id: $vestimenta->id");
         $this->close();
     }
 
@@ -98,6 +101,8 @@ class Vestimentas extends Component
         $vesimenta= Vestimenta::findOrFail($this->id_vestimenta);
         $vesimenta->activo = '1';
         $vesimenta->push();
+        Auth::user()->generarBitacora("Vestimenta eliminada, id: $vesimenta->id");
+
         $this->close();
     }
 
@@ -113,6 +118,8 @@ class Vestimentas extends Component
         $listaLimpia = $this->limpiarNull($this->listIdMedida);
         $vestimenta->medida()->sync($listaLimpia);
         $vestimenta->push();
+        Auth::user()->generarBitacora("Vestimenta editada, id: $vestimenta->id");
+
         $this->close();
     }
     public function close()
@@ -129,10 +136,12 @@ class Vestimentas extends Component
     public function storeMedida()
     {
 
-        Medida::create([
+        $medida = Medida::create([
             'nombre' => $this->medidaNombre,
             'eliminado' => 0
         ]);
+        Auth::user()->generarBitacora("Medida creada, id: $medida->id");
+
         $this->closeMedida();
     }
 
@@ -148,6 +157,8 @@ class Vestimentas extends Component
         $medida= Medida::findOrFail($this->idMedida);
         $medida->eliminado = '1';
         $medida->push();
+        Auth::user()->generarBitacora("Medida creada, id: $medida->id");
+
         $this->closeMedida();
         
     }
@@ -179,5 +190,6 @@ class Vestimentas extends Component
     {
         $this->resetPage();
     }
+
     
 }
