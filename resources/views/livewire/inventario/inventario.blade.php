@@ -2,10 +2,120 @@
     Inventario
     </x-slot>
     <div>
-        <h1><b>Inventario</b></h1>
+        <!--<h1><b>Inventario</b></h1>-->
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="widget style1 yellow-bg" style="padding: 5px 10px !important;">
+                    <div class="row">
+                        <div class="col-4">
+                            <i class="fa fa-area-chart fa-4x"></i>
+                        </div>
+                        <div class="col-8 text-right">
+                            <span> Capacidad Total </span>
+                            <h2 class="font-bold">98%</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="widget style1 navy-bg" style="padding: 5px 10px !important;">
+                    <div class="row">
+                        <div class="col-4">
+                            <i class="fa fa-pie-chart fa-4x"></i>
+                        </div>
+                        <div class="col-8 text-right">
+                            <span> Tipos de Material </span>
+                            <h2 class="font-bold">5</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="widget style1 lazur-bg" style="padding: 5px 10px !important;">
+                    <div class="row">
+                        <div class="col-4">
+                            <i class="fa fa-bank fa-4x"></i>
+                        </div>
+                        <div class="col-8 text-right">
+                            <span> Almacenes </span>
+                            <h2 class="font-bold">1</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ibox">
+            <div class="ibox-title">
+                <h5>Vista de Inventario</h5>
+            </div>
+            @if(isset($almacenes))
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-sm-2 m-b-xs">
+                        <select wire:model="almacen" id="rol" class="form-control">
+                            @foreach($almacenes as $almacen)
+                            <option value="{{ $almacen->id }}">{{ $almacen->nombre }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-sm-6 m-b-xs">
+                        <input wire:model="busqueda" class="form-control col-md-6" type="text" placeholder="Buscar...">
+                    </div>
+                    <div class="col-auto">
+                        @if(in_array('nota_ingreso.crear', $permisos))
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarMaterial"><i class="fa fa-plus"></i> Agregar Matariales</button>
+                        @endif
+                        @if(in_array('nota_salida.crear', $permisos))
+                        <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalSacarMaterial"><i class="fa fa-minus"></i> Sacar Materiales</button>
+                        @endif
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    @if($datos->count())
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Material</th>
+                                <th>Cantidad</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($datos as $dato)
+                            <tr>
+                                <td>{{ $dato->material->nombre }}</td>
+                                <td>{{ $dato->cantidad }} ({{ $dato->material->medida->tipo_medida }})</td>
+                                <td>
+                                    <span class="label label-primary">Stock Alto</span>
+                                    <!--
+                                        <span class="label label-info">Stock Medio</span>
+                                        <span class="label label-warning">Stock Bajo</span>
+                                        <span class="label label-danger">Stock Agotado</span>
+                                     -->
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    @else
+                    <span>No hay datos en el inventario</span>
+                    @endif
 
+                    @if( $datos->hasPages() )
+                    <div class="px-6 py-3">
+                        {{ $datos->links() }}
+                    </div>
+                    @endif
+
+                </div>
+            </div>
+            @else
+            <p>No existen almacenes.</p>
+            @endif
+        </div>
+
+        <!--
         @if(isset($almacenes))
-
         <div class="row">
             <div class="form-group col-auto">
                 <select wire:model="almacen" id="rol" class="form-control">
@@ -29,7 +139,7 @@
 
 
         <div class="ibox-content">
-        @if($datos->count())
+            @if($datos->count())
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -59,6 +169,7 @@
         @else
         <p>No existen almacenes.</p>
         @endif
+-->
 
         <!-- Modales -->
 
@@ -68,7 +179,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h2 class="modal-title" id="agregarMaterial"><b>Crear Nota de ingreso</b></h2>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cancelar"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cancelar"></button>
                     </div>
                     <div class="modal-body">
 
@@ -165,7 +276,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h2 class="modal-title" id="sacarMaterial"><b>Crear Nota de salida</b></h2>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cancelar"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cancelar"></button>
                     </div>
                     <div class="modal-body">
 
