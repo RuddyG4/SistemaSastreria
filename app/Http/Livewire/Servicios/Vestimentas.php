@@ -3,8 +3,10 @@
 namespace App\Http\Livewire\Servicios;
 
 use Livewire\Component;
-use App\Models\servicios\Vestimenta;
+use App\models\servicios\Vestimenta;
+use App\models\servicios\Medida;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Livewire\WithPagination;
 
 ;
@@ -13,97 +15,181 @@ use Livewire\WithPagination;
 class Vestimentas extends Component
 {   
     use WithPagination;
-    public $id_vestimenta, $nombre, $nombreEdit, $genero, $generoEdit, $eleccion, $busqueda;
-    public $listDeHabilitada;
+    public $id_vestimenta, $nombre, $genero, $busqueda, $id_medida;    
+    public $listDeHabilitada, $listMedidas;
+    public $listIdMedida, $listaEditar, $listVer, $listaCargar = [];
+    
+
+    public $medidaNombre,$idMedida;
     public function render()
     {
         $this->listDeHabilitada = Vestimenta::where('activo', 1)->get();
-
+        $this->listMedidas = Medida::where('eliminado', 0)->get();
         return view('livewire.servicios.vestimentas',[
             'listVestimenta' => Vestimenta::where('nombre', 'LIKE', "%$this->busqueda%")
             ->where('activo', 0)
-            ->paginate(10)
+            ->paginate(8)
+            
         ]);
     }
 
 
     protected $rules = [
         'nombre' => 'required',
-        'nombreEdit' => 'required',
         'genero' => 'required',
-        'generoEdit' => 'required',
     ];
 
     protected $messages = [
         'nombre.required' => 'El nombre es obligatorio',
         'genero.required' => 'El genero es obligatorio',
-        'nombreEdit.required' => 'El nombre es obligatorio',
-        'generoEdit.required' => 'El genero es obligatorio',
     ];
 
 
     public function store()
     {
-        // $this->validate();
-        $vestimenta = Vestimenta::create([
-            'nombre' => $this->nombre,
-            'genero' => $this->genero
-        ]);
+        $datos = $this->validate();
+        $vestimenta = Vestimenta::create($datos);
+        
+
+        $listaLimpia = $this->limpiarNull($this->listIdMedida);
+        $vestimenta->medida()->attach($listaLimpia);
         Auth::user()->generarBitacora("Vestimenta creada, id: $vestimenta->id");
         $this->close();
     }
 
-
-    public function edit($idVestimenta)
+    public function cargar()
     {
-        $this->id_vestimenta = $idVestimenta;
-        $vestimenta = Vestimenta::findOrFail($idVestimenta);
-        $this->nombreEdit = $vestimenta->nombre;
-        $this->generoEdit = $vestimenta->genero;
+        $this->listIdMedida[] = $this->id_medida;
+        $this->listIdMedida = array_unique($this->listIdMedida);
+        $this->listaCargar[] = $this->id_medida;
+        $this->listaCargar = array_unique($this->listIdMedida);
+    }
+    
+    
+    public function loadView($id)
+    {
+        $vestimenta = Vestimenta::findOrFail($id);
+        $this->id_vestimenta = $id;
+        $this->nombre = $vestimenta->nombre;
+        $this->genero = $vestimenta->genero;
+
+        $this->listVer = Medida::whereHas('vestimenta', 
+            function ($query) use ($id) {
+                $query->where('id', $id);}
+        )->pluck('nombre');
+    }
+
+
+    public function edit($id)
+    {
+        $this->id_vestimenta = $id;
+        $vestimenta = Vestimenta::findOrFail($id);
+        $this->nombre = $vestimenta->nombre;
+        $this->genero = $vestimenta->genero;
+
+        $this->listaEditar = Medida::whereHas('vestimenta', 
+            function ($query) use ($id) {
+                $query->where('id', $id);}
+        )->get();
+
+        foreach($this->listaEditar as $list)
+            $this->listIdMedida[] = $list->id;
+    }
+
+    public function delete()
+    {
+        $vesimenta= Vestimenta::findOrFail($this->id_vestimenta);
+        $vesimenta->activo = '1';
+        $vesimenta->push();
+        Auth::user()->generarBitacora("Vestimenta eliminada, id: $vesimenta->id");
+
+        $this->close();
     }
 
     public function update()
     {
         $this->validate([
-            'nombreEdit' => 'required',
-            'generoEdit' => 'required'
+            'nombre' => 'required',
+            'genero' => 'required'
         ]);
-        $vestimenta = Vestimenta::findOrFail($this->id_vestimenta);
-        $vestimenta->nombre = $this->nombreEdit;
-        $vestimenta->genero = $this->generoEdit;
+        $vestimenta = Vestimenta::find($this->id_vestimenta);
+        $vestimenta->nombre = $this->nombre;
+        $vestimenta->genero = $this->genero;
+        $listaLimpia = $this->limpiarNull($this->listIdMedida);
+        $vestimenta->medida()->sync($listaLimpia);
         $vestimenta->push();
-        Auth::user()->generarBitacora("Vestimenta modificada, id: $vestimenta->id");
-        $this->cancelEdit();
-    }
-    public function cancelEdit()
-    {
-        $this->id_vestimenta = null;
-    }
+        Auth::user()->generarBitacora("Vestimenta editada, id: $vestimenta->id");
 
-    public function disactivate($id)
-    {
-        $this->generoEdit = $id;
-        $vestimenta = Vestimenta::findOrFail($id);
-        $vestimenta->activo = '1';
-        Auth::user()->generarBitacora("Vestimenta eliminada, id: $vestimenta->id");
-        $vestimenta->push();
+        $this->close();
     }
-
-    public function activate($id)
-    {
-        $vestimenta = Vestimenta::findOrFail($id);
-        $vestimenta->activo = '0';
-        $vestimenta->push();
-    }
-
     public function close()
     {
-        $this->reset(['id_vestimenta', 'nombre']);
+        $this->reset(['id_vestimenta', 'nombre', 'listIdMedida', 'genero', 'id_medida','listaEditar','listaCargar']);
         $this->dispatchBrowserEvent('cerrar-modal-vista');
+        $this->dispatchBrowserEvent('cerrar-modal-crear');
+        $this->dispatchBrowserEvent('cerrar-modal-editar');
+        $this->dispatchBrowserEvent('cerrar-modal-eliminar');
         $this->resetErrorBag();
     }
-    public function mount()
+    // funciones de medida
+
+    public function storeMedida()
     {
-        $this->genero = '1';
+
+        $medida = Medida::create([
+            'nombre' => $this->medidaNombre,
+            'eliminado' => 0
+        ]);
+        Auth::user()->generarBitacora("Medida creada, id: $medida->id");
+
+        $this->closeMedida();
     }
+
+    public function loadData($id)
+    {
+        $medida= Medida::findOrFail($id);
+        $this->idMedida = $medida->id;
+        $this->medidaNombre = $medida->nombre;
+    }
+
+    public function deleteMedida()
+    {
+        $medida= Medida::findOrFail($this->idMedida);
+        $medida->eliminado = '1';
+        $medida->push();
+        Auth::user()->generarBitacora("Medida creada, id: $medida->id");
+
+        $this->closeMedida();
+        
+    }
+
+    public function closeMedida()
+    {
+        $this->reset(['idMedida', 'medidaNombre']);
+        $this->dispatchBrowserEvent('cerrar-modal-medida-vista');
+        $this->dispatchBrowserEvent('cerrar-modal-medida-crear');
+        $this->dispatchBrowserEvent('cerrar-modal-medida-eliminar');
+        $this->resetErrorBag();
+    }
+
+    // funciones adicionales
+    public function limpiarNull($valor)
+    {
+        return array_filter($valor, function ($value) {
+            return $value !== null;
+        });
+    }
+    public function EliminarLista($valor)
+    {
+        $clave = array_search($valor, $this->listIdMedida);
+        if ($clave !== false) {
+            unset($this->listIdMedida[$clave]);
+}
+    }
+    public function updatingBusqueda()
+    {
+        $this->resetPage();
+    }
+
+    
 }
