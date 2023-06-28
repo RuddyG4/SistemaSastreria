@@ -1348,6 +1348,7 @@ h5 {
 .navbar-default {
     background-color: transparent;
     border-color: #2f4050;
+    position: fixed !important;
 }
 
 .navbar-top-links li {
@@ -12078,4 +12079,8 @@ body.md-skin {
     #page-wrapper {
         margin: 0;
     }
+}
+
+.text-right {
+    text-align: right !important;
 }
