@@ -2,58 +2,63 @@
     Usuarios
     </x-slot>
     <div>
-        <h1><b>Vista de usuarios</b></h1>
-
-        <div class="row">
-            <div class="col">
-                <input wire:model="busqueda" class="form-control" type="text" placeholder="Buscar...">
+        <div class="ibox">
+            <div class="ibox-title">
+                <h3><strong>Vista de usuarios</strong></h3>
             </div>
-            <div class="col-auto">
-                @if(in_array('usuario.crear', $permisos))
-                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Crear usuario</button>
-                @endif
-            </div>
-        </div>
-        <br>
+            <br>
 
-        <div class="ibox-content">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>C.I.</th>
-                        <th>Nombre de usuario</th>
-                        <th>Correo</th>
-                        <th>Rol</th>
-                        @if(in_array('usuario.modificar', $permisos) || in_array('usuario.inhabilitar', $permisos))
-                        <th>Opciones</th>
-                        @endif
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($usuarios as $usuario)
-                    <tr>
-                        <td>{{ $usuario->id }}</td>
-                        <td>{{ $usuario->persona->nombre }}</td>
-                        <td>{{ $usuario->persona->apellido }}</td>
-                        <td>{{ $usuario->persona->ci }}</td>
-                        <td>{{ $usuario->username }}</td>
-                        <td>{{ $usuario->email }}</td>
-                        <td>{{ $usuario->rol->nombre }}</td>
-                        <td>
-                            @if(in_array('usuario.modificar', $permisos))
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar( {{ $usuario->id }} )">Editar</button>
+            <div class="row">
+                <div class="col">
+                    <input wire:model="busqueda" class="form-control" type="text" placeholder="Buscar...">
+                </div>
+                <div class="col-auto">
+                    @if(in_array('usuario.crear', $permisos))
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Crear usuario</button>
+                    @endif
+                </div>
+            </div>
+            <br>
+
+            <div class="ibox-content">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>C.I.</th>
+                            <th>Nombre de usuario</th>
+                            <th>Correo</th>
+                            <th>Rol</th>
+                            @if(in_array('usuario.modificar', $permisos) || in_array('usuario.inhabilitar', $permisos))
+                            <th>Opciones</th>
                             @endif
-                            @if(in_array('usuario.inhabilitar', $permisos))
-                            <button class="btn btn-danger" wire:click="$emit('confirmarBaja', {{ $usuario->id}} )">Dar baja</button>
-                            @endif
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($usuarios as $usuario)
+                        <tr>
+                            <td>{{ $usuario->id }}</td>
+                            <td>{{ $usuario->persona->nombre }}</td>
+                            <td>{{ $usuario->persona->apellido }}</td>
+                            <td>{{ $usuario->persona->ci }}</td>
+                            <td>{{ $usuario->username }}</td>
+                            <td>{{ $usuario->email }}</td>
+                            <td>{{ $usuario->rol->nombre }}</td>
+                            <td>
+                                @if(in_array('usuario.modificar', $permisos))
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar( {{ $usuario->id }} )">Editar</button>
+                                @endif
+                                @if(in_array('usuario.inhabilitar', $permisos))
+                                <button class="btn btn-danger" wire:click="$emit('confirmarBaja', {{ $usuario->id}} )">Dar baja</button>
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <!-- Modales -->
@@ -63,50 +68,50 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="crearUsuario">Crear usuario</h5>
+                        <h3 class="modal-title" id="crearUsuario">Crear usuario</h3>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cancelar"></button>
                     </div>
                     <div class="modal-body">
-                        <h6>Rellene los datos:</h6>
+                        <h4>Rellene los datos:</h4>
                         <form wire:submit.prevent="store" id="form-id">
                             @csrf
-                            <label for="nombre">Nombre</label>
+                            <label for="nombre"><strong>Nombre :</strong></label>
                             <input type="text" id="nombre" class="form-control" wire:model.lazy="nombre">
                             @error('nombre')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>
 
-                            <label for="apellido">Apellido</label>
+                            <label for="apellido"><strong>Apellido :</strong></label>
                             <input type="text" id="apellido" class="form-control" wire:model.lazy="apellido">
                             @error('apellido')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>
 
-                            <label for="ci">C.I.</label>
+                            <label for="ci"><strong>C.I. :</strong></label>
                             <input type="number" id="ci" class="form-control" wire:model="ci">
                             @error('ci')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>
 
-                            <label for="username">Nombre de usuario</label>
+                            <label for="username"><strong>Nombre de usuario :</strong></label>
                             <input type="text" id="username" class="form-control" wire:model="username">
                             @error('username')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>
 
-                            <label for="email">Correo</label>
+                            <label for="email"><strong>Correo :</strong></label>
                             <input type="email" id="email" class="form-control" wire:model="email">
                             @error('email')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>
 
-                            <label for="rol">Rol</label>
-                            <select wire:model="id_rol" id="rol">
+                            <label for="rol"><strong>Rol :</strong></label>
+                            <select wire:model="id_rol" class="form-control" id="rol">
                                 <option value="">Seleccione un rol</option>
                                 @foreach($roles as $rol)
                                 <option value="{{ $rol->id }}">{{ $rol->nombre }}</option>
@@ -117,7 +122,7 @@
                             @enderror
                             <br>
 
-                            <label for="password">Contraseña</label>
+                            <label for="password"><strong>Contraseña :</strong></label>
                             <input type="password" id="password" class="form-control" wire:model.debounce.500ms="password">
                             @error('password')
                             <span class="text-danger">{{ $message }}</span>
@@ -139,50 +144,50 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editarUsuario">Editar usuario</h5>
+                        <h3 class="modal-title" id="editarUsuario">Editar usuario</h3>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cancelar"></button>
                     </div>
                     <div class="modal-body">
-                        <h6>Actualice los datos:</h6>
+                        <h4>Actualice los datos:</h4>
                         <form wire:submit.prevent="update" id="editing-form">
                             @csrf
-                            <label for="nombre-edit">Nombre</label>
+                            <label for="nombre-edit"><strong>Nombre :</strong></label>
                             <input type="text" id="nombre-edit" class="form-control" wire:model.lazy="nombre">
                             @error('nombre')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>
 
-                            <label for="apellido-edit">Apellido</label>
+                            <label for="apellido-edit"><strong>Apellido :</strong></label>
                             <input type="text" id="apellido-edit" class="form-control" wire:model.lazy="apellido">
                             @error('apellido')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>
 
-                            <label for="ci-edit">C.I.</label>
+                            <label for="ci-edit"><strong>C.I. :</strong></label>
                             <input type="number" id="ci-edit" class="form-control" wire:model.lazy="ci">
                             @error('ci')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>
 
-                            <label for="username-edit">Nombre de usuario</label>
+                            <label for="username-edit"><strong>Nombre de usuario :</strong></label>
                             <input type="text" id="username-edit" class="form-control" wire:model.lazy="username">
                             @error('username')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>
 
-                            <label for="email-edit">Correo</label>
+                            <label for="email-edit"><strong>Correo :</strong></label>
                             <input type="email" id="email-edit" class="form-control" wire:model.debounce.500ms="email">
                             @error('email')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>
 
-                            <label for="rol-edit">Rol</label>
-                            <select wire:model="id_rol" id="rol-edit">
+                            <label for="rol-edit"><strong>Rol :</strong></label>
+                            <select wire:model="id_rol" class="form-control" id="rol-edit">
                                 @foreach($roles as $rol)
                                 <option value="{{ $rol->id }}">{{ $rol->nombre }}</option>
                                 @endforeach

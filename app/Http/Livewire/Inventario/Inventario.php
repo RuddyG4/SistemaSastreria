@@ -10,6 +10,7 @@ use App\Models\inventario\Material;
 use App\Models\inventario\NotaIngreso;
 use App\Models\inventario\NotaSalida;
 use App\Models\usuarios\Funcionalidad;
+use App\Models\usuarios\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -19,6 +20,7 @@ class Inventario extends Component
     use WithPagination;
     public $busqueda, $almacen;
     public $detalles, $detallesSalida, $id_material, $cantidad, $precio, $descripcion;
+    public User $usuario;
 
     protected $rules = [
         'id_material' => 'required|numeric',
@@ -67,6 +69,7 @@ class Inventario extends Component
     {
         $this->detalles = new \Illuminate\Database\Eloquent\Collection();
         $this->detallesSalida = new \Illuminate\Database\Eloquent\Collection();
+        $this->usuario = Auth::user();
     }
 
     // Métodos para el manejo de las notas de ingreso
@@ -74,7 +77,7 @@ class Inventario extends Component
     {
         if (!$this->detalles->isEmpty()) {
             $nota = NotaIngreso::create([
-                'id_usuario' => Auth::user()->id,
+                'id_usuario' => $this->usuario->id,
                 'id_almacen' => $this->almacen->id,
                 'fecha' => now(),
                 'monto total' => 0,
@@ -83,7 +86,7 @@ class Inventario extends Component
                 $detalle->id_nota = $nota->id;
                 $detalle->save();
             }
-            Auth::user()->generarBitacora("Nota de ingreso creada, id: $nota->id");
+            $this->usuario->generarBitacora("Nota de ingreso creada, id: $nota->id");
             $this->limpiarDatos();
             $this->dispatchBrowserEvent('cerrar-modal');
             $this->emit('notaIngresoCreada');
@@ -114,12 +117,12 @@ class Inventario extends Component
                 'descripcion' => 'required|max:100',
             ]);
             $nota = NotaSalida::create([
-                'id_usuario' => Auth::user()->id,
+                'id_usuario' => $this->usuario->id,
                 'id_almacen' => $this->almacen->id,
                 'fecha' => now(),
                 'descripcion' => $this->descripcion,
             ]);
-            Auth::user()->generarBitacora("Nota de salida creada, id: $nota->id");
+            $this->usuario->generarBitacora("Nota de salida creada, id: $nota->id");
             foreach($this->detallesSalida as $detalle) {
                 $detalle->id_nota = $nota->id;
                 $detalle->save();
@@ -173,5 +176,15 @@ class Inventario extends Component
     public function updatingBusqueda()
     {
         $this->resetPage();
+    }
+
+    public function tiposMaterialAlmacen()
+    {
+        return MInventario::where('id_almacen', $this->almacen->id)->count();
+    }
+
+    public function cantidadAlmacenes()
+    {
+        return Almacen::count();
     }
 }

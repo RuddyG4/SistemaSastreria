@@ -70,14 +70,14 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="crearFuncionalidad">Crear Funcionalidad</h5>
+                        <h3 class="modal-title" id="crearFuncionalidad">Crear Funcionalidad</h3>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cancelar"></button>
                     </div>
                     <div class="modal-body">
-                        <h6>Rellene los datos:</h6>
+                        <h4><strong>Rellene los datos:</strong></h4>
                         <form wire:submit.prevent="store" id="form-id">
                             @csrf
-                            <label for="nombre">Nombre</label>
+                            <label for="nombre"><b>Nombre :</b></label>
                             <input type="text" id="nombre" class="form-control" wire:model="nombre">
                             @error('nombre')
                             <span class="text-danger">{{ $message }}</span>
@@ -85,7 +85,7 @@
                             <br>
 
                             <div class="form-group">
-                                <label for="descripcion">Descripción</label>
+                                <label for="descripcion"><b>Descripción :</b></label>
                                 <textarea id="descripcion" class="form-control" wire:model.lazy="descripcion"></textarea>
                             </div>
                             @error('descripcion')
@@ -108,14 +108,14 @@
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editarFuncionalidad">Editar funcionalidad</h5>
+                        <h3 class="modal-title" id="editarFuncionalidad">Editar funcionalidad</h3>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cancelar"></button>
                     </div>
                     <div class="modal-body">
-                        <h6>Actualice los datos:</h6>
+                        <h4><strong>Actualice los datos:</strong></h4>
                         <form wire:submit.prevent="update({{ $id_funcionalidad }})" id="editing-form">
                             @csrf
-                            <label for="nombre-edit">Nombre</label>
+                            <label for="nombre-edit"><b>Nombre :</b></label>
                             <input type="text" id="nombre-edit" class="form-control" wire:model.lazy="nombre">
                             @error('nombre')
                             <span class="text-danger">{{ $message }}</span>
@@ -123,7 +123,7 @@
                             <br>
 
                             <div class="form-group">
-                                <label for="descripcion-edit">Descripcion</label>
+                                <label for="descripcion-edit"><b>Descripcion :</b></label>
                                 <textarea id="descripcion-edit" class="form-control" rows="2" wire:model.lazy="descripcion"></textarea>
                             </div>
                             @error('descripcion')

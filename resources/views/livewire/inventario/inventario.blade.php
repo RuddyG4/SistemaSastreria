@@ -3,50 +3,50 @@
     </x-slot>
     <div>
         <!--<h1><b>Inventario</b></h1>-->
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="widget style1 yellow-bg" style="padding: 5px 10px !important;">
-                    <div class="row">
-                        <div class="col-4">
-                            <i class="fa fa-area-chart fa-4x"></i>
-                        </div>
-                        <div class="col-8 text-right">
-                            <span> Capacidad Total </span>
-                            <h2 class="font-bold">98%</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="widget style1 navy-bg" style="padding: 5px 10px !important;">
-                    <div class="row">
-                        <div class="col-4">
-                            <i class="fa fa-pie-chart fa-4x"></i>
-                        </div>
-                        <div class="col-8 text-right">
-                            <span> Tipos de Material </span>
-                            <h2 class="font-bold">5</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="widget style1 lazur-bg" style="padding: 5px 10px !important;">
-                    <div class="row">
-                        <div class="col-4">
-                            <i class="fa fa-bank fa-4x"></i>
-                        </div>
-                        <div class="col-8 text-right">
-                            <span> Almacenes </span>
-                            <h2 class="font-bold">1</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="ibox">
             <div class="ibox-title">
-                <h5>Vista de Inventario</h5>
+                <h3><strong>Vista de Inventario</strong></h3>
+            </div>
+            <div class="row">
+                <!-- <div class="col-lg-4">
+                    <div class="widget style1 yellow-bg" style="padding: 5px 10px !important;">
+                        <div class="row">
+                            <div class="col-4">
+                                <i class="fa fa-area-chart fa-4x"></i>
+                            </div>
+                            <div class="col-8 text-right">
+                                <span> Capacidad Total </span>
+                                <h2 class="font-bold">98%</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="col">
+                    <div class="widget style1 navy-bg" style="padding: 5px 10px !important;">
+                        <div class="row">
+                            <div class="col-4">
+                                <i class="fa fa-pie-chart fa-4x"></i>
+                            </div>
+                            <div class="col-8 text-right">
+                                <span> Tipos de Material </span>
+                                <h2 class="font-bold">{{ $this->tiposMaterialAlmacen() }}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="widget style1 lazur-bg" style="padding: 5px 10px !important;">
+                        <div class="row">
+                            <div class="col-4">
+                                <i class="fa fa-bank fa-4x"></i>
+                            </div>
+                            <div class="col-8 text-right">
+                                <span> Almacenes </span>
+                                <h2 class="font-bold">{{ $this->cantidadAlmacenes() }}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             @if(isset($almacenes))
             <div class="ibox-content">

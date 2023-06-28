@@ -22,7 +22,7 @@
                 <tbody>
                     @foreach($roles as $rol)
                     <tr>
-                        <input type="hidden" value={{$rol->id}}>
+                        <input type="hidden" value={{ $rol->id }}>
                         <td>{{ $rol->nombre }}</td>
                         <td>{{ $rol->descripcion }}</td>
                         <td>
@@ -46,25 +46,27 @@
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="crearrol">Crear rol</h5>
+                        <h3 class="modal-title" id="crearrol">Crear rol</h3>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cerrar"></button>
                     </div>
                     <div class="modal-body">
 
                         <form wire:submit.prevent="store" id="form-id">
                             @csrf
-                            <label for="nombre">Nombre</label>
+                            <label for="nombre"><b>Nombre :</b></label>
                             <input type="text" id="nombre" class="form-control" wire:model.lazy="nombre">
                             @error('nombre')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>
 
-                            <label for="descripcion">Descripcion</label>
+                            <label for="descripcion"><b>Descripcion :</b></label>
                             <input type="text" id="descripcion" class="form-control" wire:model.lazy="descripcion">
                             @error('descripcion')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
+                            <br>
+                            <span><b>Seleccione los permisos que tendrá el rol :</b></span>
                             <br>
                             @foreach ($funcList as $funcion)
                             <div class="form-check form-check-inline">
