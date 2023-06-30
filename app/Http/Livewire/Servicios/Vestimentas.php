@@ -2,11 +2,15 @@
 
 namespace App\Http\Livewire\Servicios;
 
+
 use Livewire\Component;
-use App\Models\servicios\Vestimenta;
-use App\Models\servicios\Medida;
+use App\models\servicios\Vestimenta;
+use App\models\servicios\Medida;
+use App\Models\usuarios\Rol;
 use App\Models\usuarios\User;
+use App\Models\usuarios\Funcionalidad;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Livewire\WithPagination;
 
 ;
@@ -22,14 +26,30 @@ class Vestimentas extends Component
     
 
     public $medidaNombre,$idMedida;
+    public $mujeres, $hombre;
     public function render()
     {
-        $this->listDeHabilitada = Vestimenta::where('activo', 1)->get();
+
+        $this->listDeHabilitada = Vestimenta::where('activo', 0)->get();
+        
         $this->listMedidas = Medida::where('eliminado', 0)->get();
         return view('livewire.servicios.vestimentas',[
             'listVestimenta' => Vestimenta::where('nombre', 'LIKE', "%$this->busqueda%")
             ->where('activo', 0)
-            ->paginate(8)
+            ->paginate(8),
+
+            'rol' => Rol::all(),
+            'permisosVestimenta' => Funcionalidad::whereHas('roles', function ($query) {
+                $query->where('id', Auth::user()->rol->id);
+            })->where('nombre', 'LIKE', "vestimenta.%")
+            ->pluck('nombre')->toArray(),
+            
+            'permisosMedida' => Funcionalidad::whereHas('roles', function ($query) {
+                $query->where('id', Auth::user()->rol->id);
+            })->where('nombre', 'LIKE', "medidas.%")
+            ->pluck('nombre')->toArray(),
+
+
             
         ]);
     }
@@ -191,6 +211,20 @@ class Vestimentas extends Component
             unset($this->listIdMedida[$clave]);
 }
     }
+    public function totalVestimentaHombre()
+    {
+        return $this->listDeHabilitada->filter(function ($vestimenta) {  
+            return $vestimenta->genero == 1;
+        })->count();
+    }
+    public function totalVestimentaMujer()
+    {
+        return $this->listDeHabilitada->filter(function ($vestimenta) {  
+            return $vestimenta->genero == 0;
+        })->count();
+    }
+
+
     public function updatingBusqueda()
     {
         $this->resetPage();
