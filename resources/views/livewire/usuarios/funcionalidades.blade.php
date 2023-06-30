@@ -10,7 +10,7 @@
             </div>
             <div class="col-auto">
                 @if(in_array('funcionalidad.crear', $permisos))
-                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Crear funcionalidad</button>
+                <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalDeCreacion"><i class="fa fa-plus"></i> Crear funcionalidad</button>
                 @endif
             </div>
         </div>
@@ -37,10 +37,10 @@
                         <td>{{ $funcionalidad->descripcion }}</td>
                         <td>
                             @if(in_array('funcionalidad.modificar', $permisos))
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar({{ $funcionalidad->id }})">Editar</button>
+                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar({{ $funcionalidad->id }})"><i class="fa fa-edit"></i> Editar</button>
                             @endif
                             @if(in_array('funcionalidad.eliminar', $permisos))
-                            <button class="btn btn-danger" wire:click="$emit('confirmarEliminacion', {{ $funcionalidad->id }} )">Eliminar</button>
+                            <button class="btn btn-danger btn-sm" wire:click="$emit('confirmarEliminacion', {{ $funcionalidad->id }} )"><i class="fa fa-trash"></i> Eliminar</button>
                             @endif
                         </td>
                     </tr>
@@ -78,17 +78,17 @@
                         <form wire:submit.prevent="store" id="form-id">
                             @csrf
                             <label for="nombre"><b>Nombre :</b></label>
-                            <input type="text" id="nombre" class="form-control" wire:model="nombre">
-                            @error('nombre')
+                            <input type="text" id="nombre" class="form-control" wire:model="funcionalidad.nombre">
+                            @error('funcionalidad.nombre')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>
 
                             <div class="form-group">
                                 <label for="descripcion"><b>Descripción :</b></label>
-                                <textarea id="descripcion" class="form-control" wire:model.lazy="descripcion"></textarea>
+                                <textarea id="descripcion" class="form-control" wire:model.lazy="funcionalidad.descripcion"></textarea>
                             </div>
-                            @error('descripcion')
+                            @error('funcionalidad.descripcion')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>
@@ -116,17 +116,17 @@
                         <form wire:submit.prevent="update({{ $id_funcionalidad }})" id="editing-form">
                             @csrf
                             <label for="nombre-edit"><b>Nombre :</b></label>
-                            <input type="text" id="nombre-edit" class="form-control" wire:model.lazy="nombre">
-                            @error('nombre')
+                            <input type="text" id="nombre-edit" class="form-control" wire:model.lazy="funcionalidad.nombre">
+                            @error('funcionalidad.nombre')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>
 
                             <div class="form-group">
                                 <label for="descripcion-edit"><b>Descripcion :</b></label>
-                                <textarea id="descripcion-edit" class="form-control" rows="2" wire:model.lazy="descripcion"></textarea>
+                                <textarea id="descripcion-edit" class="form-control" rows="2" wire:model.lazy="funcionalidad.descripcion"></textarea>
                             </div>
-                            @error('descripcion')
+                            @error('funcionalidad.descripcion')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>

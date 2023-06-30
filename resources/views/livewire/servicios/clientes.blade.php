@@ -9,7 +9,7 @@
             </div>
             <div class="col-auto">
                 @if(in_array('cliente.crear', $permisos))
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Añadir cliente</button>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeCreacion"><i class="fa fa-user-plus"></i> Añadir cliente</button>
                 @endif
             </div>
         </div>
@@ -40,10 +40,10 @@
                         <td>{{ $cliente->direccion }}</td>
                         <td>
                             @if(in_array('cliente.modificar', $permisos))
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar({{ $cliente->id }})">Editar</button>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar({{ $cliente->id }})"><i class="fa fa-edit"></i> Editar</button>
                             @endif
                             @if(in_array('cliente.eliminar', $permisos))
-                            <button class="btn btn-danger" wire:click="$emit('confirmarEliminacion', {{ $cliente->id}} )">Eliminar</button>
+                            <button class="btn btn-danger" wire:click="$emit('confirmarEliminacion', {{ $cliente->id}} )"><i class="fa fa-trash"></i> Eliminar</button>
                             @endif
                         </td>
                     </tr>
@@ -74,35 +74,35 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="crearCliente">Crear cliente</h5>
+                        <h3 class="modal-title" id="crearCliente">Crear cliente</h3>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cancelar"></button>
                     </div>
                     <div class="modal-body">
-                        <h6>Rellene los datos:</h6>
+                        <h4>Rellene los datos:</h4>
                         <form wire:submit.prevent="store" id="form-id">
                             @csrf
-                            <label for="nombre">Nombre</label>
+                            <label for="nombre"><b>Nombre :</b></label>
                             <input type="text" id="nombre" class="form-control" wire:model.lazy="nombre">
                             @error('nombre')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>
 
-                            <label for="apellido">Apellido</label>
+                            <label for="apellido"><b>Apellido :</b></label>
                             <input type="text" id="apellido" class="form-control" wire:model.lazy="apellido">
                             @error('apellido')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>
 
-                            <label for="ci">C.I.</label>
+                            <label for="ci"><b>C.I. :</b></label>
                             <input type="number" id="ci" class="form-control" wire:model="ci">
                             @error('ci')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>
 
-                            <label for="direccion">Dirección</label>
+                            <label for="direccion"><b>Dirección :</b></label>
                             <input type="text" id="direccion" class="form-control" wire:model="direccion">
                             @error('direccion')
                             <span class="text-danger">{{ $message }}</span>
@@ -124,35 +124,35 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editarCliente">Editar cliente</h5>
+                        <h3 class="modal-title" id="editarCliente">Editar cliente</h3>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cancelar"></button>
                     </div>
                     <div class="modal-body">
-                        <h6>Actualice los datos:</h6>
+                        <h4>Actualice los datos:</h4>
                         <form wire:submit.prevent="update" id="editing-form">
                             @csrf
-                            <label for="nombre-edit">Nombre</label>
+                            <label for="nombre-edit"><b>Nombre :</b></label>
                             <input type="text" id="nombre-edit" class="form-control" wire:model.lazy="nombre">
                             @error('nombre')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>
 
-                            <label for="apellido-edit">Apellido</label>
+                            <label for="apellido-edit"><b>Apellido :</b></label>
                             <input type="text" id="apellido-edit" class="form-control" wire:model.lazy="apellido">
                             @error('apellido')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>
 
-                            <label for="ci-edit">C.I.</label>
+                            <label for="ci-edit"><b>C.I. :</b></label>
                             <input type="number" id="ci-edit" class="form-control" wire:model.lazy="ci">
                             @error('ci')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>
 
-                            <label for="direccion-edit">Dirección</label>
+                            <label for="direccion-edit"><b>Dirección :</b></label>
                             <input type="text" id="direccion-edit" class="form-control" wire:model.lazy="direccion">
                             @error('direccion')
                             <span class="text-danger">{{ $message }}</span>

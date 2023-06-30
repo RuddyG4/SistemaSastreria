@@ -14,7 +14,7 @@
                 </div>
                 <div class="col-auto">
                     @if(in_array('usuario.crear', $permisos))
-                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Crear usuario</button>
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDeCreacion"><i class="fa fa-user-plus"></i> Crear usuario</button>
                     @endif
                 </div>
             </div>
@@ -48,10 +48,10 @@
                             <td>{{ $usuario->rol->nombre }}</td>
                             <td>
                                 @if(in_array('usuario.modificar', $permisos))
-                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar( {{ $usuario->id }} )">Editar</button>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar( {{ $usuario->id }} )"><i class="fa fa-edit"></i>Editar</button>
                                 @endif
                                 @if(in_array('usuario.inhabilitar', $permisos))
-                                <button class="btn btn-danger" wire:click="$emit('confirmarBaja', {{ $usuario->id}} )">Dar baja</button>
+                                <button class="btn btn-danger" wire:click="$emit('confirmarBaja', {{ $usuario->id}} )"><i class="fa fa-trash"></i> Dar baja</button>
                                 @endif
                             </td>
                         </tr>

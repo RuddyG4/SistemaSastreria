@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Inventario;
 use App\Models\inventario\Material;
 use App\Models\inventario\NotaIngreso;
 use App\Models\inventario\NotaSalida;
+use App\Models\usuarios\Funcionalidad;
 use App\Models\usuarios\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -41,6 +42,10 @@ class Notas extends Component
             'notasIngreso' => NotaIngreso::paginate(12),
             'notasSalida' => NotaSalida::paginate(12),
             'materiales' => Material::all(),
+            'permisos' => Funcionalidad::whereHas('roles', function ($query) {
+                $query->where('id', $this->usuario->rol->id);
+            })->where('nombre', 'LIKE', "nota%")
+                ->pluck('nombre')->toArray(),
         ]);
     }
 
@@ -73,7 +78,7 @@ class Notas extends Component
             'notaIngreso.detalles.*.precio' => 'required',
         ]);
         $this->notaIngreso->detalles->each->save();
-        $this->usuario->generarBitacora('Nota de ingreso actualizada, id: '.$this->notaIngreso->id);
+        $this->usuario->generarBitacora('Nota de ingreso actualizada, id: ' . $this->notaIngreso->id);
         $this->emit('notaIngresoActualizada');
         $this->dispatchBrowserEvent('cerrar-edicion-ni');
         $this->resetErrorBag();
@@ -93,7 +98,7 @@ class Notas extends Component
             'notaSalida.detalles.*.id_material' => 'required',
         ]);
         $this->notaSalida->push();
-        $this->usuario->generarBitacora('Nota de salida actualizada, id: '.$this->notaSalida->id);
+        $this->usuario->generarBitacora('Nota de salida actualizada, id: ' . $this->notaSalida->id);
         $this->emit('notaSalidaActualizada');
         $this->dispatchBrowserEvent('cerrar-edicion-ns');
     }

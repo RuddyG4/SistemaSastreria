@@ -32,8 +32,12 @@
                                     <td>{{ $nota->fecha }}</td>
                                     <td>{{ $nota->monto_total }}</td>
                                     <td>
+                                        @if(in_array('nota_ingreso.ver', $permisos))
                                         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#verDetallesIngreso" wire:click="cargarNotaIngreso( {{ $nota->id }} )"><i class="fa fa-eye"></i></button>
+                                        @endif
+                                        @if(in_array('nota_ingreso.modificar', $permisos))
                                         <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarNotaIngreso" wire:click="cargarNotaIngreso( {{ $nota->id }} )"><i class="fa fa-edit"></i></button>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach
@@ -76,8 +80,12 @@
                                     <td>{{ $nota->fecha }}</td>
                                     <td>{{ $nota->descripcion }}</td>
                                     <td>
+                                        @if(in_array('nota_salida.ver', $permisos))
                                         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#verDetallesSalida" wire:click="cargarNotaSalida( {{ $nota->id }} )"><i class="fa fa-eye"></i></button>
+                                        @endif
+                                        @if(in_array('nota_salida.modificar', $permisos))
                                         <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editarNotaSalida" wire:click="cargarNotaSalida( {{ $nota->id }} )"><i class="fa fa-edit"></i></button>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach
