@@ -6,7 +6,6 @@ use App\Models\usuarios\Funcionalidad;
 use App\Models\usuarios\Persona;
 use App\Models\usuarios\Rol;
 use App\Models\usuarios\User;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -14,6 +13,7 @@ class Usuarios extends Component
 {
     public $busqueda;
     public $nombre, $apellido, $ci, $username, $email, $id_rol, $password, $id_persona;
+    public User $authenticatedUser;
 
     protected $listeners = ['darBaja'];
 
@@ -21,8 +21,8 @@ class Usuarios extends Component
         'nombre' => 'required',
         'apellido' => 'required',
         'ci' => 'required|numeric|unique:persona',
-        'username' => 'required|string|unique:usuario',
-        'email' => 'required|email|unique:usuario',
+        'username' => 'required|string|unique:usuario|max:30',
+        'email' => 'required|email|unique:usuario|max:50',
         'id_rol' => 'required|numeric',
         'password' => 'required|min:8',
     ];
@@ -35,9 +35,11 @@ class Usuarios extends Component
         'ci.unique' => 'El C.I. ingresado ya existe',
         'username.required' => 'Debe ingresar un nombre de usuario.',
         'username.unique' => 'El nombre de usuario ingresado ya existe.',
+        'username.max' => 'El nombre de usuario no debe tener más de 30 carácteres',
         'email.required' => 'Debe ingresar un correo electronico.',
         'email.email' => 'Debe ingresar un formato de correo válido.',
         'email.unique' => 'El correo ingresado ya existe.',
+        'email.max' => 'El correo no debe tener más de 50 carácteres',
         'id_rol.required' => 'Debe seleccionar un rol.',
         'password.required' => 'Debe ingresar una contraseña.',
         'password.min' => 'La contraseña debe tener al menos 8 carácteres.',
@@ -48,8 +50,8 @@ class Usuarios extends Component
         return view(
             'livewire.usuarios.usuarios',
             [
-                'usuarios' => User::where('activo', 0)->where(function (Builder $query) {
-                    $query->whereHas('persona', function (Builder $query) {
+                'usuarios' => User::where('activo', 0)->where(function ($query) {
+                    $query->whereHas('persona', function ($query) {
                         $query->where('nombre', 'like', "%$this->busqueda%")
                             ->orWhere('apellido', 'like', "%$this->busqueda%");
                     })->orWhere('username', 'like', "%$this->busqueda%")
@@ -67,6 +69,11 @@ class Usuarios extends Component
         );
     }
 
+    public function mount()
+    {
+        $this->authenticatedUser = Auth::user();
+    }
+
     public function updated($propertyName)
     {
         if ($this->id_persona == null) {
@@ -76,8 +83,8 @@ class Usuarios extends Component
                 'nombre' => 'required',
                 'apellido' => 'required',
                 'ci' => 'required|numeric',
-                'username' => 'required|string',
-                'email' => 'required|email',
+                'username' => 'required|string|max:30',
+                'email' => 'required|email|max:50',
                 'id_rol' => 'required|numeric',
                 'password' => 'required|min:8',
             ]);
@@ -98,7 +105,7 @@ class Usuarios extends Component
         $persona = Persona::create($datos);
         $user = new User($datos);
         $persona->usuario()->save($user);
-        Auth::user()->generarBitacora("Usuario creado, id: $persona->id");
+        $this->authenticatedUser->generarBitacora("Usuario creado, id: $persona->id");
         $this->emit('usuarioCreado');
         $this->limpiarDatos();
         $this->dispatchBrowserEvent('cerrar-modal');
@@ -122,14 +129,14 @@ class Usuarios extends Component
             'nombre' => 'required',
             'apellido' => 'required',
             'ci' => 'required|numeric',
-            'username' => 'required|string',
-            'email' => 'required|email',
+            'username' => 'required|string|max:30',
+            'email' => 'required|email|max:50',
             'id_rol' => 'required|numeric',
         ]);
         $persona = Persona::find($this->id_persona);
         $persona->update($datos);
         $persona->usuario->update($datos);
-        Auth::user()->generarBitacora("Usuario modificado, id: $persona->id");
+        $this->authenticatedUser->generarBitacora("Usuario modificado, id: $persona->id");
         $this->emit('usuarioActualizado');
         $this->limpiarDatos();
         $this->dispatchBrowserEvent('cerrar-modal-edicion');
@@ -138,7 +145,7 @@ class Usuarios extends Component
     public function darBaja(User $usuario)
     {
         $usuario->update(['activo' => 1]);
-        Auth::user()->generarBitacora("Usuario deshabilitado, id: $usuario->id");
+        $this->authenticatedUser->generarBitacora("Usuario deshabilitado, id: $usuario->id");
     }
 
     public function limpiarDatos()

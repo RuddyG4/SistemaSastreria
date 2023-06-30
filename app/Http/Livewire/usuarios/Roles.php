@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Usuarios;
 
 use App\Models\usuarios\Rol;
 use App\Models\usuarios\Funcionalidad;
+use App\Models\usuarios\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -14,15 +15,15 @@ class Roles extends Component
     public $funcList = [];
     // lista que cambia segun el id del rol
     public $rolPermisos = [];
-
     public $nombre, $descripcion, $idRol;
+    public User $authenticatedUser;
 
     public function render()
     {
         return view('livewire..usuarios.roles', [
             'roles' => Rol::get(),
             'permisos' => Funcionalidad::whereHas('roles', function ($query) {
-                $query->where('id', Auth::user()->rol->id);
+                $query->where('id', $this->authenticatedUser->rol->id);
             })->where('nombre', 'LIKE', "rol.%")
                 ->pluck('nombre')->toArray(),
         ]);
@@ -48,22 +49,27 @@ class Roles extends Component
         } else {
             $this->validateOnly($propertyName, [
                 'nombre' => 'required|max:30',
-                'descripcion' => 'required|max:99',
+                'descripcion' => 'required|max:100',
             ]);
         }
+    }
+
+    public function mount()
+    {
+        $this->authenticatedUser = Auth::user();
     }
 
     /**
      * Crea un nuevo rol
      * @return void
-      */
+     */
     public function store()
     {
         if (!(count($this->rolPermisos) > 0)) {
             $this->addError('permisos', 'Debe seleccionar al menos 1 rol');
         }
         $rol = Rol::create($this->validate());
-        Auth::user()->generarBitacora("Rol creado, id: $rol->id");
+        $this->authenticatedUser->generarBitacora("Rol creado, id: $rol->id");
         $rol->funcionalidades()->attach($this->rolPermisos);
 
         $this->cerrar();
@@ -86,7 +92,7 @@ class Roles extends Component
             $rol->funcionalidades()->detach();
             $rol->delete($this->idRol);
         }
-        Auth::user()->generarBitacora("Rol eliminado, id: $rol->id");
+        $this->authenticatedUser->generarBitacora("Rol eliminado, id: $rol->id");
         $this->cerrar();
         // $this->dispatchBrowserEvent('cerrar-modal-eliminar');
     }
@@ -106,14 +112,14 @@ class Roles extends Component
     {
         $datos = $this->validate([
             'nombre' => 'required|max:30',
-            'descripcion' => 'required|max:99',
+            'descripcion' => 'required|max:100',
         ]);
         $rol = Rol::find($this->idRol);
         if ($rol) {
             $rol->funcionalidades()->sync($this->rolPermisos);
         }
         $rol->update($datos);
-        Auth::user()->generarBitacora("Rol modificado, id: $rol->id");
+        $this->authenticatedUser->generarBitacora("Rol modificado, id: $rol->id");
         $this->dispatchBrowserEvent('cerrar-modal-editar');
         $this->erase();
     }
