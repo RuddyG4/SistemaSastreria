@@ -55,7 +55,7 @@ class Inventario extends Component
                 'materiales' => Material::all(),
                 'datos' => MInventario::Where('id_almacen', $this->almacen->id)->whereHas('material', function ($query) {
                     $query->where('nombre', 'like', "%$this->busqueda%");
-                })->paginate(12),
+                })->with(['material.medida'])->paginate(12),
                 // 'datos' => MInventario::Where('id_almacen', $this->almacen->id)->get(),
                 'permisos' => Funcionalidad::whereHas('roles', function ($query) {
                     $query->where('id', Auth::user()->rol->id);

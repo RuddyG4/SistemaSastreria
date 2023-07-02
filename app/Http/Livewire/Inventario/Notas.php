@@ -39,8 +39,8 @@ class Notas extends Component
     public function render()
     {
         return view('livewire.inventario.notas', [
-            'notasIngreso' => NotaIngreso::paginate(12),
-            'notasSalida' => NotaSalida::paginate(12),
+            'notasIngreso' => NotaIngreso::with(['almacen', 'usuario'])->paginate(12),
+            'notasSalida' => NotaSalida::with(['almacen', 'usuario'])->paginate(12),
             'materiales' => Material::all(),
             'permisos' => Funcionalidad::whereHas('roles', function ($query) {
                 $query->where('id', $this->usuario->rol->id);

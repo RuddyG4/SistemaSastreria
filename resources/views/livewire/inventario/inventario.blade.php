@@ -114,63 +114,6 @@
             @endif
         </div>
 
-        <!--
-        @if(isset($almacenes))
-        <div class="row">
-            <div class="form-group col-auto">
-                <select wire:model="almacen" id="rol" class="form-control">
-                    @foreach($almacenes as $almacen)
-                    <option value="{{ $almacen->id }}">{{ $almacen->nombre }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col">
-                <input wire:model="busqueda" class="form-control col-md-6" type="text" placeholder="Buscar...">
-            </div>
-            <div class="col-auto">
-                @if(in_array('nota_ingreso.crear', $permisos))
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarMaterial"><i class="fa fa-plus"></i> Agregar materiales</button>
-                @endif
-                @if(in_array('nota_salida.crear', $permisos))
-                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalSacarMaterial"><i class="fa fa-minus"></i> Sacar materiales</button>
-                @endif
-            </div>
-        </div>
-
-
-        <div class="ibox-content">
-            @if($datos->count())
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">Material</th>
-                        <th scope="col">Cantidad (Stock)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($datos as $dato)
-                    <tr>
-                        <td>{{ $dato->material->nombre }}</td>
-                        <td>{{ $dato->cantidad }} ({{ $dato->material->medida->tipo_medida }})</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            @else
-            <span>No hay datos en el inventario</span>
-            @endif
-
-            @if( $datos->hasPages() )
-            <div class="px-6 py-3">
-                {{ $datos->links() }}
-            </div>
-            @endif
-        </div>
-        @else
-        <p>No existen almacenes.</p>
-        @endif
--->
-
         <!-- Modales -->
 
         <!-- Modal de agregar materiales -->

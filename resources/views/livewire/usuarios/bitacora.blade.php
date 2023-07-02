@@ -27,7 +27,6 @@
                                     </ul>
                                     <!-- Contenido de la tabla -->
                                     <div class="tab-content">
-
                                         <div id="tab-1" class="tab-pane active">
                                             <div class="full-height-scroll">
                                                 <div class="table-responsive">
