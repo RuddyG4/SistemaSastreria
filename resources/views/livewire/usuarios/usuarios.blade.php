@@ -7,10 +7,12 @@
                 <h3><strong>Vista de usuarios</strong></h3>
             </div>
             <br>
-
             <div class="row">
                 <div class="col">
                     <input wire:model="busqueda" class="form-control" type="text" placeholder="Buscar...">
+                </div>
+                <div class="col-auto">
+                    <a href="{{ url('/dashboard/adm_usuarios/bitacora') }}" class="btn btn-success"><i class="fa fa-book"></i> Bitacora</a>
                 </div>
                 <div class="col-auto">
                     @if(in_array('usuario.crear', $permisos))
