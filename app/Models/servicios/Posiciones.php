@@ -5,7 +5,7 @@ namespace App\Models\servicios;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class posiciones extends Model
+class Posiciones extends Model
 {
     use HasFactory;
 

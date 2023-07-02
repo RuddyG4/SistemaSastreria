@@ -30,8 +30,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/adm_servicios/clientes', App\Http\Livewire\Servicios\Clientes::class);
     Route::get('/dashboard/adm_servicios/vestimentas', App\Http\Livewire\Servicios\Vestimentas ::class);
 
-
-    Route::get('/dashboard/adm_servicios/prueba', App\Http\Livewire\Servicios\Prueba ::class);
     Route::get('/dashboard/adm_servicios/cuadro', App\Http\Livewire\Servicios\Cuadro ::class);
 
 

@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Servicios;
 
 use Livewire\Component;
-use App\Models\servicios\posiciones;
+use App\Models\servicios\Posiciones;
 
 class Cuadro extends Component
 {
@@ -12,10 +12,11 @@ class Cuadro extends Component
     public $currentPositions = [];
 
     protected $listeners = ['guardarPosiciones'];
+
     public function render()
     {
-        $this->nueva = posiciones::get();
-        return view('livewire..servicios.cuadro');
+        $this->nueva = Posiciones::get();
+        return view('livewire.servicios.cuadro');
     }
 
     public function mount()
@@ -25,10 +26,9 @@ class Cuadro extends Component
     }
 
     public function guardarPosiciones($datos)
-    {   
-        // $this->currentPositions = $dato;
+    {
         foreach ($datos as $elementId => $position) {
-            $elemento = posiciones::find($elementId);
+            $elemento = Posiciones::find($elementId);
             if ($elemento) {
                 $elemento->posX = $position['posX'];
                 $elemento->posY = $position['posY'];
