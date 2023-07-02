@@ -3,10 +3,18 @@
     </x-slot>
     <div>
         <h1><b>Gestion de funcionalidades</b></h1>
-        <input wire:model="busqueda" type="text" placeholder="Buscar...">
-        @if(in_array('funcionalidad.crear', $permisos))
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Crear funcionalidad</button>
-        @endif
+
+        <div class="row">
+            <div class="col">
+                <input wire:model="busqueda" class="form-control" type="text" placeholder="Buscar...">
+            </div>
+            <div class="col-auto">
+                @if(in_array('funcionalidad.crear', $permisos))
+                <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalDeCreacion"><i class="fa fa-plus"></i> Crear funcionalidad</button>
+                @endif
+            </div>
+        </div>
+        <br>
 
         <div class="ibox-content">
             @if($funcionalidades->count())
@@ -28,11 +36,11 @@
                         <td>{{ $funcionalidad->nombre }}</td>
                         <td>{{ $funcionalidad->descripcion }}</td>
                         <td>
-                        @if(in_array('funcionalidad.modificar', $permisos))
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar({{ $funcionalidad->id }})">Editar</button>
+                            @if(in_array('funcionalidad.modificar', $permisos))
+                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar({{ $funcionalidad->id }})"><i class="fa fa-edit"></i> Editar</button>
                             @endif
                             @if(in_array('funcionalidad.eliminar', $permisos))
-                            <button class="btn btn-danger" wire:click="$emit('confirmarEliminacion', {{ $funcionalidad->id }} )">Eliminar</button>
+                            <button class="btn btn-danger btn-sm" wire:click="$emit('confirmarEliminacion', {{ $funcionalidad->id }} )"><i class="fa fa-trash"></i> Eliminar</button>
                             @endif
                         </td>
                     </tr>
@@ -62,23 +70,25 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="crearFuncionalidad">Crear Funcionalidad</h5>
+                        <h3 class="modal-title" id="crearFuncionalidad">Crear Funcionalidad</h3>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cancelar"></button>
                     </div>
                     <div class="modal-body">
-                        <h6>Rellene los datos:</h6>
+                        <h4><strong>Rellene los datos:</strong></h4>
                         <form wire:submit.prevent="store" id="form-id">
                             @csrf
-                            <label for="nombre">Nombre</label>
-                            <input type="text" id="nombre" class="form-control" wire:model.lazy="nombre">
-                            @error('nombre')
+                            <label for="nombre"><b>Nombre :</b></label>
+                            <input type="text" id="nombre" class="form-control" wire:model="funcionalidad.nombre">
+                            @error('funcionalidad.nombre')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>
 
-                            <label for="descripcion">Descripción</label>
-                            <input type="text" id="descripcion" class="form-control" wire:model.lazy="descripcion">
-                            @error('descripcion')
+                            <div class="form-group">
+                                <label for="descripcion"><b>Descripción :</b></label>
+                                <textarea id="descripcion" class="form-control" wire:model.lazy="funcionalidad.descripcion"></textarea>
+                            </div>
+                            @error('funcionalidad.descripcion')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>
@@ -93,28 +103,30 @@
             </div>
         </div>
 
-        <!-- Modal de creacion -->
+        <!-- Modal de edicion -->
         <div wire:ignore.self id="modalDeEdicion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editarFuncionalidad" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editarFuncionalidad">Editar funcionalidad</h5>
+                        <h3 class="modal-title" id="editarFuncionalidad">Editar funcionalidad</h3>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cancelar"></button>
                     </div>
                     <div class="modal-body">
-                        <h6>Actualice los datos:</h6>
-                        <form wire:submit.prevent="update" id="editing-form">
+                        <h4><strong>Actualice los datos:</strong></h4>
+                        <form wire:submit.prevent="update({{ $id_funcionalidad }})" id="editing-form">
                             @csrf
-                            <label for="nombre-edit">Nombre</label>
-                            <input type="text" id="nombre-edit" class="form-control" wire:model.lazy="nombre">
-                            @error('nombre')
+                            <label for="nombre-edit"><b>Nombre :</b></label>
+                            <input type="text" id="nombre-edit" class="form-control" wire:model.lazy="funcionalidad.nombre">
+                            @error('funcionalidad.nombre')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>
 
-                            <label for="descripcion-edit">Descripcion</label>
-                            <input type="text" id="descripcion-edit" class="form-control" wire:model.lazy="descripcion">
-                            @error('descripcion')
+                            <div class="form-group">
+                                <label for="descripcion-edit"><b>Descripcion :</b></label>
+                                <textarea id="descripcion-edit" class="form-control" rows="2" wire:model.lazy="funcionalidad.descripcion"></textarea>
+                            </div>
+                            @error('funcionalidad.descripcion')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>

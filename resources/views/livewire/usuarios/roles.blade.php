@@ -2,7 +2,7 @@
     Roles
     </x-slot>
     <div>
-        <h2> Gestión de Roles</h2>
+        <h2><b>Gestión de Roles</b></h2>
         <h3>Lista de roles:</h3>
         @if(in_array('rol.crear', $permisos))
         <button class="btn btn-success" wire:click="loadRol" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Crear Rol</button>
@@ -22,11 +22,11 @@
                 <tbody>
                     @foreach($roles as $rol)
                     <tr>
-                        <input type="hidden" value={{$rol->id}}>
+                        <input type="hidden" value={{ $rol->id }}>
                         <td>{{ $rol->nombre }}</td>
                         <td>{{ $rol->descripcion }}</td>
                         <td>
-                        @if(in_array('rol.modificar', $permisos))
+                            @if(in_array('rol.modificar', $permisos))
                             <button data-bs-toggle="modal" data-bs-target="#modalDeEditar" class="btn btn-primary" wire:click="edit({{$rol->id}})">Editar</button>
                             @endif
                             <button data-bs-toggle="modal" data-bs-target="#modalDeVer" class="btn btn-secondary" wire:click="view({{$rol->id}})">Ver permisos</button>
@@ -43,28 +43,30 @@
 
         <!-- Modal create -->
         <div wire:ignore.self id="modalDeCreacion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="crearrol" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="crearrol">Crear rol</h5>
+                        <h3 class="modal-title" id="crearrol">Crear rol</h3>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cerrar"></button>
                     </div>
                     <div class="modal-body">
 
                         <form wire:submit.prevent="store" id="form-id">
                             @csrf
-                            <label for="nombre">Nombre</label>
+                            <label for="nombre"><b>Nombre :</b></label>
                             <input type="text" id="nombre" class="form-control" wire:model.lazy="nombre">
                             @error('nombre')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>
 
-                            <label for="descripcion">Descripcion</label>
+                            <label for="descripcion"><b>Descripcion :</b></label>
                             <input type="text" id="descripcion" class="form-control" wire:model.lazy="descripcion">
                             @error('descripcion')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
+                            <br>
+                            <span><b>Seleccione los permisos que tendrá el rol :</b></span>
                             <br>
                             @foreach ($funcList as $funcion)
                             <div class="form-check form-check-inline">
@@ -88,17 +90,19 @@
 
         <!-- Modal view -->
         <div wire:ignore.self id="modalDeVer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="verrol" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="verrol">Ver rol</h5>
+                        <h2 class="modal-title" id="verrol"><b>{{$nombre}}</b></h2>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cerrar"></button>
                     </div>
                     <div class="modal-body">
-                        <h2>{{$nombre}}</h2>
-                        @foreach ($rolPermisos as $permiso )
-                        <li>{{ $permiso }}</li>
-                        @endforeach
+                        <h3>Permisos:</h3>
+                        <ul class="todo-list small-list">
+                            @foreach ($rolPermisos as $permiso )
+                            <li>{{ $permiso }}</li>
+                            @endforeach
+                        </ul>
                     </div>
                     <div class="modal-footer">
                         <button type="button" form="form-id" class="btn btn-primary">Editar</button>
@@ -130,7 +134,7 @@
 
         <!-- Modal de editar -->
         <div wire:ignore.self id="modalDeEditar" class="modal fade" tabindex="1" role="dialog" aria-labelledby="editarrol" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h3 class="modal-title" id="editarrol">Editar rol</h3>

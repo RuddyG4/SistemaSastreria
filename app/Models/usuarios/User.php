@@ -7,10 +7,10 @@ namespace App\Models\usuarios;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -28,7 +28,8 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
-        'id_rol'
+        'id_rol',
+        'activo'
     ];
 
     /**
@@ -64,6 +65,24 @@ class User extends Authenticatable
     public function rol(): BelongsTo
     {
         return $this->belongsTo(Rol::class, 'id_rol');
+    }
+
+    public function bitacora(): HasMany
+    {
+        return $this->hasMany(Bitacora::class, 'id_usuario');
+    }
+
+    /** 
+     * Registra una bitacora con una determinada accion
+     * @param String $accion
+     * @return void
+    */
+    public function generarBitacora($accion) : void {
+        Bitacora::create([
+            'accion_realizada' => $accion,
+            'fecha_hora' => now(),
+            'id_usuario' => $this->id,
+        ]);
     }
 
     public function tieneFuncionalidad($funcionalidad)
