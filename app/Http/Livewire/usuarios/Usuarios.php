@@ -64,6 +64,7 @@ class Usuarios extends Component
                 'permisos' => Funcionalidad::whereHas('roles', function ($query) {
                     $query->where('id', Auth::user()->rol->id);
                 })->where('nombre', 'LIKE', "usuario.%")
+                ->orWhere('nombre', 'like', 'bitacora.%')
                     ->pluck('nombre')->toArray(),
             ]
         );
