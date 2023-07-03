@@ -56,14 +56,15 @@ class Usuarios extends Component
                             ->orWhere('apellido', 'like', "%$this->busqueda%");
                     })->orWhere('username', 'like', "%$this->busqueda%")
                         ->orWhere('email', 'like', "%$this->busqueda%");
-                })->get()
+                })->with(['persona', 'rol'])->get()
                 /* ->filter(function ($usuario) {  // YA NO USO FILTER PORQUE ES MENOS EFECTIVO
                         return $usuario->activo == 0;
                     }) */,
                 'roles' => Rol::all(),
                 'permisos' => Funcionalidad::whereHas('roles', function ($query) {
-                    $query->where('id', Auth::user()->rol->id);
+                    $query->where('id', $this->authenticatedUser->rol->id);
                 })->where('nombre', 'LIKE', "usuario.%")
+                ->orWhere('nombre', 'like', 'bitacora.%')
                     ->pluck('nombre')->toArray(),
             ]
         );

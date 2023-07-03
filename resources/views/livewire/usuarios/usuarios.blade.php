@@ -11,14 +11,16 @@
                 <div class="col">
                     <input wire:model="busqueda" class="form-control" type="text" placeholder="Buscar...">
                 </div>
+                @if(in_array('bitacora.lista', $permisos))
                 <div class="col-auto">
-                    <a href="{{ url('/dashboard/adm_usuarios/bitacora') }}" class="btn btn-success"><i class="fa fa-book"></i> Bitacora</a>
+                    <a href="{{ url('/dashboard/adm_usuarios/bitacora') }}" class="btn btn-success btn-sm"><i class="fa fa-book"></i> Bitacora</a>
                 </div>
+                @endif
+                @if(in_array('usuario.crear', $permisos))
                 <div class="col-auto">
-                    @if(in_array('usuario.crear', $permisos))
-                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDeCreacion"><i class="fa fa-user-plus"></i> Crear usuario</button>
-                    @endif
+                    <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalDeCreacion"><i class="fa fa-user-plus"></i> Crear usuario</button>
                 </div>
+                @endif
             </div>
             <br>
 
@@ -50,10 +52,10 @@
                             <td>{{ $usuario->rol->nombre }}</td>
                             <td>
                                 @if(in_array('usuario.modificar', $permisos))
-                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar( {{ $usuario->id }} )"><i class="fa fa-edit"></i>Editar</button>
+                                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar( {{ $usuario->id }} )"><i class="fa fa-edit"></i>Editar</button>
                                 @endif
                                 @if(in_array('usuario.inhabilitar', $permisos))
-                                <button class="btn btn-danger" wire:click="$emit('confirmarBaja', {{ $usuario->id}} )"><i class="fa fa-trash"></i> Dar baja</button>
+                                <button class="btn btn-danger btn-sm" wire:click="$emit('confirmarBaja', {{ $usuario->id}} )"><i class="fa fa-trash"></i> Dar baja</button>
                                 @endif
                             </td>
                         </tr>

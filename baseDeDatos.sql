@@ -472,6 +472,8 @@ insert into funcionalidad values(null,'nota_salida.crear','Permite crear nuevas 
 insert into funcionalidad values(null,'nota_salida.modificar','Permite modificar los detalles de una nota de salida');
 insert into funcionalidad values(null,'nota_salida.eliminar','Permite eliminar notas de salida');
 
+insert into funcionalidad values(null,'bitacora.lista','Permite ver la lista de las actividades (bitacoras) registradas en el sistema');
+
 insert into permiso_rol values(3,2);
 insert into permiso_rol values(3,3);
 insert into permiso_rol values(3,21);

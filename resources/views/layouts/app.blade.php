@@ -32,7 +32,7 @@
 
     use App\Models\usuarios\Funcionalidad;
     use Illuminate\Support\Facades\Auth;
-
+    $user = Auth::user();
     $permisos = Funcionalidad::whereHas('roles', function ($query) {
         $query->where('id', Auth::user()->rol->id);
     })->where('nombre', 'LIKE', "adm.%")
@@ -47,8 +47,8 @@
                     <li class="nav-header">
                         <div class="dropdown profile-element">
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                <span class="block m-t-xs font-bold">{{Auth::user()->persona->nombre}}</span>
-                                <span class="text-muted text-xs block">{{Auth::user()->rol->nombre}}<b></b></span>
+                                <span class="block m-t-xs font-bold">{{$user->persona->nombre}}</span>
+                                <span class="text-muted text-xs block">{{$user->rol->nombre}}<b></b></span>
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
                                 <li>
