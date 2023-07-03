@@ -121,7 +121,7 @@
                             <div class="ibox-content">
                                 <div class="tab-content">
                                     <!-- ------------------------------------ -->
-                                    @if($usuario == null)
+                                    @if($usuario != null)
                                     <div id="Usuario_1" class="tab-pane active">
                                         <div class="row m-b-lg">
                                             <div class="col-lg-4 text-center">
