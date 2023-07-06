@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function () {
     // Paquete de Servicios
     Route::get('/dashboard/adm_servicios/clientes', App\Http\Livewire\Servicios\Clientes::class);
     Route::get('/dashboard/adm_servicios/vestimentas', App\Http\Livewire\Servicios\Vestimentas::class);
-    Route::resource('/dashboard/adm_servicios/pedidos', App\Http\Livewire\Servicios\PedidoController::class);
+    Route::resource('/dashboard/adm_servicios/pedidos', App\Http\Livewire\Servicios\Pedidos\PedidoController::class);
     Route::get('/dashboard/adm_servicios/cuadro', App\Http\Livewire\Servicios\Cuadro::class);
 
     // Paquete de Inventario

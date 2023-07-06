@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Servicios;
+namespace App\Http\Livewire\Servicios\Pedidos;
 
 use App\Http\Controllers\Controller;
 use App\Models\servicios\Pedido;
