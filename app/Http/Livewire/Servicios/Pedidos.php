@@ -9,7 +9,7 @@ class Pedidos extends Component
 {
     public function render()
     {
-        return view('livewire.servicios.pedidos', [
+        return view('livewire.servicios.pedidos.tabla_index', [
             'pedidos' => Pedido::with('cliente.persona')->paginate(10),
         ]);
     }
