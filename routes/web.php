@@ -30,16 +30,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/adm_usuarios/bitacora', App\Http\Livewire\usuarios\Bitacora::class);
     Route::get('/dashboard/adm_servicios/clientes', App\Http\Livewire\Servicios\Clientes::class);
     Route::get('/dashboard/adm_servicios/vestimentas', App\Http\Livewire\Servicios\Vestimentas ::class);
-
-    Route::get('/dashboard/adm_servicios/cuadro', App\Http\Livewire\Servicios\Cuadro ::class);
-
-
-
+    Route::get('/dashboard/adm_servicios/pedidos', App\Http\Livewire\Servicios\Pedidos ::class);
     Route::get('/dashboard/adm_inventario/almacenes', App\Http\Livewire\Inventario\Almacenes::class);
     Route::get('/dashboard/adm_inventario/materiales', App\Http\Livewire\Inventario\Materiales::class);
     Route::get('/dashboard/adm_inventario/inventario', App\Http\Livewire\Inventario\Inventario::class);
     Route::get('/dashboard/adm_inventario/notas', App\Http\Livewire\Inventario\Notas::class);
-
+    
+    Route::get('/dashboard/adm_servicios/cuadro', App\Http\Livewire\Servicios\Cuadro ::class);
 
 });
 

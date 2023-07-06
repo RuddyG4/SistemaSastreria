@@ -183,6 +183,7 @@ foreign key (id_cliente) references cliente(id)
 create table pedido
 (
 id integer not null auto_increment,
+descripcion varchar(100) not null,
 fecha_recepcion datetime not null,
 estado_avance decimal (3,2) default 0.00 not null check (estado_avance >= 0 and estado_avance <= 1), -- estado en % del avance total del pedido
 id_usuario integer not null,
@@ -538,7 +539,7 @@ insert into detalle_nota_salida values(null, 1, 1, 2);
 insert into cliente values(3,'av/lujan');
 insert into telefono values(70015434,0,3);
 
-insert into pedido values(null,now(),0,2,3,0);
+insert into pedido values(null, 'Pedido para una persona particular',now(),0,2,3,0);
 
 insert into fecha_pago values(null,now(),'primer pago',1);
 
@@ -662,10 +663,14 @@ insert into cliente values(7,'av. virgen de lujan');
 insert into cliente values(8,'av. virgen de lujan');
 
 --							numero    priv/  cliente
-insert into telefono values(70225411,0,    4);
+insert into telefono values(70225414,0,    4);
+insert into telefono values(70225415,0,    5);
+insert into telefono values(70225416,0,    6);
+insert into telefono values(70225417,0,    7);
+insert into telefono values(70225418,0,    8);
 
---						  id     fecha  estado  trbajador   cliente  tp/peronsal, grpal
-insert into pedido values(null,   now(),0      ,2,         4 ,     1);
+--						  id    descripcion						    fecha  estado  trbajador   cliente  tp/peronsal, grpal
+insert into pedido values(null, 'Pedido para colegio San Antonio',  now(),0      ,2,         4 ,     1);
 
 -- 							id      fecha 	    descrip   id-pedid
 insert into fecha_pago values(null,'2023-05-08','primer pago',2);
