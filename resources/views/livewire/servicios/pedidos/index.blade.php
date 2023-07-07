@@ -10,7 +10,7 @@
                             <div class="forum-icon">
                                 <i class="fa fa-shopping-cart"></i>
                             </div>
-                            <a href="forum_post.html" class="forum-item-title">Gestionar Pedidos</a>
+                            <h2 class="forum-item-title"><strong>Gestionar Pedidos</strong></h2>
                             <div class="forum-sub-title">Crear, Editar y Ver Pedidos.</div>
                         </div>
                         <div class="col-md-1 forum-info">

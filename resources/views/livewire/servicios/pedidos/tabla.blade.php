@@ -35,7 +35,7 @@
                                 <label class="font-normal">Hasta fecha de Recepcion</label>
                                 <div class="input-group date">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input type="date" class="form-control" max="{{ now()->toDateString() }}" wire:model.defer="fechaHasta">
+                                    <input type="date" class="form-control custom-date-input" max="{{ now()->toDateString() }}" wire:model.defer="fechaHasta">
                                 </div>
                             </div>
                             @error('fechaHasta')
@@ -44,18 +44,18 @@
                         </div>
                         <div class="col-auto">
                             <div class="form-group">
-                            <label class="font-normal"></label>
-                            <div class="input-group date">
-                                <button wire:click="aplicarFiltros" class="btn btn-primary">Aplicar filtros</button>
-                            </div>
+                                <label class="font-normal"></label>
+                                <div class="input-group date">
+                                    <button wire:click="aplicarFiltros" class="btn btn-primary">Aplicar filtros</button>
+                                </div>
                             </div>
                         </div>
                         <div class="col-auto">
                             <div class="form-group">
-                            <label class="font-normal"></label>
-                            <div class="input-group date">
-                                <button wire:click="reiniciarPropiedades" class="btn btn-secondary btn-outline dim"><i class="fa fa-times"></i></button>
-                            </div>
+                                <label class="font-normal"></label>
+                                <div class="input-group date">
+                                    <button wire:click="reiniciarPropiedades" class="btn btn-secondary btn-outline dim"><i class="fa fa-times"></i></button>
+                                </div>
                             </div>
                         </div>
                         <!-- FIN FILTROS-->
@@ -68,7 +68,7 @@
     <div class="ibox-content">
         <div class="row">
             <div class="col-sm-9">
-                <h3>Todos los Pedidos</h3>
+                <h3>Lista de Pedidos</h3>
             </div>
             <div class="col-sm-3 d-flex align-items-end justify-content-end">
                 <a href="{{ url('/dashboard/adm_servicios/pedidos/crear') }}" class="btn btn-success">
@@ -79,17 +79,17 @@
         <div class="hr-line-dashed"></div>
 
         <!-- INICIO TABLA PRINCIPAL -->
-        <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15">
+        <table class="footable table table-stripped">
             <thead>
                 <tr>
-                    <th data-toggle="true">Id</th>
-                    <th data-toggle="true">Cliente</th>
-                    <th data-hide="phone">Telefono</th>
-                    <th data-hide="all">Descripcion</th>
-                    <th data-hide="phone">Estado avance</th>
-                    <th data-sort-ignore="true">Fecha Recepcion</th>
-                    <th data-sort-ignore="true">Tipo pedido</th>
-                    <th class="text-right" data-sort-ignore="true">
+                    <th>Id</th>
+                    <th>Cliente</th>
+                    <th>Telefono</th>
+                    <th>Descripcion</th>
+                    <th>Estado avance</th>
+                    <th>Fecha Recepcion</th>
+                    <th>Tipo pedido</th>
+                    <th>
                         Accion
                     </th>
                 </tr>
@@ -115,15 +115,22 @@
                         </span>
                     </td>
                     <td>{{ $pedido->fecha_recepcion }}</td>
-                    <td>{{ ($pedido->tipo == 0)?'Personal':'Grupal' }}</td>
+                    <td>
+                        @if($pedido->tipo == 0)
+                        <i class="fa fa-user"></i> Personal
+                        @else
+                        <i class="fa fa-users"></i> Grupal
+                        @endif
+                    </td>
                     <td class="text-right">
                         <div class="btn-group">
-                            <button class="btn btn-xs btn-warning">Detalles</button>
+                            <button class="btn btn-sm btn-warning"><i class="fa fa-eye"></i> Detalles</button>
                         </div>
                     </td>
                 </tr>
                 @endforeach
             </tbody>
+            @if( $pedidos->hasPages() )
             <tfoot>
                 <tr>
                     <td colspan="6">
@@ -131,6 +138,7 @@
                     </td>
                 </tr>
             </tfoot>
+            @endif
         </table>
     </div>
     <!-- FIN TABLA PRINCIPAL -->
