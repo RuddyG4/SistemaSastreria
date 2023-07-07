@@ -50,14 +50,6 @@
                                 <span class="block m-t-xs font-bold">{{$user->persona->nombre}}</span>
                                 <span class="text-muted text-xs block">{{$user->rol->nombre}}<b></b></span>
                             </a>
-                            <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                <li>
-                                    <a class="dropdown-item" href="profile.html">Perfil</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="login.html">Cerrar Sesión</a>
-                                </li>
-                            </ul>
                         </div>
                     </li>
                     <li class="{{ Request::is('dashboard') ? 'active' : '' }}">

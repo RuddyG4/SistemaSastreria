@@ -40,10 +40,10 @@
                         <td>{{ $cliente->direccion }}</td>
                         <td>
                             @if(in_array('cliente.modificar', $permisos))
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar({{ $cliente->id }})"><i class="fa fa-edit"></i> Editar</button>
+                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar({{ $cliente->id }})"><i class="fa fa-edit"></i> Editar</button>
                             @endif
                             @if(in_array('cliente.eliminar', $permisos))
-                            <button class="btn btn-danger" wire:click="$emit('confirmarEliminacion', {{ $cliente->id}} )"><i class="fa fa-trash"></i> Eliminar</button>
+                            <button class="btn btn-danger btn-sm" wire:click="$emit('confirmarEliminacion', {{ $cliente->id}} )"><i class="fa fa-trash"></i> Eliminar</button>
                             @endif
                         </td>
                     </tr>

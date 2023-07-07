@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Servicios;
 use App\Models\servicios\Cliente;
 use App\Models\usuarios\Funcionalidad;
 use App\Models\usuarios\Persona;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use App\Models\usuarios\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -15,6 +15,7 @@ class Clientes extends Component
     use WithPagination;
     public $busqueda;
     public $nombre, $apellido, $ci, $direccion, $id_persona;
+    public User $usuario;
 
     protected $listeners = ['delete'];
     
@@ -23,16 +24,21 @@ class Clientes extends Component
         return view(
             'livewire.servicios.clientes',
             [
-                'clientes' => Cliente::whereHas('persona', function (Builder $query) {
+                'clientes' => Cliente::whereHas('persona', function ($query) {
                     $query->where('nombre', 'like', "%$this->busqueda%")
                     ->orWhere('apellido', 'like', "%$this->busqueda%");
                 })->paginate(12),
                 'permisos' => Funcionalidad::whereHas('roles', function ($query) {
-                    $query->where('id', Auth::user()->rol->id);
+                    $query->where('id', $this->usuario->rol->id);
                 })->where('nombre', 'LIKE', "cliente.%")
                     ->pluck('nombre')->toArray(),
             ]
         );
+    }
+
+    public function mount()
+    {
+        $this->usuario = Auth::user();
     }
 
     protected $rules = [
@@ -79,7 +85,7 @@ class Clientes extends Component
         $persona = Persona::create($datos);
         $cliente = new Cliente($datos);
         $persona->cliente()->save($cliente);
-        Auth::user()->generarBitacora("Cliente creado, id: $persona->id");
+        $this->usuario->generarBitacora("Cliente creado, id: $persona->id");
         $this->emit('clienteCreado');
         $this->limpiarDatos();
         $this->dispatchBrowserEvent('cerrar-modal');
@@ -106,7 +112,7 @@ class Clientes extends Component
         $persona = Persona::find($this->id_persona);
         $persona->update($datos);
         $persona->cliente->update($datos);
-        Auth::user()->generarBitacora("Cliente modificado, id: $persona->id");
+        $this->usuario->generarBitacora("Cliente modificado, id: $persona->id");
         $this->emit('clienteActualizado');
         $this->limpiarDatos();
         $this->dispatchBrowserEvent('cerrar-modal-edicion');
@@ -116,7 +122,7 @@ class Clientes extends Component
     {
         $persona->cliente()->delete();
         $persona->delete();
-        Auth::user()->generarBitacora("Cliente eliminado, id: $persona->id");
+        $this->usuario->generarBitacora("Cliente eliminado, id: $persona->id");
     }
 
     public function limpiarDatos()
