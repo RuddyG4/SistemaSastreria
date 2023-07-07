@@ -14,11 +14,13 @@ class TablaPedidos extends Component
     public $nombre, $fechaDesde, $fechaHasta;
 
     protected $rules = [
+        'nombre' => 'max:40',
         'fechaDesde' => 'date|before_or_equal:today',
         'fechaHasta' => 'date|before_or_equal:today',
     ];
 
     protected $messages = [
+        'nombre.max' => 'El nombre debe un máximo de 40 carácteres',
         'fechaDesde.before_or_equal' => 'La fecha debe ser menor al día de hoy',
         'fechaHasta.befor_or_equal' => 'La fecha debe ser menor al día de hoy',
     ];
@@ -27,7 +29,7 @@ class TablaPedidos extends Component
     {
         return view('livewire.servicios.pedidos.tabla', [
             'pedidos' => Pedido::with('cliente.persona')
-                ->whereBetween('fecha_recepcion', [$this->fechaDesde, $this->fechaHasta])
+                ->whereBetween('fecha_recepcion', [$this->fechaDesde, $this->fechaHasta.' 23:59:59'])
                 ->whereHas('cliente.persona', function ($query) {
                     $query->where('nombre', 'like', "%$this->nombre%");
                 })
