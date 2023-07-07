@@ -8,11 +8,10 @@
                 </div>
                 <div class="ibox-content">
                     <div class="row">
-                        <!-- INICIO FILTROS-->
                         <div class="col">
                             <div class="form-group">
-                                <label>Cliente</label>
-                                <input placeholder="Nombre Cliente" wire:model.defer="nombre" class="form-control">
+                                <label for="nombre_cliente">Cliente</label>
+                                <input id="nombre_cliente" placeholder="Nombre Cliente" wire:model.defer="nombre" max="40" class="form-control">
                             </div>
                             @error('nombre')
                             <span class="text-danger">{{ $message }}</span>
@@ -20,10 +19,10 @@
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <label class="font-normal">Desde fecha de Recepcion</label>
+                                <label for="fecha_desde" class="font-normal">Desde fecha de Recepcion</label>
                                 <div class="input-group date">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input type="date" class="form-control custom-date-input" value="" wire:model.defer="fechaDesde">
+                                    <input id="fecha_desde" type="date" class="form-control custom-date-input" value="" wire:model.defer="fechaDesde">
                                 </div>
                             </div>
                             @error('fechaDesde')
@@ -32,10 +31,10 @@
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <label class="font-normal">Hasta fecha de Recepcion</label>
+                                <label for="fecha_hasta" class="font-normal">Hasta fecha de Recepcion</label>
                                 <div class="input-group date">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input type="date" class="form-control custom-date-input" max="{{ now()->toDateString() }}" wire:model.defer="fechaHasta">
+                                    <input id="fecha_hasta" type="date" class="form-control custom-date-input" max="{{ now()->toDateString() }}" wire:model.defer="fechaHasta">
                                 </div>
                             </div>
                             @error('fechaHasta')
@@ -58,13 +57,12 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- FIN FILTROS-->
                     </div>
                 </div>
             </div>
         </div>
-        <!-- FIN FILTROS -->
     </div>
+
     <div class="ibox-content">
         <div class="row">
             <div class="col-sm-9">
@@ -109,7 +107,7 @@
                         ?>
                         <span @class([ 'label' , 'label-secondary'=> $pedidoSinAvance,
                             'label-primary'=> $pedidoCompletado,
-                            'label-warning'=> $pedidoEnProceso,
+                            'label-success'=> $pedidoEnProceso,
                             ])>
                             {{ $pedido->estado_avance * 100 }} %
                         </span>

@@ -392,9 +392,18 @@ delimiter ;
 
 -- data population
 
+--	Población de Personas				id    nombre   apellido   ci
 insert into persona values(null,'Cristhian','camacho',1234567);
 insert into persona values(null,'Ruddy G','Quispe Huanca',8461543);
-insert into persona values(null,'Maria','Hernades',846185);
+insert into persona values(3,'Maria','Hernades',846185);
+insert into persona values(null,'Reymar','Loaiza Labarden',7849337);
+insert into persona values(null,'Rubén','Espejo Apaza',7849338);
+insert into persona values(null,'Adrián','Rosales',7849339);
+insert into persona values(7,'laura','profesora',84617885);
+insert into persona values(8,'a','alumno',84663185);
+insert into persona values(9,'b','alumno',8468185);
+insert into persona values(10,'c','alumno',8464185);
+insert into persona values(11,'d','alumno',8461285);
 
 insert into rol values(null,'Administrador general', 'usuario con el máximo control del sistema');
 insert into rol values(null,'Administrador', 'administra las funcionalidades de servicio e inventario');
@@ -502,8 +511,11 @@ insert into permiso_rol values(2,27);
 insert into permiso_rol values(2,28);
 
 -- password generica = "password"
-insert into usuario values(1,'cristhian.12','cris@g.com',"$2y$10$xfCjPsLbzzkr/1/SdKkXguQklMdzijidvbbxMUrJsSiaeb1S5IiYC", 0 ,1);
-insert into usuario values(2,'gonzaloqh','ruddygonzqh@gmail.com', "$2y$10$xfCjPsLbzzkr/1/SdKkXguQklMdzijidvbbxMUrJsSiaeb1S5IiYC", 0,1);
+insert into usuario values(1,'cristhian.12','cris@g.com',"$2y$10$xfCjPsLbzzkr/1/SdKkXguQklMdzijidvbbxMUrJsSiaeb1S5IiYC", 0, 1);
+insert into usuario values(2,'gonzaloqh','ruddygonzqh@gmail.com', "$2y$10$xfCjPsLbzzkr/1/SdKkXguQklMdzijidvbbxMUrJsSiaeb1S5IiYC", 0, 1);
+insert into usuario values(4,'ReyMar','reymarll@gmail.com', "$2y$10$xfCjPsLbzzkr/1/SdKkXguQklMdzijidvbbxMUrJsSiaeb1S5IiYC", 0, 2);
+insert into usuario values(5,'rubenea','rubenea@gmail.com', "$2y$10$xfCjPsLbzzkr/1/SdKkXguQklMdzijidvbbxMUrJsSiaeb1S5IiYC", 0, 3);
+insert into usuario values(6,'adrian','adrian@gmail.com', "$2y$10$xfCjPsLbzzkr/1/SdKkXguQklMdzijidvbbxMUrJsSiaeb1S5IiYC", 0, 3);
 
 insert into almacen values(null,'tienda 1','av. ballivian puesto/105');
 
@@ -539,7 +551,11 @@ insert into detalle_nota_salida values(null, 1, 1, 2);
 insert into cliente values(3,'av/lujan');
 insert into telefono values(70015434,0,3);
 
-insert into pedido values(null, 'Pedido para una persona particular',now(),0,2,3,0);
+--						  id    descripcion						    fecha  estado  trabajador   cliente  tp/peronsal, grupal
+insert into pedido values(null, 'Pedido para colegio San Antonio',  now(),  0      , 2 ,         7 ,       1);
+insert into pedido values(null, 'Pedido para colegio Don Bosco',  now(),    0.1      , 1 ,         8 ,       1);
+insert into pedido values(null, 'Pedido para colegio Josefina B.',  now(),  1      , 4 ,         9 ,       1);
+insert into pedido values(null, 'Pedido para una persona particular',now(), 0,       2,          3,        0);
 
 insert into fecha_pago values(null,now(),'primer pago',1);
 
@@ -648,29 +664,22 @@ insert into medida_vestimenta values(null,40,1,1);
 insert into medida_vestimenta values(null,50,1,2);
 
 insert into cambio values(null,now(),48,2);
--- -----------------------------------------------------------------------------------------------------------------------------------
---							id    nombre   apellido   ci
-insert into persona values(null,'laura','profesora',84617885);
-insert into persona values(null,'a','alumno',84663185);
-insert into persona values(null,'b','alumno',8468185);
-insert into persona values(null,'c','alumno',8464185);
-insert into persona values(null,'d','alumno',8461285);
+
 --   					cliente   ubicacion
-insert into cliente values(4,'av. virgen de lujan');
-insert into cliente values(5,'av. virgen de lujan');
-insert into cliente values(6,'av. virgen de lujan');
 insert into cliente values(7,'av. virgen de lujan');
 insert into cliente values(8,'av. virgen de lujan');
+insert into cliente values(9,'av. virgen de lujan');
+insert into cliente values(10,'av. virgen de lujan');
+insert into cliente values(11,'av. virgen de lujan');
 
 --							numero    priv/  cliente
-insert into telefono values(70225414,0,    4);
-insert into telefono values(70225415,0,    5);
-insert into telefono values(70225416,0,    6);
-insert into telefono values(70225417,0,    7);
-insert into telefono values(70225418,0,    8);
+insert into telefono values(70225414,0,    7);
+insert into telefono values(70225415,0,    8);
+insert into telefono values(70225416,0,    9);
+insert into telefono values(70225417,0,    10);
+insert into telefono values(70225418,0,    11);
 
---						  id    descripcion						    fecha  estado  trbajador   cliente  tp/peronsal, grpal
-insert into pedido values(null, 'Pedido para colegio San Antonio',  now(),0      ,2,         4 ,     1);
+
 
 -- 							id      fecha 	    descrip   id-pedid
 insert into fecha_pago values(null,'2023-05-08','primer pago',2);
@@ -682,12 +691,12 @@ insert into fecha_pago values(null,'2023-05-20','pago final ',2);
 --                                    ID  ESTADO  IDPEDI  IDVEST  IDCLIEN
 
 -- CLIENTE B MUJER
-insert into unidad_vestimenta values(null,0,       2,       1,       6); -- saco m
-insert into unidad_vestimenta values(null,0,       2,       2,       6); -- camisa m
+insert into unidad_vestimenta values(null,0,       2,       1,       9); -- saco m
+insert into unidad_vestimenta values(null,0,       2,       2,       9); -- camisa m
 
 -- cliente c hombre
-insert into unidad_vestimenta values(null,0,       2,       7,       7); -- saco h
-insert into unidad_vestimenta values(null,0,       2,       8,       7); -- camisa h
+insert into unidad_vestimenta values(null,0,       2,       7,       10); -- saco h
+insert into unidad_vestimenta values(null,0,       2,       8,       10); -- camisa h
 
 --                                   id  cant   idpedi   idvestim
 -- insert into detalle_pedido values(null, 1,      1,       1);
