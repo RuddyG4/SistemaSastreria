@@ -2,11 +2,22 @@
     Roles
     </x-slot>
     <div>
-        <h2><b>Gestión de Roles</b></h2>
-        <h3>Lista de roles:</h3>
-        @if(in_array('rol.crear', $permisos))
-        <button class="btn btn-success" wire:click="loadRol" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Crear Rol</button>
-        @endif
+
+        <div class="ibox-title">
+            <h1><strong>Gestión de roles</strong></h1>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col">
+                <h3>Lista de roles:</h3>
+            </div>
+            @if(in_array('rol.crear', $permisos))
+            <div class="col-auto" >
+                <button class="btn btn-success" wire:click="loadRol" data-bs-toggle="modal" data-bs-target="#modalDeCreacion">Crear Rol</button>
+            </div>
+            @endif
+        </div>
+        <br>
 
         <div class="ibox-content">
             <table class="table table-striped">

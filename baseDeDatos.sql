@@ -306,7 +306,7 @@ create trigger tr_ai_detalle_nota_ingreso after insert on detalle_nota_ingreso
 for each row
 begin
 call actualizar_monto_total_nota_ingreso(new.id);
-call sumar_cantidad_inventario(new.id, 0);
+call sumar_cantidad_inventario(new.id, new.id_material, new.id_nota, 0);
 end $$
  
 create trigger tr_bu_detalle_nota_ingreso before update on detalle_nota_ingreso
@@ -319,7 +319,7 @@ create trigger tr_au_detalle_nota_ingreso after update on detalle_nota_ingreso
 for each row
 begin
 call actualizar_monto_total_nota_ingreso(new.id);
-call sumar_cantidad_inventario(new.id, 0);
+call sumar_cantidad_inventario(new.id, new.id_material, new.id_nota, 0);
 end $$
 
 create trigger tr_bd_detalle_nota_ingreso before delete on detalle_nota_ingreso
@@ -339,7 +339,7 @@ end $$
 create trigger tr_bu_detalle_nota_salida before update on detalle_nota_salida
 for each row
 begin
-call sumar_cantidad_inventario(old.id, 1);
+call sumar_cantidad_inventario(old.id, old.id_material, old.id_nota, 1);
 end $$
 
 create trigger tr_au_detalle_nota_salida after update on detalle_nota_salida
@@ -351,10 +351,10 @@ end $$
 create trigger tr_bd_detalle_nota_salida before delete on detalle_nota_salida
 for each row
 begin
-call sumar_cantidad_inventario(old.id, 1);
+call sumar_cantidad_inventario(old.id, old.id_material, old.id_nota, 1);
 end $$
 
--- Procedimientos almacenados
+-- PROCEDIMIENTOS ALMACENADOS
 create procedure actualizar_monto_total_nota_ingreso (in id_detalle_nota int)
 begin
 	update nota_ingreso set monto_total = (select sum(cantidad * precio) from detalle_nota_ingreso 
@@ -362,18 +362,31 @@ begin
 	where id = (select id_nota from detalle_nota_ingreso where id = id_detalle_nota);
 end $$
 
-create procedure sumar_cantidad_inventario (in id_detalle_nota int, in bandera int)
-begin
-    if (bandera = 0) then
-		update inventario set cantidad = cantidad + (select cantidad from detalle_nota_ingreso where id = id_detalle_nota)
-		where id_material = (select id_material from detalle_nota_ingreso where id = id_detalle_nota limit 1) and id_almacen = (select id_almacen from nota_ingreso 
-						where id = (select id_nota from detalle_nota_ingreso where id = id_detalle_nota) limit 1);
-	else
-		update inventario set cantidad = cantidad + (select cantidad from detalle_nota_salida where id = id_detalle_nota)
-		where id_material = (select id_material from detalle_nota_salida where id = id_detalle_nota limit 1) and id_almacen = (select id_almacen from nota_salida
-						where id = (select id_nota from detalle_nota_salida where id = id_detalle_nota) limit 1);
-	end if;
-end $$
+
+CREATE PROCEDURE sumar_cantidad_inventario (IN id_detalle_nota INT, IN id_mat INT, IN n_nota INT, IN bandera INT)
+BEGIN
+    DECLARE almacen INT;
+    
+    IF (bandera = 0) THEN
+        SELECT id_almacen INTO almacen FROM nota_ingreso WHERE id = n_nota LIMIT 1;
+        
+        IF NOT EXISTS (SELECT id_material FROM inventario WHERE id_almacen = almacen and id_material = id_mat) THEN
+            INSERT INTO inventario VALUES (0, id_mat, almacen);
+        END IF;
+        
+        UPDATE inventario SET cantidad = cantidad + (SELECT cantidad FROM detalle_nota_ingreso WHERE id = id_detalle_nota)
+        WHERE id_material = id_mat AND id_almacen = almacen;
+    ELSE
+        SELECT id_almacen INTO almacen FROM nota_salida WHERE id = n_nota LIMIT 1;
+        
+        IF NOT EXISTS (SELECT id_material FROM inventario WHERE id_almacen = almacen and id_material = id_mat) THEN
+            INSERT INTO inventario VALUES (0, id_mat, almacen);
+        END IF;
+        
+        UPDATE inventario SET cantidad = cantidad + (SELECT cantidad FROM detalle_nota_salida WHERE id = id_detalle_nota)
+        WHERE id_material = id_mat AND id_almacen = almacen;
+    END IF;
+END $$
 
 create procedure restar_cantidad_inventario (in id_detalle_nota int, in bandera int)
 begin
