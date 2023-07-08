@@ -548,7 +548,13 @@ insert into detalle_nota_ingreso values(null, 2, 10, 2, 2);
 -- id, cantidad, id_nota, id_material
 insert into detalle_nota_salida values(null, 1, 1, 2);
 
-insert into cliente values(3,'av/lujan');
+--   					cliente   ubicacion
+insert into cliente values(3,'Av Virgen de Luján');
+insert into cliente values(7,'av. virgen de lujan');
+insert into cliente values(8,'av. virgen de lujan');
+insert into cliente values(9,'av. virgen de lujan');
+insert into cliente values(10,'av. virgen de lujan');
+insert into cliente values(11,'av. virgen de lujan');
 insert into telefono values(70015434,0,3);
 
 --						  id    descripcion						    fecha  estado  trabajador   cliente  tp/peronsal, grupal
@@ -664,13 +670,6 @@ insert into medida_vestimenta values(null,40,1,1);
 insert into medida_vestimenta values(null,50,1,2);
 
 insert into cambio values(null,now(),48,2);
-
---   					cliente   ubicacion
-insert into cliente values(7,'av. virgen de lujan');
-insert into cliente values(8,'av. virgen de lujan');
-insert into cliente values(9,'av. virgen de lujan');
-insert into cliente values(10,'av. virgen de lujan');
-insert into cliente values(11,'av. virgen de lujan');
 
 --							numero    priv/  cliente
 insert into telefono values(70225414,0,    7);
