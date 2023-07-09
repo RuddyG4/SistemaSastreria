@@ -54,70 +54,130 @@
                             <h2>Unidad de Vestimenta</h2>
                             <div class="row">
                                 <div class="col-lg-8">
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Vestimenta</th>
-                                                <th>Cantidad</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="checkbox checkbox-danger">
-                                                        <input id="checkbox1" type="checkbox" />
-                                                        <label for="checkbox1"> Camisa</label>
-                                                        <input id="checkbox1" type="checkbox" />
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <input class="editable-input" type="number" placeholder="0" style="
-                                  background-color: transparent;
-                                  border: none;
-                                " />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="checkbox checkbox-danger">
-                                                        <input id="checkbox2" type="checkbox" />
-                                                        <label for="checkbox2"> Pantalon</label>
-                                                        <input id="checkbox2" type="checkbox" />
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <input class="editable-input" type="number" placeholder="0" style="
-                                  background-color: transparent;
-                                  border: none;
-                                " />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="checkbox checkbox-danger">
-                                                        <input id="checkbox3" type="checkbox" />
-                                                        <label for="checkbox3"> Saco</label>
-                                                        <input id="checkbox3" type="checkbox" />
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <input class="editable-input" type="number" placeholder="0" style="
-                                  background-color: transparent;
-                                  border: none;
-                                " />
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="col-lg-2">
-                                    <div style="margin-left: 50px">
-                                        <i class="fa fa-male" style="font-size: 150px; color:#5135f1d5 "></i>
+                                    <div class="panel panel-success">
+                                        <div class="form-group">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-bordered table-hover dataTables-example">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Vestimenta</th>
+                                                            <th>Cantidad</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="gradeX">
+                                                            <td>Camisa Hombre</td>
+                                                            <td>
+                                                                <input class="editable-input" type="number" placeholder="0" style="
+                                        background-color: transparent;
+                                        border: none;
+                                      " />
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="gradeX">
+                                                            <td>Camisa Hombre</td>
+                                                            <td>
+                                                                <input class="editable-input" type="number" placeholder="0" style="
+                                        background-color: transparent;
+                                        border: none;
+                                      " />
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="gradeX">
+                                                            <td>Camisa mujer</td>
+                                                            <td>
+                                                                <input class="editable-input" type="number" placeholder="0" style="
+                                        background-color: transparent;
+                                        border: none;
+                                      " />
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="gradeX">
+                                                            <td>pantalon Hombre</td>
+                                                            <td>
+                                                                <input class="editable-input" type="number" placeholder="0" style="
+                                        background-color: transparent;
+                                        border: none;
+                                      " />
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="gradeX">
+                                                            <td>pantalon mujer</td>
+                                                            <td>
+                                                                <input class="editable-input" type="number" placeholder="0" style="
+                                        background-color: transparent;
+                                        border: none;
+                                      " />
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="gradeX">
+                                                            <td>Saco Hombre</td>
+                                                            <td>
+                                                                <input class="editable-input" type="number" placeholder="0" style="
+                                        background-color: transparent;
+                                        border: none;
+                                      " />
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="gradeX">
+                                                            <td>Saco mujer</td>
+                                                            <td>
+                                                                <input class="editable-input" type="number" placeholder="0" style="
+                                        background-color: transparent;
+                                        border: none;
+                                      " />
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="gradeX">
+                                                            <td>Saco Hombre</td>
+                                                            <td>
+                                                                <input class="editable-input" type="number" placeholder="0" style="
+                                        background-color: transparent;
+                                        border: none;
+                                      " />
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="gradeX">
+                                                            <td>Saco Hombre</td>
+                                                            <td>
+                                                                <input class="editable-input" type="number" placeholder="0" style="
+                                        background-color: transparent;
+                                        border: none;
+                                      " />
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="gradeX">
+                                                            <td>Saco Hombre</td>
+                                                            <td>
+                                                                <input class="editable-input" type="number" placeholder="0" style="
+                                        background-color: transparent;
+                                        border: none;
+                                      " />
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="gradeX">
+                                                            <td>Saco Hombre</td>
+                                                            <td>
+                                                                <input class="editable-input" type="number" placeholder="0" style="
+                                        background-color: transparent;
+                                        border: none;
+                                      " />
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-2">
-                                    <div>
-                                        <i class="fa fa-female" style="font-size: 150px; color: #f13535d5"></i>
+                                    <div style="margin-left: 60px; margin-top: 80px;">
+                                        <i class="fa fa-male" style="font-size: 150px; color: #4a47db"></i>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div style="margin-left: 20px; margin-top: 80px;">
+                                        <i class="fa fa-female" style="font-size: 150px; color: #da5555"></i>
                                     </div>
                                 </div>
                             </div>
@@ -152,6 +212,54 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="input-group date">
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" style="
+                                    background-color: transparent;
+                                    border: none;
+                                  " />
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" class="editable-input" type="number" placeholder="0" style="
+                                  background-color: transparent;
+                                  border: none;
+                                " />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="input-group date">
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" style="
+                                    background-color: transparent;
+                                    border: none;
+                                  " />
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" class="editable-input" type="number" placeholder="0" style="
+                                  background-color: transparent;
+                                  border: none;
+                                " />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="input-group date">
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" style="
+                                    background-color: transparent;
+                                    border: none;
+                                  " />
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" class="editable-input" type="number" placeholder="0" style="
+                                  background-color: transparent;
+                                  border: none;
+                                " />
+                                                </td>
+                                            </tr>
                                             <tr>
                                                 <td>
                                                     <div class="input-group date">
@@ -310,6 +418,9 @@
         <script src="{{ asset('js/plugins/iCheck/icheck.min.js') }}"></script>
         <!-- Data picker -->
         <script src="{{ asset('js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
+        <!-- tabla responsive -->
+        <script src="{{ asset('js/plugins/dataTables/datatables.min.js') }}"></script>
+        <script src="{{ asset('js/plugins/dataTables/dataTables.bootstrap4.min.js') }}"></script>
         <script>
             $(document).ready(function() {
                 $("#wizard").steps();
@@ -317,58 +428,58 @@
                     .steps({
                         bodyTag: "fieldset",
                         onStepChanging: function(event, currentIndex, newIndex) {
-                            // Always allow going backward even if the current step contains invalid fields!
+                            // ¡Permita siempre retroceder incluso si el paso actual contiene campos no válidos!
                             if (currentIndex > newIndex) {
                                 return true;
                             }
 
-                            // Forbid suppressing "Warning" step if the user is to young
+                            // Prohibir la supresión del paso "Advertencia" si el usuario es demasiado joven
                             if (newIndex === 3 && Number($("#age").val()) < 18) {
                                 return false;
                             }
 
                             var form = $(this);
 
-                            // Clean up if user went backward before
+                            // Limpiar si el usuario retrocedió antes
                             if (currentIndex < newIndex) {
-                                // To remove error styles
+                                // Para eliminar estilos de error
                                 $(".body:eq(" + newIndex + ") label.error", form).remove();
                                 $(".body:eq(" + newIndex + ") .error", form).removeClass(
                                     "error"
                                 );
                             }
 
-                            // Disable validation on fields that are disabled or hidden.
+                            // Deshabilite la validación en campos que están deshabilitados u ocultos.
                             form.validate().settings.ignore = ":disabled,:hidden";
 
-                            // Start validation; Prevent going forward if false
+                            // Iniciar validación; Evitar seguir adelante si es falso
                             return form.valid();
                         },
-                        onStepChanged: function(event, currentIndex, priorIndex) {
+                        /* onStepChanged: function(event, currentIndex, priorIndex) {
                             // Suprima (omita) el paso "Advertencia" si el usuario tiene la edad suficiente.
-                            if (currentIndex === 2 && Number($("#age").val()) >= 18) {
+                            /* if (currentIndex === 2 && Number($("#age").val()) >= 18) {
                                 $(this).steps("Next");
                             }
 
                             // Suprima (omita) el paso "Advertencia" si el usuario tiene la edad suficiente y desea continuar con el paso anterior.
                             if (currentIndex === 2 && priorIndex === 3) {
                                 $(this).steps("Previous");
-                            }
-                        },
+                            } 
+                        }, */
                         onFinishing: function(event, currentIndex) {
                             var form = $(this);
 
-                            // Disable validation on fields that are disabled.
-                            // At this point it's recommended to do an overall check (mean ignoring only disabled fields)
+                            // Deshabilite la validación en los campos que están deshabilitados.
+                            // En este punto, se recomienda hacer una verificación general (es decir, ignorar solo los campos deshabilitados)
                             form.validate().settings.ignore = ":disabled";
 
-                            // Start validation; Prevent form submission if false
+                            // Iniciar validación; Impedir el envío del formulario si es falso
                             return form.valid();
                         },
                         onFinished: function(event, currentIndex) {
                             var form = $(this);
 
-                            // Submit form input
+                            // Enviar formulario de entrada
                             form.submit();
                         },
                     })
@@ -395,6 +506,14 @@
                     forceParse: false,
                     calendarWeeks: true,
                     autoclose: true,
+                });
+            }); /* tabla responsive */
+            $(document).ready(function() {
+                $(".dataTables-example").DataTable({
+                    pageLength: 5,
+                    responsive: true,
+                    dom: '<"html5buttons"B>lTfgitp',
+                    buttons: [],
                 });
             });
         </script>

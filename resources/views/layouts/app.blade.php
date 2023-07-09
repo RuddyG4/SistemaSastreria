@@ -9,6 +9,16 @@
     <!-- Logo -->
     <link rel="shortcut icon" href="{{ asset('images/logo-icon.jpg') }}">
 
+    <!-- Crear Pedido -->
+    <link href="{{ asset('css/plugins/steps/jquery.steps.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/plugins/chosen/bootstrap-chosen.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/plugins/datapicker/datepicker3.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/plugins/iCheck/custom.css') }}" rel="stylesheet" />
+
+    <!-- responsive table -->
+    <link href="{{ asset('css/plugins/dataTables/datatables.min.css') }}" rel="stylesheet" />
+
     <!-- Bootstrap -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap/bootstrap.min.css')}}">
 
@@ -23,12 +33,7 @@
 
     <link href="{{ asset('css/animate.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/style.css') }}" rel="stylesheet" />
-    <!-- Crear Pedido -->
-    <link href="{{ asset('css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css') }}" rel="stylesheet" />
-    <link href="{{ asset('css/plugins/chosen/bootstrap-chosen.css') }}" rel="stylesheet" />
-    <link href="{{ asset('css/plugins/datapicker/datepicker3.css') }}" rel="stylesheet" />
-    <link href="{{ asset('css/plugins/iCheck/custom.css') }}" rel="stylesheet" />
-    <link href="{{ asset('css/plugins/steps/jquery.steps.css') }}" rel="stylesheet" />
+
     @livewireStyles
 </head>
 
