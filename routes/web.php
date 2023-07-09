@@ -30,6 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/adm_usuarios/funcionalidades', App\Http\Livewire\usuarios\Funcionalidades::class);
     Route::get('/dashboard/adm_usuarios/usuarios', App\Http\Livewire\usuarios\Usuarios::class);
     Route::get('/dashboard/adm_usuarios/bitacora', App\Http\Livewire\usuarios\Bitacora::class);
+    Route::get('/dashboard/adm_usuarios/perfil',function(){return view('livewire.usuarios.perfil');});
 
     // Paquete de Servicios
     Route::get('/dashboard/adm_servicios/clientes', App\Http\Livewire\Servicios\Clientes::class);
