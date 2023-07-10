@@ -5,6 +5,7 @@ namespace App\Models\servicios;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Pedido extends Model
 {
@@ -25,5 +26,10 @@ class Pedido extends Model
     public function cliente() : BelongsTo
     {
         return $this->belongsTo(Cliente::class, 'id_cliente');
+    }
+
+    public function detalles() : HasMany
+    {
+        return $this->hasMany(DetallePedido::class, 'id_pedido');
     }
 }

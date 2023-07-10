@@ -5,6 +5,7 @@ namespace App\Models\servicios;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Vestimenta extends Model
 {
@@ -21,6 +22,9 @@ class Vestimenta extends Model
         return $this->belongsToMany(Medida::class, 'medida_necesaria', 'id_vestimenta', 'id_medida');
     }
 
-
+    public function detalles() : HasMany
+    {
+        return $this->hasMany(DetallePedido::class, 'id_vestimenta');
+    }
 }
 

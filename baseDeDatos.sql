@@ -199,9 +199,10 @@ foreign key (id_cliente) references cliente(id)
 create table fecha_pago
 (
 id integer not null auto_increment,
-fecha datetime not null,
+fecha date not null,
 descripcion varchar(100),
-id_pedido integer not null, -- t=terminado  c=creado  p=proceso
+monto decimal(7,2) not null,
+id_pedido integer not null,
 primary key (id,id_pedido),
 foreign key (id_pedido) references pedido(id)
 	on update cascade on delete cascade
@@ -576,7 +577,7 @@ insert into pedido values(null, 'Pedido para colegio Don Bosco',  now(),    0.1 
 insert into pedido values(null, 'Pedido para colegio Josefina B.',  now(),  1      , 4 ,         9 ,       1);
 insert into pedido values(null, 'Pedido para una persona particular',now(), 0,       2,          3,        0);
 
-insert into fecha_pago values(null,now(),'primer pago',1);
+insert into fecha_pago values(null,now(),'primer pago', 100, 1);
 
 --									mujer
 insert into vestimenta values(1,'saco mujer',0,0);
@@ -693,11 +694,11 @@ insert into telefono values(70225418,0,    11);
 
 
 
--- 							id      fecha 	    descrip   id-pedid
-insert into fecha_pago values(null,'2023-05-08','primer pago',2);
-insert into fecha_pago values(null,'2023-05-10','segundo pago',2);
-insert into fecha_pago values(null,'2023-05-15','tercer pago',2);
-insert into fecha_pago values(null,'2023-05-20','pago final ',2);
+-- 							id      fecha 	    descrip      monto id-pedid
+insert into fecha_pago values(null,'2023-05-08','primer pago',100, 2   );
+insert into fecha_pago values(null,'2023-05-10','segundo pago',200, 2   );
+insert into fecha_pago values(null,'2023-05-15','tercer pago',200, 2   );
+insert into fecha_pago values(null,'2023-05-20','pago final ',100, 2   );
 
 -- INSERT INTO UNIDAD_VESTIMENTA VALUES(NULL,0,1,1,3);
 --                                    ID  ESTADO  IDPEDI  IDVEST  IDCLIEN

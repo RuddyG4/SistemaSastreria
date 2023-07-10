@@ -1,286 +1,448 @@
 <div>
-    <form id="form" action="#" class="wizard-big">
-        <h1>Caracteristicas</h1>
-        <fieldset>
-            <div class="row">
-                <div class="col-lg-6">
-                    <h2>Descripcion de Pedido</h2>
-                    <div class="form-group" class="col-sm-10">
-                        <textarea class="form-control" rows="3" wire:model.debounce.1000ms="pedido.descripcion"></textarea>
-                    </div>
-                    <div class="form-group" class="col-sm-10">
-                        <h2>Tipo de Pedido</h2>
-                        <div class="radio radio-info">
-                            <input type="radio" id="inlineRadio1" wire:model="pedido.tipo" name="radioInline" checked />
-                            <label for="inlineRadio1">
-                                PERSONAL <i class="fa fa-user"></i></label>
-                        </div>
-                        <div class="radio radio-info">
-                            <input type="radio" id="inlineRadio2" wire:model="pedido.tipo" name="radioInline" />
-                            <label for="inlineRadio2">
-                                GRUPAL <i class="fa fa-users"></i></label>
-                        </div>
-                        <div>
-                            Opción seleccionada: {{ $pedido->tipo }}
-                        </div>
-                    </div>
+    {{-- Panel de pasos --}}
+    <div class="ibox-title">
+        <div class="stepwizard">
+            <div class="stepwizard-row setup-panel">
+                <div class="stepwizard-step">
+                    <a href="#step-1" type="button"
+                        class="btn btn-circle {{ $step != 1 ? 'btn-default' : 'btn-primary' }}">1</a>
+                    <p>Datos principales</p>
                 </div>
-                <div class="col-lg-6">
-                    <div class="form-group">
-                        <h2>Encargado - Cliente</h2>
-                        <div>
-                            <select class="chosen-select" tabindex="2">
-                                <option value=""></option>
-                                <option value="United States">1</option>
-                                <option value="United Kingdom">2</option>
-                                <option value="Afghanistan">3</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div style="margin-left: 160px">
-                        <i class="fa fa-user" style="font-size: 150px; color: #c5a2a2"></i>
-                    </div>
+                <div class="stepwizard-step">
+                    <a href="#step-2" type="button"
+                        class="btn btn-circle {{ $step != 2 ? 'btn-default' : 'btn-primary' }}">2</a>
+                    <p>Seleccionar vestimentas</p>
+                </div>
+                <div class="stepwizard-step">
+                    <a href="#step-3" type="button"
+                        class="btn btn-circle {{ $step != 3 ? 'btn-default' : 'btn-primary' }}">3</a>
+                    <p>Información de pago</p>
+                </div>
+                <div class="stepwizard-step">
+                    <a href="#step-3" type="button"
+                        class="btn btn-circle {{ $step != 4 ? 'btn-default' : 'btn-primary' }}">4</a>
+                    <p>Confirmación</p>
                 </div>
             </div>
-        </fieldset>
-        <h1>Detalle Pedido</h1>
-        <fieldset>
-            <h2>Unidad de Vestimenta</h2>
-            <div class="row">
-                <div class="col-lg-8">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Vestimenta</th>
-                                <th>Cantidad</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="checkbox checkbox-danger">
-                                        <input id="checkbox1" type="checkbox" />
-                                        <label for="checkbox1"> Camisa</label>
-                                        <input id="checkbox1" type="checkbox" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <input class="editable-input" type="number" placeholder="0" style="background-color: transparent;border: none;"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox checkbox-danger">
-                                        <input id="checkbox2" type="checkbox" />
-                                        <label for="checkbox2"> Pantalon</label>
-                                        <input id="checkbox2" type="checkbox" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <input class="editable-input" type="number" placeholder="0" style="
-                  background-color: transparent;
-                  border: none;
-                " />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="checkbox checkbox-danger">
-                                        <input id="checkbox3" type="checkbox" />
-                                        <label for="checkbox3"> Saco</label>
-                                        <input id="checkbox3" type="checkbox" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <input class="editable-input" type="number" placeholder="0" style="
-                  background-color: transparent;
-                  border: none;
-                " />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-lg-2">
-                    <div style="margin-left: 50px">
-                        <i class="fa fa-male" style="font-size: 150px; color:#5135f1d5 "></i>
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div>
-                        <i class="fa fa-female" style="font-size: 150px; color: #f13535d5"></i>
-                    </div>
-                </div>
-            </div>
-        </fieldset>
+        </div>
+    </div>
 
-        <h1>Detalle de Pago</h1>
-        <fieldset>
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="form-group">
-                        <h2>Primer Pago</h2>
-                        <input type="number" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <h2>Saldo</h2>
-                        <input type="number" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <h2>Total a Pagar</h2>
-                        <input type="number" class="form-control" disabled />
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <h2>Fechas de Pago</h2>
-                    <table class="table table-striped" id="data_1">
-                        <thead>
-                            <tr>
-                                <th>
-                                    <i class="fa fa-calendar"></i> Fecha de Pago
-                                </th>
-                                <th><i class="fa fa-money"></i> Cantidad</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="input-group date">
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" style="background-color: transparent;border: none;"/>
-                                    </div>
-                                </td>
-                                <td>
-                                    <input class="form-control" class="editable-input" type="number" placeholder="0" style="
-                  background-color: transparent;
-                  border: none;
-                " />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="input-group date">
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" style="
-                    background-color: transparent;
-                    border: none;
-                  " />
-                                    </div>
-                                </td>
-                                <td>
-                                    <input class="form-control" class="editable-input" type="number" placeholder="0" style="
-                  background-color: transparent;
-                  border: none;
-                " />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="input-group date">
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" style="
-                    background-color: transparent;
-                    border: none;
-                  " />
-                                    </div>
-                                </td>
-                                <td>
-                                    <input class="form-control" class="editable-input" type="number" placeholder="0" style="
-                  background-color: transparent;
-                  border: none;
-                " />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </fieldset>
+    {{-- Formulario --}}
+    <form wire:submit.prevent="crearPedido" id="form">
+        <div class="wrapper wrapper-content  animated fadeInRight">
+            <div class="ibox">
+                <div class="ibox-content">
 
-        <h1>Verificar Datos</h1>
-        <fieldset>
-            <div class="row">
-                <div class="col-lg-4">
-                    <h2 style="font-weight: bold">Caracteristicas</h2>
-                    <div class="panel panel-success">
-                        <div class="col-lg-10">
-                            <div class="form-group">
-                                <h3 style="font-weight: bold">Titular</h3>
-                                <h4><i class="fa fa-user-o"></i> Fulanito Perez</h4>
-                            </div>
-                            <div class="form-group">
-                                <h3 style="font-weight: bold">Tipo de Pedido</h3>
-                                <h4><i class="fa fa-user"></i> Personal</h4>
-                            </div>
-                            <div class="form-group">
-                                <h3 style="font-weight: bold">Descripcion</h3>
-                                <h4>
-                                    <i class="fa fa-book"></i> Pedido Personal de 5
-                                    personas
-                                </h4>
-                            </div>
+                    <div class="row">
+                        {{-- Paso 1 --}}
+                        <div class="col-7 {{ $step === 1 ? '':'dontShow' }}">
+                            <fieldset>
+                                <h4>Descripcion de Pedido</h4>
+                                <div class="form-group" class="">
+                                    <textarea class="form-control" rows="3"
+                                        wire:model.debounce.800ms="pedido.descripcion"></textarea>
+                                    @error('pedido.descripcion')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <h4>Cliente encargado :</h4>
+                                    <div>
+                                        <input type="number" class="form-control" id="busqueda" wire:model="busqueda"
+                                            placeholder="Buscar por CI...">
+                                        @error('pedido.id_cliente')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+
+                                        @if ($busqueda)
+                                        <div>
+                                            <ul class="todo-list small-list">
+                                                @foreach ($clientes as $cliente)
+                                                <li>
+                                                    <button class="btn" type="button"
+                                                        wire:click="seleccionarCliente( {{ $cliente->id }} )">{{
+                                                        $cliente->nombre }} {{ $cliente->apellido }}</button>
+                                                </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <i class="fa fa-user fa-5x"></i>
+                                    @if ($pedido->id_cliente)
+                                    <?php
+                                    $persona = $pedido->cliente->persona
+                                    ?>
+                                    <div>
+                                        <span><strong>Nombre: </strong></span>{{ $persona->nombre }} {{
+                                        $persona->apellido }}
+                                        <br>
+                                        <span><strong>CI: </strong></span> {{ $persona->ci }}
+                                    </div>
+                                    @endif
+                                </div>
+
+                                <div class="form-group" class="col-sm-10">
+                                    <h4>Tipo de Pedido</h4>
+                                    <div class="radio radio-info">
+                                        <input type="radio" id="inlineRadio1" wire:model="pedido.tipo" value="0"
+                                            name="radioInline" />
+                                        <label for="inlineRadio1">
+                                            PERSONAL <i class="fa fa-user"></i>
+                                        </label>
+                                    </div>
+                                    <div class="radio radio-info">
+                                        <input type="radio" id="inlineRadio2" wire:model="pedido.tipo" value="1"
+                                            name="radioInline" />
+                                        <label for="inlineRadio2">
+                                            GRUPAL <i class="fa fa-users"></i>
+                                        </label>
+                                    </div>
+                                    @error('pedido.tipo')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                    <br>
+                            </fieldset>
+                        </div>
+
+                        {{-- PASO 2: Detalles de pedido --}}
+                        <div class="col {{ $step === 2 ? '':'dontShow' }}">
+                            <fieldset>
+                                <h3>Agregar vestimentas</h3>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="id_material">Material</label>
+                                        <select wire:model="id_vestimenta" id="id_material" class="form-control">
+                                            <option value="">Seleccione uno</option>
+                                            @foreach($vestimentas as $vestimenta)
+                                            <option value="{{ $vestimenta->id }}">{{ $vestimenta->nombre }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('id_vestimenta')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label for="cantidad">Cantidad</label>
+                                        <input type="number" min="1" step="1" id="cantidad" class="form-control"
+                                            wire:model.lazy="cantidad">
+                                        @error('cantidad')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col">
+                                        <br>
+                                        <button wire:click="adicionarDetallePedido"
+                                            class="btn btn-outline btn-primary dim" type="button"><i
+                                                class="fa fa-plus"></i></button>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <h4>Agregados</h4>
+                                        @if(!$detalles->isEmpty())
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Material</th>
+                                                    <th scope="col">Cantidad</th>
+                                                    <th scope="col">Precio</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($detalles as $index => $detalle)
+                                                <tr>
+                                                    <td>
+                                                        <input readonly type="text" class="form-control col-md-4"
+                                                            value="{{ $detalle->vestimenta->nombre }} " id="">
+                                                    </td>
+                                                    <td>
+                                                        <input readonly type="text" class="form-control col-md-3"
+                                                            wire:model="detalles.{{$index}}.cantidad" id="">
+                                                    </td>
+                                                    <td>
+                                                        <button wire:click="quitarDetallePedido({{$index}})"
+                                                            class="btn btn-outline btn-danger dim col" type="button"><i
+                                                                class="fa fa-minus"></i></button>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                        @else
+
+                                        @if (session()->has('message'))
+                                        <div class="alert alert-danger">
+                                            <p style="display: flex; justify-content: center;">No se agregaron
+                                                vestimentas!!
+                                            </p>
+                                        </div>
+                                        @else
+                                        <div class="alert alert-warning">
+                                            <p style="display: flex; justify-content: center;">No se agregaron
+                                                vestimentas!!
+                                            </p>
+                                        </div>
+                                        @endif
+                                        @endif
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+
+                        {{-- PASO 3: Información de pago --}}
+                        <div class="col {{ $step === 3 ? '':'dontShow' }}">
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col">
+                                        <h3>Detalle de Pago</h3>
+                                        <div class="form-group">
+                                            <label>Pago inicial</label>
+                                            <input type="number" wire:model="pagoInicial" class="form-control" />
+                                            @error('pagoInicial')
+                                            <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <h4>Registrar fechas de pago próximas :</h4>
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="id_material">Fecha de pago :</label>
+                                                <input type="date" wire:model="fecha" min="{{ now()->toDateString() }}"
+                                                    class="form-control">
+                                                @error('fecha')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+
+                                            <div class="col">
+                                                <label for="monto">Monto</label>
+                                                <input type="number" min="1" step="1" id="monto" class="form-control"
+                                                    wire:model.lazy="monto">
+                                                @error('monto')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+
+                                            <div class="col-auto">
+                                                <br>
+                                                <button wire:click="adicionarFechaPago"
+                                                    class="btn btn-outline btn-primary dim" type="button"><i
+                                                        class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="col">
+                                        <h3>Resumen de pago :</h3>
+                                        <div class="form-group">
+                                            <label>Saldo</label>
+                                            <input type="number" class="form-control" />
+                                        </div>
+                                        <div class="form-group">
+                                            <h4>Fechas de pago registradas :</h4>
+                                            @if ( !$pagoInicial == null)
+                                            <table class="table table-striped" id="data_1">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            <i class="fa fa-calendar"></i> Fecha de Pago
+                                                        </th>
+                                                        <th>
+                                                            <i class="fa fa-money"></i> Monto
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            {{ now()->toDateString() }} (Hoy)
+                                                        </td>
+                                                        <td>
+                                                            {{ $pagoInicial }}
+                                                        </td>
+                                                    </tr>
+                                                    @foreach ($fechas as $index => $fecha)
+                                                    <tr>
+                                                        <td>
+                                                            {{ $fecha->fecha}}
+                                                        </td>
+                                                        <td>
+                                                            {{ $fecha->monto }}
+                                                        </td>
+                                                        <td>
+                                                            <button wire:click="quitarFechaPago({{$index}})"
+                                                                class="btn btn-outline btn-danger dim col"
+                                                                type="button"><i class="fa fa-minus"></i></button>
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                            @else
+                                            @if (session()->has('message'))
+                                            <div class="alert alert-danger">
+                                                <p style="display: flex; justify-content: center;">No se agregaron
+                                                    fechas de pago!!
+                                                </p>
+                                            </div>
+                                            @else
+                                            <div class="alert alert-warning">
+                                                <p style="display: flex; justify-content: center;">No se agregaron
+                                                    fechas de pago!!
+                                                </p>
+                                            </div>
+                                            @endif
+                                            @endif
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Total a Pagar</label>
+                                            <input type="number" class="form-control" disabled />
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+
+                        {{-- PASO 4: Confirmar creación del pedido --}}
+                        <div class="col {{ $step === 4 ? '':'dontShow' }}">
+                            <fieldset>
+                                <h3>Verificar Datos</h3>
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <h4 style="font-weight: bold">Datos del pedido:</h4>
+                                        <div class="panel panel-success">
+                                            <div class="col-lg-10">
+                                                @if ($pedido->id_cliente)
+                                                <div class="form-group">
+                                                    <strong style="font-weight: bold">Titular</strong>
+                                                    <span><i class="fa fa-user-o"></i> {{ $persona->nombre }} {{
+                                                        $persona->apellido }}</span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <strong style="font-weight: bold">Tipo de Pedido</strong>
+                                                    <span><i class="fa fa-user"></i> {{ $pedido->tipo ==
+                                                        0?'Personal':'Grupal' }}</span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <strong style="font-weight: bold">Descripcion</strong>
+                                                    <span>
+                                                        {{ $pedido->descripcion}}
+                                                    </span>
+                                                </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <h4 style="font-weight: bold">Vestimentas seleccionadas</h4>
+                                        <div class="panel panel-success">
+                                            @if(!$detalles->isEmpty())
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Material</th>
+                                                        <th scope="col">Cantidad</th>
+                                                        <th scope="col">Precio</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($detalles as $index => $detalle)
+                                                    <tr>
+                                                        <td>
+                                                            <input readonly type="text" class="form-control col-md-4"
+                                                                value="{{ $detalle->vestimenta->nombre }} " id="">
+                                                        </td>
+                                                        <td>
+                                                            <input readonly type="text" class="form-control col-md-3"
+                                                                wire:model="detalles.{{$index}}.cantidad" id="">
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <h4 style="font-weight: bold">Fechas de Pagos</h4>
+                                        <div class="panel panel-success">
+                                            <div class="col-lg-3">
+                                                @if ( !$fechas->isEmpty() )
+                                                <table class="table table-striped" id="data_1">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                <i class="fa fa-calendar"></i> Fecha de Pago
+                                                            </th>
+                                                            <th>
+                                                                <i class="fa fa-money"></i> Monto
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($fechas as $index => $fecha)
+                                                        <tr>
+                                                            <td>
+                                                                {{ $fecha->fecha}}
+                                                            </td>
+                                                            <td>
+                                                                {{ $fecha->monto }}
+                                                            </td>
+                                                        </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+
+                        <div class="ibox-footer text-right">
+                            <button class="btn btn-secondary" type="button" wire:click="previousStep">Anterior</button>
+                            @if ($step === 4)
+                            <button type="submit" class="btn btn-primary">Crear pedido</button>
+                            @else
+                            <button class="btn btn-primary" type="button" wire:click="nextStep">Siguiente</button>
+                            @endif
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-5">
-                    <h2 style="font-weight: bold">Detalle Pedido</h2>
-                    <div class="panel panel-success">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Masculino</th>
-                                    <th>cantidad</th>
-                                    <th>Femenino</th>
-                                    <th>Cantidad</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>camisa hombre</td>
-                                    <td>12</td>
-                                    <td>Camisa mujer</td>
-                                    <td>40</td>
-                                </tr>
-                                <tr>
-                                    <td>pantalon hombre</td>
-                                    <td>12</td>
-                                    <td>pantalon mujer</td>
-                                    <td>40</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <h2 style="font-weight: bold">Fechas de Pagos</h2>
-                    <div class="panel panel-success">
-                        <div class="col-lg-3">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            <i class="fa fa-calendar"></i> Fecha de Pago
-                                        </th>
-                                        <th><i class="fa fa-money"></i> Cantidad</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>15/03/2023</td>
-                                        <td>200</td>
-                                    </tr>
-                                    <tr>
-                                        <td>15/03/2023</td>
-                                        <td>400</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-12 text-right">
-                    <button class="btn btn-outline btn-primary dim" type="button"><i class="fa fa-check"> DATOS CORRECTOS</i></button>
-                </div>
-            </div>
-        </fieldset>
+        </div>
+
     </form>
 </div>
+@push('scripts')
+<script>
+    Livewire.on('pedidoCreado', function() {
+                Swal.fire({
+                    title: 'Pedido creado!',
+                    text: "El Pedido ha sido registrado correctamente!",
+                    icon: 'success',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#48C842',
+                    confirmButtonText: 'Ver lista de pedidos',
+                    cancelButtonText: 'Crear otro pedido!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Livewire.emitTo('servicios.pedidos.crear-pedido', 'irAPedidos');
+                    }
+                })
+            });
+            
+</script>
+@endpush
