@@ -4,8 +4,8 @@ namespace App\Http\Livewire\Servicios;
 
 
 use Livewire\Component;
-use App\models\servicios\Vestimenta;
-use App\models\servicios\Medida;
+use App\Models\servicios\Vestimenta;
+use App\Models\servicios\Medida;
 use App\Models\usuarios\Rol;
 use App\Models\usuarios\User;
 use App\Models\usuarios\Funcionalidad;
