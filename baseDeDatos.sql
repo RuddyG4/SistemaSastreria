@@ -199,9 +199,10 @@ foreign key (id_cliente) references cliente(id)
 create table fecha_pago
 (
 id integer not null auto_increment,
-fecha datetime not null,
+fecha date not null,
 descripcion varchar(100),
-id_pedido integer not null, -- t=terminado  c=creado  p=proceso
+monto decimal(7,2) not null,
+id_pedido integer not null,
 primary key (id,id_pedido),
 foreign key (id_pedido) references pedido(id)
 	on update cascade on delete cascade
@@ -306,7 +307,7 @@ create trigger tr_ai_detalle_nota_ingreso after insert on detalle_nota_ingreso
 for each row
 begin
 call actualizar_monto_total_nota_ingreso(new.id);
-call sumar_cantidad_inventario(new.id, 0);
+call sumar_cantidad_inventario(new.id, new.id_material, new.id_nota, 0);
 end $$
  
 create trigger tr_bu_detalle_nota_ingreso before update on detalle_nota_ingreso
@@ -319,7 +320,7 @@ create trigger tr_au_detalle_nota_ingreso after update on detalle_nota_ingreso
 for each row
 begin
 call actualizar_monto_total_nota_ingreso(new.id);
-call sumar_cantidad_inventario(new.id, 0);
+call sumar_cantidad_inventario(new.id, new.id_material, new.id_nota, 0);
 end $$
 
 create trigger tr_bd_detalle_nota_ingreso before delete on detalle_nota_ingreso
@@ -339,7 +340,7 @@ end $$
 create trigger tr_bu_detalle_nota_salida before update on detalle_nota_salida
 for each row
 begin
-call sumar_cantidad_inventario(old.id, 1);
+call sumar_cantidad_inventario(old.id, old.id_material, old.id_nota, 1);
 end $$
 
 create trigger tr_au_detalle_nota_salida after update on detalle_nota_salida
@@ -351,10 +352,10 @@ end $$
 create trigger tr_bd_detalle_nota_salida before delete on detalle_nota_salida
 for each row
 begin
-call sumar_cantidad_inventario(old.id, 1);
+call sumar_cantidad_inventario(old.id, old.id_material, old.id_nota, 1);
 end $$
 
--- Procedimientos almacenados
+-- PROCEDIMIENTOS ALMACENADOS
 create procedure actualizar_monto_total_nota_ingreso (in id_detalle_nota int)
 begin
 	update nota_ingreso set monto_total = (select sum(cantidad * precio) from detalle_nota_ingreso 
@@ -362,18 +363,31 @@ begin
 	where id = (select id_nota from detalle_nota_ingreso where id = id_detalle_nota);
 end $$
 
-create procedure sumar_cantidad_inventario (in id_detalle_nota int, in bandera int)
-begin
-    if (bandera = 0) then
-		update inventario set cantidad = cantidad + (select cantidad from detalle_nota_ingreso where id = id_detalle_nota)
-		where id_material = (select id_material from detalle_nota_ingreso where id = id_detalle_nota limit 1) and id_almacen = (select id_almacen from nota_ingreso 
-						where id = (select id_nota from detalle_nota_ingreso where id = id_detalle_nota) limit 1);
-	else
-		update inventario set cantidad = cantidad + (select cantidad from detalle_nota_salida where id = id_detalle_nota)
-		where id_material = (select id_material from detalle_nota_salida where id = id_detalle_nota limit 1) and id_almacen = (select id_almacen from nota_salida
-						where id = (select id_nota from detalle_nota_salida where id = id_detalle_nota) limit 1);
-	end if;
-end $$
+
+CREATE PROCEDURE sumar_cantidad_inventario (IN id_detalle_nota INT, IN id_mat INT, IN n_nota INT, IN bandera INT)
+BEGIN
+    DECLARE almacen INT;
+    
+    IF (bandera = 0) THEN
+        SELECT id_almacen INTO almacen FROM nota_ingreso WHERE id = n_nota LIMIT 1;
+        
+        IF NOT EXISTS (SELECT id_material FROM inventario WHERE id_almacen = almacen and id_material = id_mat) THEN
+            INSERT INTO inventario VALUES (0, id_mat, almacen);
+        END IF;
+        
+        UPDATE inventario SET cantidad = cantidad + (SELECT cantidad FROM detalle_nota_ingreso WHERE id = id_detalle_nota)
+        WHERE id_material = id_mat AND id_almacen = almacen;
+    ELSE
+        SELECT id_almacen INTO almacen FROM nota_salida WHERE id = n_nota LIMIT 1;
+        
+        IF NOT EXISTS (SELECT id_material FROM inventario WHERE id_almacen = almacen and id_material = id_mat) THEN
+            INSERT INTO inventario VALUES (0, id_mat, almacen);
+        END IF;
+        
+        UPDATE inventario SET cantidad = cantidad + (SELECT cantidad FROM detalle_nota_salida WHERE id = id_detalle_nota)
+        WHERE id_material = id_mat AND id_almacen = almacen;
+    END IF;
+END $$
 
 create procedure restar_cantidad_inventario (in id_detalle_nota int, in bandera int)
 begin
@@ -548,7 +562,13 @@ insert into detalle_nota_ingreso values(null, 2, 10, 2, 2);
 -- id, cantidad, id_nota, id_material
 insert into detalle_nota_salida values(null, 1, 1, 2);
 
-insert into cliente values(3,'av/lujan');
+--   					cliente   ubicacion
+insert into cliente values(3,'Av Virgen de Luján');
+insert into cliente values(7,'av. virgen de lujan');
+insert into cliente values(8,'av. virgen de lujan');
+insert into cliente values(9,'av. virgen de lujan');
+insert into cliente values(10,'av. virgen de lujan');
+insert into cliente values(11,'av. virgen de lujan');
 insert into telefono values(70015434,0,3);
 
 --						  id    descripcion						    fecha  estado  trabajador   cliente  tp/peronsal, grupal
@@ -557,7 +577,7 @@ insert into pedido values(null, 'Pedido para colegio Don Bosco',  now(),    0.1 
 insert into pedido values(null, 'Pedido para colegio Josefina B.',  now(),  1      , 4 ,         9 ,       1);
 insert into pedido values(null, 'Pedido para una persona particular',now(), 0,       2,          3,        0);
 
-insert into fecha_pago values(null,now(),'primer pago',1);
+insert into fecha_pago values(null,now(),'primer pago', 100, 1);
 
 --									mujer
 insert into vestimenta values(1,'saco mujer',0,0);
@@ -665,13 +685,6 @@ insert into medida_vestimenta values(null,50,1,2);
 
 insert into cambio values(null,now(),48,2);
 
---   					cliente   ubicacion
-insert into cliente values(7,'av. virgen de lujan');
-insert into cliente values(8,'av. virgen de lujan');
-insert into cliente values(9,'av. virgen de lujan');
-insert into cliente values(10,'av. virgen de lujan');
-insert into cliente values(11,'av. virgen de lujan');
-
 --							numero    priv/  cliente
 insert into telefono values(70225414,0,    7);
 insert into telefono values(70225415,0,    8);
@@ -681,11 +694,11 @@ insert into telefono values(70225418,0,    11);
 
 
 
--- 							id      fecha 	    descrip   id-pedid
-insert into fecha_pago values(null,'2023-05-08','primer pago',2);
-insert into fecha_pago values(null,'2023-05-10','segundo pago',2);
-insert into fecha_pago values(null,'2023-05-15','tercer pago',2);
-insert into fecha_pago values(null,'2023-05-20','pago final ',2);
+-- 							id      fecha 	    descrip      monto id-pedid
+insert into fecha_pago values(null,'2023-05-08','primer pago',100, 2   );
+insert into fecha_pago values(null,'2023-05-10','segundo pago',200, 2   );
+insert into fecha_pago values(null,'2023-05-15','tercer pago',200, 2   );
+insert into fecha_pago values(null,'2023-05-20','pago final ',100, 2   );
 
 -- INSERT INTO UNIDAD_VESTIMENTA VALUES(NULL,0,1,1,3);
 --                                    ID  ESTADO  IDPEDI  IDVEST  IDCLIEN

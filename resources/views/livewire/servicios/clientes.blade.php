@@ -23,6 +23,7 @@
                         <th scope="col">ID</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Apellido</th>
+                        <th scope="col">Telefono</th>
                         <th scope="col">C.I.</th>
                         <th scope="col">Dirección</th>
                         @if(in_array('cliente.modificar', $permisos) || in_array('cliente.eliminar', $permisos))
@@ -36,6 +37,13 @@
                         <td>{{ $cliente->id }}</td>
                         <td>{{ $cliente->persona->nombre }}</td>
                         <td>{{ $cliente->persona->apellido }}</td>
+                        <td>
+                            @foreach($cliente->telefonos as $telefono)
+                            @if ($telefono->tipo == 0)
+                            {{ $telefono->numero }}
+                            @endif
+                            @endforeach
+                        </td>
                         <td>{{ $cliente->persona->ci }}</td>
                         <td>{{ $cliente->direccion }}</td>
                         <td>

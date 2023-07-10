@@ -9,16 +9,6 @@
     <!-- Logo -->
     <link rel="shortcut icon" href="{{ asset('images/logo-icon.jpg') }}">
 
-    <!-- Crear Pedido -->
-    <link href="{{ asset('css/plugins/steps/jquery.steps.css') }}" rel="stylesheet" />
-    <link href="{{ asset('css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css') }}" rel="stylesheet" />
-    <link href="{{ asset('css/plugins/chosen/bootstrap-chosen.css') }}" rel="stylesheet" />
-    <link href="{{ asset('css/plugins/datapicker/datepicker3.css') }}" rel="stylesheet" />
-    <link href="{{ asset('css/plugins/iCheck/custom.css') }}" rel="stylesheet" />
-
-    <!-- responsive table -->
-    <link href="{{ asset('css/plugins/dataTables/datatables.min.css') }}" rel="stylesheet" />
-
     <!-- Bootstrap -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap/bootstrap.min.css')}}">
 
@@ -31,9 +21,7 @@
     <!-- Gritter -->
     <link href="{{ asset('js/plugins/gritter/jquery.gritter.css') }}" rel="stylesheet" />
 
-    <link href="{{ asset('css/animate.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/style.css') }}" rel="stylesheet" />
-
     @livewireStyles
 </head>
 
@@ -47,9 +35,10 @@
     $user = Auth::user();
     $permisos = Funcionalidad::whereHas('roles', function ($query) {
         $query->where('id', Auth::user()->rol->id);
-    })->where('nombre', 'LIKE', "adm.%")
-        ->orWhere('nombre', 'like', "%.lista")
-        ->pluck('nombre')->toArray();
+    })->where(function ($query) {
+        $query->where('nombre', 'LIKE', "adm.%")
+            ->orWhere('nombre', 'like', "%.lista");
+    })->pluck('nombre')->toArray();
     ?>
     <div id="wrapper">
         <!-- Menú lateral -->
@@ -86,7 +75,7 @@
                             @endif
                             @if(in_array('funcionalidad.lista', $permisos))
                             <li class="{{ Request::is('dashboard/adm_usuarios/funcionalidades*') ? 'active' : '' }}">
-                                <a href="{{ url('/dashboard/adm_usuarios/funcionalidades') }}">Funcionalidad</a>
+                                <a href="{{ url('/dashboard/adm_usuarios/funcionalidades') }}">Funcionalidades</a>
                             </li>
                             @endif
                         </ul>
@@ -194,38 +183,15 @@
     <script src="{{ asset('js/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap/bootstrap.min.js') }}"></script>
 
-    <!-- Flot -->
-    <script src="{{ asset('js/plugins/flot/jquery.flot.js') }}"></script>
-    <script src="{{ asset('js/plugins/flot/jquery.flot.tooltip.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/flot/jquery.flot.spline.js') }}"></script>
-    <script src="{{ asset('js/plugins/flot/jquery.flot.resize.js') }}"></script>
-    <script src="{{ asset('js/plugins/flot/jquery.flot.pie.js') }}"></script>
-
-    <!-- Peity -->
-    <script src="{{ asset('js/plugins/peity/jquery.peity.min.js') }}"></script>
-    <script src="{{ asset('js/demo/peity-demo.js') }}"></script>
-
     <!-- Custom and plugin javascript -->
     <script src="{{ asset('js/inspinia.js') }}"></script>
-    <script src="{{ asset('js/plugins/pace/pace.min.js') }}"></script>
-
-    <!-- jQuery UI -->
-    <script src="{{ asset('js/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
-
-    <!-- Sparkline -->
-    <script src="{{ asset('js/plugins/sparkline/jquery.sparkline.min.js') }}"></script>
-
-    <!-- Sparkline demo data  -->
-    <script src="{{ asset('js/demo/sparkline-demo.js') }}"></script>
-
-    <!-- ChartJS-->
-    <script src="{{ asset('js/plugins/chartJs/Chart.min.js') }}"></script>
 
     <!-- Livewire y js de modales -->
     @livewireScripts
 
     <!-- Sweet alert - CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- <script src="{{ asset('js/plugins/sweetalert/sweetalert.min.js') }}"></script> -->
     @stack('scripts')
 
 </body>
