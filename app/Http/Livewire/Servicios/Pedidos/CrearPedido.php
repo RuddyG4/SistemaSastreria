@@ -168,7 +168,8 @@ class CrearPedido extends Component
     public function nextStep()
     {
         if ($this->validarPasoActual())
-            $this->step++;
+            if ($this->step < 4)
+                $this->step++;
     }
 
     /**
@@ -193,7 +194,7 @@ class CrearPedido extends Component
             $detalle->id_pedido = $this->pedido->id;
             $detalle->save();
         }
-        
+
         $this->fechas->push(new FechaPago([
             'fecha' => now()->toDateString(),
             'monto' => $this->pagoInicial,
@@ -202,7 +203,7 @@ class CrearPedido extends Component
             $fechaPago->id_pedido = $this->pedido->id;
             $fechaPago->save();
         }
-        $this->usuario->generarBitacora('Pedido creado, id: '.$this->usuario->id);
+        $this->usuario->generarBitacora('Pedido creado, id: ' . $this->usuario->id);
         return redirect('/dashboard/adm_servicios/pedidos');
     }
 
