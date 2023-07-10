@@ -4,23 +4,19 @@
         <div class="stepwizard">
             <div class="stepwizard-row setup-panel">
                 <div class="stepwizard-step">
-                    <a href="#step-1" type="button"
-                        class="btn btn-circle {{ $step != 1 ? 'btn-default' : 'btn-primary' }}">1</a>
+                    <a href="#step-1" type="button" class="btn btn-circle {{ $step != 1 ? 'btn-default' : 'btn-primary' }}">1</a>
                     <p>Datos principales</p>
                 </div>
                 <div class="stepwizard-step">
-                    <a href="#step-2" type="button"
-                        class="btn btn-circle {{ $step != 2 ? 'btn-default' : 'btn-primary' }}">2</a>
+                    <a href="#step-2" type="button" class="btn btn-circle {{ $step != 2 ? 'btn-default' : 'btn-primary' }}">2</a>
                     <p>Seleccionar vestimentas</p>
                 </div>
                 <div class="stepwizard-step">
-                    <a href="#step-3" type="button"
-                        class="btn btn-circle {{ $step != 3 ? 'btn-default' : 'btn-primary' }}">3</a>
+                    <a href="#step-3" type="button" class="btn btn-circle {{ $step != 3 ? 'btn-default' : 'btn-primary' }}">3</a>
                     <p>Información de pago</p>
                 </div>
                 <div class="stepwizard-step">
-                    <a href="#step-3" type="button"
-                        class="btn btn-circle {{ $step != 4 ? 'btn-default' : 'btn-primary' }}">4</a>
+                    <a href="#step-3" type="button" class="btn btn-circle {{ $step != 4 ? 'btn-default' : 'btn-primary' }}">4</a>
                     <p>Confirmación</p>
                 </div>
             </div>
@@ -39,8 +35,7 @@
                             <fieldset>
                                 <h4>Descripcion de Pedido</h4>
                                 <div class="form-group" class="">
-                                    <textarea class="form-control" rows="3"
-                                        wire:model.debounce.800ms="pedido.descripcion"></textarea>
+                                    <textarea class="form-control" rows="3" wire:model.debounce.800ms="pedido.descripcion"></textarea>
                                     @error('pedido.descripcion')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -48,8 +43,7 @@
                                 <div class="form-group">
                                     <h4>Cliente encargado :</h4>
                                     <div>
-                                        <input type="number" class="form-control" id="busqueda" wire:model="busqueda"
-                                            placeholder="Buscar por CI...">
+                                        <input type="number" class="form-control" id="busqueda" wire:model="busqueda" placeholder="Buscar por CI...">
                                         @error('pedido.id_cliente')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -59,8 +53,7 @@
                                             <ul class="todo-list small-list">
                                                 @foreach ($clientes as $cliente)
                                                 <li>
-                                                    <button class="btn" type="button"
-                                                        wire:click="seleccionarCliente( {{ $cliente->id }} )">{{
+                                                    <button class="btn" type="button" wire:click="seleccionarCliente( {{ $cliente->id }} )">{{
                                                         $cliente->nombre }} {{ $cliente->apellido }}</button>
                                                 </li>
                                                 @endforeach
@@ -87,15 +80,13 @@
                                 <div class="form-group" class="col-sm-10">
                                     <h4>Tipo de Pedido</h4>
                                     <div class="radio radio-info">
-                                        <input type="radio" id="inlineRadio1" wire:model="pedido.tipo" value="0"
-                                            name="radioInline" />
+                                        <input type="radio" id="inlineRadio1" wire:model="pedido.tipo" value="0" name="radioInline" />
                                         <label for="inlineRadio1">
                                             PERSONAL <i class="fa fa-user"></i>
                                         </label>
                                     </div>
                                     <div class="radio radio-info">
-                                        <input type="radio" id="inlineRadio2" wire:model="pedido.tipo" value="1"
-                                            name="radioInline" />
+                                        <input type="radio" id="inlineRadio2" wire:model="pedido.tipo" value="1" name="radioInline" />
                                         <label for="inlineRadio2">
                                             GRUPAL <i class="fa fa-users"></i>
                                         </label>
@@ -127,8 +118,7 @@
 
                                     <div class="col-md-3">
                                         <label for="cantidad">Cantidad</label>
-                                        <input type="number" min="1" step="1" id="cantidad" class="form-control"
-                                            wire:model.lazy="cantidad">
+                                        <input type="number" min="1" step="1" id="cantidad" class="form-control" wire:model.lazy="cantidad">
                                         @error('cantidad')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -136,9 +126,7 @@
 
                                     <div class="col">
                                         <br>
-                                        <button wire:click="adicionarDetallePedido"
-                                            class="btn btn-outline btn-primary dim" type="button"><i
-                                                class="fa fa-plus"></i></button>
+                                        <button wire:click="adicionarDetallePedido" class="btn btn-outline btn-primary dim" type="button"><i class="fa fa-plus"></i></button>
                                     </div>
                                 </div>
 
@@ -158,17 +146,13 @@
                                                 @foreach($detalles as $index => $detalle)
                                                 <tr>
                                                     <td>
-                                                        <input readonly type="text" class="form-control col-md-4"
-                                                            value="{{ $detalle->vestimenta->nombre }} " id="">
+                                                        <input readonly type="text" class="form-control col-md-4" value="{{ $detalle->vestimenta->nombre }} " id="">
                                                     </td>
                                                     <td>
-                                                        <input readonly type="text" class="form-control col-md-3"
-                                                            wire:model="detalles.{{$index}}.cantidad" id="">
+                                                        <input readonly type="text" class="form-control col-md-3" wire:model="detalles.{{$index}}.cantidad" id="">
                                                     </td>
                                                     <td>
-                                                        <button wire:click="quitarDetallePedido({{$index}})"
-                                                            class="btn btn-outline btn-danger dim col" type="button"><i
-                                                                class="fa fa-minus"></i></button>
+                                                        <button wire:click="quitarDetallePedido({{$index}})" class="btn btn-outline btn-danger dim col" type="button"><i class="fa fa-minus"></i></button>
                                                     </td>
                                                 </tr>
                                                 @endforeach
@@ -212,8 +196,7 @@
                                         <div class="row">
                                             <div class="col">
                                                 <label for="id_material">Fecha de pago :</label>
-                                                <input type="date" wire:model="fecha" min="{{ now()->toDateString() }}"
-                                                    class="form-control">
+                                                <input type="date" wire:model="fecha" min="{{ now()->toDateString() }}" class="form-control">
                                                 @error('fecha')
                                                 <span class="text-danger">{{ $message }}</span>
                                                 @enderror
@@ -221,8 +204,7 @@
 
                                             <div class="col">
                                                 <label for="monto">Monto</label>
-                                                <input type="number" min="1" step="1" id="monto" class="form-control"
-                                                    wire:model.lazy="monto">
+                                                <input type="number" min="1" step="1" id="monto" class="form-control" wire:model.lazy="monto">
                                                 @error('monto')
                                                 <span class="text-danger">{{ $message }}</span>
                                                 @enderror
@@ -230,9 +212,7 @@
 
                                             <div class="col-auto">
                                                 <br>
-                                                <button wire:click="adicionarFechaPago"
-                                                    class="btn btn-outline btn-primary dim" type="button"><i
-                                                        class="fa fa-plus"></i>
+                                                <button wire:click="adicionarFechaPago" class="btn btn-outline btn-primary dim" type="button"><i class="fa fa-plus"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -277,9 +257,7 @@
                                                             {{ $fecha->monto }}
                                                         </td>
                                                         <td>
-                                                            <button wire:click="quitarFechaPago({{$index}})"
-                                                                class="btn btn-outline btn-danger dim col"
-                                                                type="button"><i class="fa fa-minus"></i></button>
+                                                            <button wire:click="quitarFechaPago({{$index}})" class="btn btn-outline btn-danger dim col" type="button"><i class="fa fa-minus"></i></button>
                                                         </td>
                                                     </tr>
                                                     @endforeach
@@ -318,52 +296,56 @@
                                 <h3>Verificar Datos</h3>
                                 <div class="row">
                                     <div class="col-lg-4">
-                                        <h4 style="font-weight: bold">Datos del pedido:</h4>
-                                        <div class="panel panel-success">
+                                        <h4>Datos del pedido:</h4>
+                                        <div class="panel panel-success panel-pad">
                                             <div class="col-lg-10">
                                                 @if ($pedido->id_cliente)
                                                 <div class="form-group">
-                                                    <strong style="font-weight: bold">Titular</strong>
-                                                    <span><i class="fa fa-user-o"></i> {{ $persona->nombre }} {{
-                                                        $persona->apellido }}</span>
+                                                    <strong><i class="fa fa-user-o"></i> Titular</strong>
+                                                    <p>
+                                                        {{ $persona->nombre }} {{ $persona->apellido }}
+                                                    </p>
                                                 </div>
                                                 <div class="form-group">
-                                                    <strong style="font-weight: bold">Tipo de Pedido</strong>
-                                                    <span><i class="fa fa-user"></i> {{ $pedido->tipo ==
-                                                        0?'Personal':'Grupal' }}</span>
+                                                    <strong>C.I. Titular</strong>
+                                                    <p>
+                                                        {{ $persona->ci }}
+                                                    </p>
                                                 </div>
                                                 <div class="form-group">
-                                                    <strong style="font-weight: bold">Descripcion</strong>
-                                                    <span>
+                                                    <strong>Tipo de Pedido</strong>
+                                                    <p><i class="fa fa-user"></i> {{ $pedido->tipo ==
+                                                        0?'Personal':'Grupal' }}</p>
+                                                </div>
+                                                <div class="form-group">
+                                                    <strong>Descripcion</strong>
+                                                    <p>
                                                         {{ $pedido->descripcion}}
-                                                    </span>
+                                                    </p>
                                                 </div>
                                                 @endif
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-5">
-                                        <h4 style="font-weight: bold">Vestimentas seleccionadas</h4>
-                                        <div class="panel panel-success">
+                                        <h4>Vestimentas seleccionadas</h4>
+                                        <div class="panel panel-success panel-pad">
                                             @if(!$detalles->isEmpty())
                                             <table class="table table-striped">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">Material</th>
                                                         <th scope="col">Cantidad</th>
-                                                        <th scope="col">Precio</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     @foreach($detalles as $index => $detalle)
                                                     <tr>
                                                         <td>
-                                                            <input readonly type="text" class="form-control col-md-4"
-                                                                value="{{ $detalle->vestimenta->nombre }} " id="">
+                                                            {{ $detalle->vestimenta->nombre }}
                                                         </td>
                                                         <td>
-                                                            <input readonly type="text" class="form-control col-md-3"
-                                                                wire:model="detalles.{{$index}}.cantidad" id="">
+                                                            {{ $detalle->cantidad}}
                                                         </td>
                                                     </tr>
                                                     @endforeach
@@ -373,10 +355,9 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
-                                        <h4 style="font-weight: bold">Fechas de Pagos</h4>
-                                        <div class="panel panel-success">
-                                            <div class="col-lg-3">
-                                                @if ( !$fechas->isEmpty() )
+                                        <h4>Fechas de Pagos</h4>
+                                        <div class="panel panel-success panel-pad">
+                                            <div class="col">
                                                 <table class="table table-striped" id="data_1">
                                                     <thead>
                                                         <tr>
@@ -389,6 +370,14 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                {{ now()->toDateString() }} (Hoy)
+                                                            </td>
+                                                            <td>
+                                                                {{ $pagoInicial }}
+                                                            </td>
+                                                        </tr>
                                                         @foreach ($fechas as $index => $fecha)
                                                         <tr>
                                                             <td>
@@ -401,7 +390,6 @@
                                                         @endforeach
                                                     </tbody>
                                                 </table>
-                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -428,21 +416,20 @@
 @push('scripts')
 <script>
     Livewire.on('pedidoCreado', function() {
-                Swal.fire({
-                    title: 'Pedido creado!',
-                    text: "El Pedido ha sido registrado correctamente!",
-                    icon: 'success',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#48C842',
-                    confirmButtonText: 'Ver lista de pedidos',
-                    cancelButtonText: 'Crear otro pedido!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        Livewire.emitTo('servicios.pedidos.crear-pedido', 'irAPedidos');
-                    }
-                })
-            });
-            
+        Swal.fire({
+            title: 'Pedido creado!',
+            text: "El Pedido ha sido registrado correctamente!",
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#48C842',
+            confirmButtonText: 'Ver lista de pedidos',
+            cancelButtonText: 'Crear otro pedido!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Livewire.emitTo('servicios.pedidos.crear-pedido', 'irAPedidos');
+            }
+        })
+    });
 </script>
 @endpush

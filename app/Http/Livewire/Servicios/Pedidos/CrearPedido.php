@@ -23,9 +23,9 @@ class CrearPedido extends Component
     protected $listeners = ['irAPedidos'];
 
     protected $rules = [
-        'pedido.descripcion' => 'required',
-        'pedido.id_cliente' => 'required',
-        'pedido.tipo' => 'required',
+        'pedido.descripcion' => 'required|string|max:100',
+        'pedido.id_cliente' => 'required|integer',
+        'pedido.tipo' => 'required|boolean',
         'detalle.cantidad' => 'required',
         'detalle.id_vestimenta' => 'required',
         'detalles.*.cantidad' => 'required',
@@ -36,12 +36,17 @@ class CrearPedido extends Component
 
     protected $messages = [
         'pedido.descripcion.required' => 'Debe ingresar una descripcion del pedido',
+        'pedido.descripcion.string' => 'La descripcion del pedido debe ser una cadena',
+        'pedido.descripcion.max' => 'La descripcion solo puede tener hasta 100 carácteres',
         'pedido.id_cliente.required' => 'Debe seleccionar el cliente encargado del pedido',
         'pedido.tipo.required' => 'Debe seleccionar el tipo del pedido',
         'cantidad.required' => 'Debe ingresar la cantidad',
+        'cantidad.integer' => 'La cantidad debe ser un número entero (sin decimales)',
         'id_vestimenta.required' => 'Debe seleccionar una vestimenta',
         'monto.required' => 'Debe ingresar un monto',
+        'monto.decimal' => 'El monto debe tener entre 0 y 2 decimales',
         'fecha.required' => 'Debe ingresar una fecha',
+        'fecha.after_or_equal' => 'La fecha debe ser mayor a hoy',
         'pagoInicial.required' => 'Debe ingresar un pago inicial',
     ];
 
@@ -71,7 +76,7 @@ class CrearPedido extends Component
     public function adicionarDetallePedido()
     {
         $datos = $this->validate([
-            'cantidad' => 'required',
+            'cantidad' => 'required|integer',
             'id_vestimenta' => 'required',
         ]);
         $this->detalle = new DetallePedido($datos);
@@ -105,8 +110,8 @@ class CrearPedido extends Component
     public function adicionarFechaPago()
     {
         $this->fechas->push(new FechaPago($this->validate([
-            'fecha' => 'required',
-            'monto' => 'required',
+            'fecha' => 'required|after_or_equal:today',
+            'monto' => 'required|decimal:0,2',
         ])));
         $this->reset(['fecha', 'monto']);
     }
@@ -125,9 +130,9 @@ class CrearPedido extends Component
         switch ($this->step) {
             case 1:
                 $this->validate([
-                    'pedido.descripcion' => 'required',
-                    'pedido.id_cliente' => 'required',
-                    'pedido.tipo' => 'required',
+                    'pedido.descripcion' => 'required|string|max:100',
+                    'pedido.id_cliente' => 'required|integer',
+                    'pedido.tipo' => 'required|boolean',
                 ]);
                 break;
             case 2:
@@ -140,10 +145,6 @@ class CrearPedido extends Component
                 $this->validate([
                     'pagoInicial' => 'required',
                 ]);
-                $this->fechas->push(new FechaPago([
-                    'fecha' => now()->toDateString(),
-                    'monto' => $this->pagoInicial,
-                ]));
                 break;
         }
         return true;
@@ -192,10 +193,16 @@ class CrearPedido extends Component
             $detalle->id_pedido = $this->pedido->id;
             $detalle->save();
         }
+        
+        $this->fechas->push(new FechaPago([
+            'fecha' => now()->toDateString(),
+            'monto' => $this->pagoInicial,
+        ]));
         foreach ($this->fechas as $fechaPago) {
             $fechaPago->id_pedido = $this->pedido->id;
             $fechaPago->save();
         }
+        $this->usuario->generarBitacora('Pedido creado, id: '.$this->usuario->id);
         return redirect('/dashboard/adm_servicios/pedidos');
     }
 

@@ -46,7 +46,7 @@
             </div>
         </div>
         <!-- Fin Widgets -->
-        
+
         @if (in_array('vestimenta.crear', $permisosVestimenta) or in_array('medida.crear', $permisosMedida))
         <div class="ibox ">
             <div class="ibox-title">
@@ -54,18 +54,16 @@
             </div>
             <div class="ibox-content">
                 @if(in_array('vestimenta.crear', $permisosVestimenta))
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAdd">Agregar vestimenta</button>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAdd">Agregar
+                    vestimenta</button>
                 @endif
                 @if(in_array('medida.crear', $permisosMedida))
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalMedida">Agregar Medida</button>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalMedida">Agregar
+                    Medida</button>
                 @endif
             </div>
-        </div>  
+        </div>
         @endif
-       
-
-       
-
 
         <div class="ibox ">
             <div class="ibox-title">
@@ -75,34 +73,31 @@
             <div class="ibox-content">
                 <input type="text" wire:model="busqueda" class="form-control form-control-sm m-b-xs" id="filter" placeholder="Buscar Vestimenta">
 
-                <table class="footable table table-stripped default footable-loaded" data-page-size="8" data-filter="#filter">
+                <table class="footable table table-striped ">
                     <thead>
                         <tr>
-                           
-                            <th class="footable-visible footable-sortable">Nombre<span class="footable-sort-indicator"></span></th>
-                            <th data-hide="phone,tablet" class="footable-visible footable-sortable">
-                                Genero<span class="footable-sort-indicator"></span></th>  
+                            <th> ID</th>
+                            <th> Nombre</th>
+                            <th> Genero </th>
                             @if (in_array('vestimenta.ver', $permisosVestimenta) or in_array('vestimenta.modificar', $permisosVestimenta) or in_array('vestimenta.eliminar', $permisosVestimenta) )
-                            <th data-hide="phone,tablet" class="footable-visible footable-last-column footable-sortable">
-                                Acciones<span class="footable-sort-indicator"></span></th>
-                            @endif                  
-                            
+                            <th class="text-center">Acciones</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($listVestimenta as $list)
-                        <tr class="gradeX footable-even" style="">
-                            <td class="footable-visible footable-first-column"><span class="footable-toggle"></span>1</td>
-                            <td class="footable-visible">{{$list->nombre}}</td>
-                            <td class="footable-visible">
+                        <tr>
+                            <td>{{$list->id}}</td>
+                            <td>{{$list->nombre}}</td>
+                            <td>
                                 @if ($list->genero == 0)
-                                    <span class="badge badge-danger">Femenino</span>
+                                <span class="badge badge-danger">Femenino</span>
                                 @else
-                                    <span class="badge text-bg-primary">Masculino</span>
+                                <span class="badge text-bg-primary">Masculino</span>
                                 @endif
-                               
+
                             </td>
-                            <td class="footable-visible footable-last-column">
+                            <td class="text-center">
                                 @if (in_array('vestimenta.ver', $permisosVestimenta))
                                 <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalVista" wire:click="loadView({{ $list->id }})">Ver </button>
                                 @endif
@@ -110,14 +105,15 @@
                                 <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modalEdit" wire:click="edit({{ $list->id }})">Editar </button>
                                 @endif
                                 @if (in_array('vestimenta.eliminar', $permisosVestimenta))
-                                <button class="btn btn-danger btn-sm"  data-bs-toggle="modal" data-bs-target="#modalEliminar" wire:click="loadView({{ $list->id }})">Eliminar </button>
+                                <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalEliminar" wire:click="loadView({{ $list->id }})">Eliminar
+                                </button>
                                 @endif
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
                     <tfoot>
-                       
+
                     </tfoot>
                 </table>
                 @if ($listVestimenta->hasPages())
@@ -370,7 +366,8 @@
                     <div class="modal-body">
 
                         {{-- @if (in_array('medida.crear', $permisosMedida)) --}}
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalMedidaAdd">Nueva medida</button>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalMedidaAdd">Nueva
+                            medida</button>
                         {{-- @endif --}}
                         <br>
                         <p>Lista de medidas</p>
@@ -380,7 +377,7 @@
                             <div class="p-1">
                                 <span class="badge badge-secundary">
                                     {{ $list->nombre }}
-                                    {{-- @if (in_array('medida.eliminar', $permisosMedida))                                     --}}
+                                    {{-- @if (in_array('medida.eliminar', $permisosMedida)) --}}
                                     <button data-bs-toggle="modal" data-bs-target="#modalDeleteMedida" wire:click="loadData({{ $list->id }})" class="close btn-close btn-close-danger" aria-label="Dismiss">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -407,7 +404,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="closeMedida"></button>
                     </div>
                     <div class="modal-body">
-                        <h4>Quiere eliminar la Medida "<b class="text-danger">{{$medidaNombre}}</b>". No se podra recurperar</h4>
+                        <h4>Quiere eliminar la Medida "<b class="text-danger">{{$medidaNombre}}</b>". No se podra
+                            recurperar</h4>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" wire:click="deleteMedida">Eliminar</button>

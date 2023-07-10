@@ -8,6 +8,10 @@
  *
 */
 
+.panel-pad {
+    padding: 10px;
+}
+
 /* No mostrar parte del formulario en crear pedidos */
 .dontShow {
     display: none;

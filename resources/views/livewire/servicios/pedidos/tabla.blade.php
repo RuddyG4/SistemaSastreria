@@ -77,7 +77,7 @@
         <div class="hr-line-dashed"></div>
 
         <!-- INICIO TABLA PRINCIPAL -->
-        <table class="footable table table-stripped">
+        <table class="footable table table-striped">
             <thead>
                 <tr>
                     <th>Id</th>
