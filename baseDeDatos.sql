@@ -498,6 +498,11 @@ insert into funcionalidad values(null,'nota_salida.eliminar','Permite eliminar n
 
 insert into funcionalidad values(null,'bitacora.lista','Permite ver la lista de las actividades (bitacoras) registradas en el sistema');
 
+insert into funcionalidad values(null,'medida.ver','Permite ver los detalles de una medida de vestimenta');
+insert into funcionalidad values(null,'medida.crear','Permite crear nuevas medida de vestimenta');
+insert into funcionalidad values(null,'medida.modificar','Permite modificar los detalles de una medida de vestimenta');
+insert into funcionalidad values(null,'medida.eliminar','Permite eliminar una medida de vestimenta');
+
 insert into permiso_rol values(3,2);
 insert into permiso_rol values(3,3);
 insert into permiso_rol values(3,21);
