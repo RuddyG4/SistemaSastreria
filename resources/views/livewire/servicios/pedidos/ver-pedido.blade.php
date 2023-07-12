@@ -136,23 +136,54 @@
                                                     <tbody>
                                                         <tr>
                                                             <td>
-                                                                <span class="label label-primary"><i class="fa fa-check"></i> Completed</span>
+                                                                Jorge
                                                             </td>
                                                             <td>
-                                                                Create project in webapp
+                                                                camisa
                                                             </td>
                                                             <td>
-                                                                12.07.2014 10:10:1
+                                                                saco
                                                             </td>
                                                             <td>
-                                                                14.07.2014 10:16:36
+                                                                chaleco
                                                             </td>
                                                             <td>
-                                                                <p class="small">
-                                                                    Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable.
-                                                                </p>
+                                                                pantalon
                                                             </td>
-
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                camila
+                                                            </td>
+                                                            <td>
+                                                                camisa
+                                                            </td>
+                                                            <td>
+                                                                saco
+                                                            </td>
+                                                            <td>
+                                                                chaleco
+                                                            </td>
+                                                            <td>
+                                                                pantalon
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                patricio
+                                                            </td>
+                                                            <td>
+                                                                camisa
+                                                            </td>
+                                                            <td>
+                                                                saco
+                                                            </td>
+                                                            <td>
+                                                                chaleco
+                                                            </td>
+                                                            <td>
+                                                                pantalon
+                                                            </td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
