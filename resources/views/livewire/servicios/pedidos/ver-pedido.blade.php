@@ -292,8 +292,4 @@
                 </div>
             </div>
         </div>
-
-        @push('scripts')
-        <script src="{{ asset('js/jquery-3.7.0.min.js') }}"></script>
-        @endpush
 </x-app>
