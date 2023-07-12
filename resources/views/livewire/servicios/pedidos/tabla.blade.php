@@ -122,7 +122,7 @@
                     </td>
                     <td class="text-right">
                         <div class="btn-group">
-                            <button class="btn btn-sm btn-warning"><i class="fa fa-eye"></i> Detalles</button>
+                            <a href="{{ url('/dashboard/adm_servicios/pedidos/'.$pedido->id) }}" class="btn btn-sm btn-warning"><i class="fa fa-eye"></i> Detalles</a>
                         </div>
                     </td>
                 </tr>

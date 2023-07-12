@@ -6,10 +6,10 @@
         <!-- Inicio Widgets -->
         <div class="row">
             <div class="col-lg-4">
-                <div class="widget style1" style="padding: 5px 10px !important;">
+                <div class="widget style1 white-bg py-2 px-5">
                     <div class="row">
                         <div class="col-4 text-center">
-                            <i class="fa fa-trophy fa-4x"></i>
+                            <i class="fa fa-tag fa-4x"></i>
                         </div>
                         <div class="col-8 text-right">
                             <span> Total Vestimentas </span>
@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="widget style1 blue-bg" style="padding: 5px 10px !important;">
+                <div class="widget style1 blue-bg py-2 px-5">
                     <div class="row">
                         <div class="col-4">
                             <i class="fa fa-male fa-4x"></i>
@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="widget style1 red-bg" style="padding: 5px 10px !important;">
+                <div class="widget style1 red-bg py-2 px-5">
                     <div class="row">
                         <div class="col-4">
                             <i class="fa fa-female fa-4x"></i>
@@ -47,20 +47,26 @@
         </div>
         <!-- Fin Widgets -->
 
-        @if (in_array('vestimenta.crear', $permisosVestimenta) or in_array('medida.crear', $permisosMedida))
+        @if (in_array('vestimenta.crear', $permisos) or in_array('medida.crear', $permisos))
         <div class="ibox ">
             <div class="ibox-title">
-                <h5>Agregar Vestimenta</h5>
-            </div>
-            <div class="ibox-content">
-                @if(in_array('vestimenta.crear', $permisosVestimenta))
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAdd">Agregar
-                    vestimenta</button>
-                @endif
-                @if(in_array('medida.crear', $permisosMedida))
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalMedida">Agregar
-                    Medida</button>
-                @endif
+                <div class="row">
+                    <div class="col">
+                        <h5>Agregar Vestimenta</h5>
+                    </div>
+                    <div class="col-sm-4 d-flex align-items-end justify-content-between">
+                        @if(in_array('vestimenta.crear', $permisos))
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAdd">Agregar
+                            vestimenta
+                        </button>
+                        @endif
+                        @if(in_array('medida.crear', $permisos))
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalMedida">Agregar
+                            Medida
+                        </button>
+                        @endif
+                    </div>
+                </div>
             </div>
         </div>
         @endif
@@ -71,7 +77,7 @@
             </div>
 
             <div class="ibox-content">
-                <input type="text" wire:model="busqueda" class="form-control form-control-sm m-b-xs" id="filter" placeholder="Buscar Vestimenta">
+                <input type="text" wire:model="busqueda" class="form-control form-control-sm m-b-xs" placeholder="Buscar Vestimenta">
 
                 <table class="footable table table-striped ">
                     <thead>
@@ -79,7 +85,7 @@
                             <th> ID</th>
                             <th> Nombre</th>
                             <th> Genero </th>
-                            @if (in_array('vestimenta.ver', $permisosVestimenta) or in_array('vestimenta.modificar', $permisosVestimenta) or in_array('vestimenta.eliminar', $permisosVestimenta) )
+                            @if (in_array('vestimenta.ver', $permisos) or in_array('vestimenta.modificar', $permisos) or in_array('vestimenta.eliminar', $permisos) )
                             <th class="text-center">Acciones</th>
                             @endif
                         </tr>
@@ -98,13 +104,13 @@
 
                             </td>
                             <td class="text-center">
-                                @if (in_array('vestimenta.ver', $permisosVestimenta))
+                                @if (in_array('vestimenta.ver', $permisos))
                                 <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalVista" wire:click="loadView({{ $list->id }})">Ver </button>
                                 @endif
-                                @if (in_array('vestimenta.modificar', $permisosVestimenta))
+                                @if (in_array('vestimenta.modificar', $permisos))
                                 <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modalEdit" wire:click="edit({{ $list->id }})">Editar </button>
                                 @endif
-                                @if (in_array('vestimenta.eliminar', $permisosVestimenta))
+                                @if (in_array('vestimenta.eliminar', $permisos))
                                 <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalEliminar" wire:click="loadView({{ $list->id }})">Eliminar
                                 </button>
                                 @endif
@@ -212,35 +218,33 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="row">
+                        <div class="row py-1">
                             <div class="col">
-                                <div class="row">
-                                    <div class="col">
-                                        <h2>Nombre</h2>
-                                        <h3 for="nombre">{{ $nombre }}</h3>
-                                    </div>
-                                    <div class="col">
-                                        <h2>Genero</h2>
-                                        @if ($genero == 0)
-                                        <span class="badge text-bg-danger">Mujer</span>@else<span class="badge text-bg-primary">Hombre</span>
-                                        @endif
-                                    </div>
-                                </div>
+                                <label><strong>Nombre : </strong></label>
+                                <span>{{ $nombre }}</span>
                             </div>
                         </div>
-                        <br>
-                        <div class="row">
+                        <div class="row py-1">
                             <div class="col">
-                                <div class="row">
-                                    <div class="col d-flex flex-wrap">
-                                        @if (!is_null($listVer))
-                                        @foreach ($listVer as $list)
-                                        <div class="p-1">
-                                            <span class="badge text-bg-secondary fs-8">{{ $list }}</span>
-                                        </div>
-                                        @endforeach
-                                        @endif
+                                <label><strong>Genero : </strong></label>
+                                @if ($genero == 0)
+                                <span class="badge text-bg-danger">Mujer</span>
+                                @else
+                                <span class="badge text-bg-primary">Hombre</span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="row py-1">
+                            <div class="col">
+                                <label><strong>Medidas de vestimenta: </strong></label>
+                                <div class="col d-flex flex-wrap">
+                                    @if (!is_null($listVer))
+                                    @foreach ($listVer as $list)
+                                    <div class="p-1">
+                                        <span class="badge text-bg-secondary fs-8">{{ $list }}</span>
                                     </div>
+                                    @endforeach
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -365,7 +369,7 @@
 
                     <div class="modal-body">
 
-                        {{-- @if (in_array('medida.crear', $permisosMedida)) --}}
+                        {{-- @if (in_array('medida.crear', $permisos)) --}}
                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalMedidaAdd">Nueva
                             medida</button>
                         {{-- @endif --}}
@@ -377,7 +381,7 @@
                             <div class="p-1">
                                 <span class="badge badge-secundary">
                                     {{ $list->nombre }}
-                                    {{-- @if (in_array('medida.eliminar', $permisosMedida)) --}}
+                                    {{-- @if (in_array('medida.eliminar', $permisos)) --}}
                                     <button data-bs-toggle="modal" data-bs-target="#modalDeleteMedida" wire:click="loadData({{ $list->id }})" class="close btn-close btn-close-danger" aria-label="Dismiss">
                                         <span aria-hidden="true">&times;</span>
                                     </button>

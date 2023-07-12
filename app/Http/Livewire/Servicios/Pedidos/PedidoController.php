@@ -37,9 +37,9 @@ class PedidoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Pedido $pedido)
     {
-        //
+        return view('livewire.servicios.pedidos.ver-pedido', compact('pedido'));
     }
 
     /**
