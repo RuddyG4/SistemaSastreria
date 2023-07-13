@@ -147,10 +147,11 @@
         <div id="page-wrapper" class="gray-bg dashbard-1">
             <div class="row border-bottom">
                 <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-                    <div class="navbar-header">
-                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" href="#">
+                    <div class="navbar-header d-flex align-items-center">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary">
                             <i class="fa fa-bars"></i>
                         </a>
+                        <h2 class="ml-2">Bienvenido <b>{{Auth::user()->username}}</b></h2>
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
                         <li style="padding: 20px">
