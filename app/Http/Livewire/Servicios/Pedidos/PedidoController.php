@@ -37,8 +37,9 @@ class PedidoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Pedido $pedido)
+    public function show($id)
     {
+        $pedido = Pedido::with(['cliente.persona', 'usuario'])->withSum('detalles', 'cantidad')->find($id);
         return view('livewire.servicios.pedidos.ver-pedido', compact('pedido'));
     }
 

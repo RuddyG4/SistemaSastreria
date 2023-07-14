@@ -12,7 +12,7 @@
                                 <div class="col-lg-12">
                                     <div class="row">
                                         <div class="col-lg-6">
-                                            <h2>Contrato con Fulanito</h2>
+                                            <h2>Contrato con {{ $pedido->cliente->persona->nombre }} {{ $pedido->cliente->persona->apellido }}</h2>
                                         </div>
                                         <div class="col-lg-6 text-right">
                                             <a href="#" class="btn btn-success btn-xs"><i class="fa fa-edit"></i> Editar pedido</a>
@@ -23,31 +23,49 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <dl class="row mb-0">
-                                        <div class="col-sm-4" style="text-align: right;">
+                                        <div class="col-sm-4 text-right" >
                                             <dt>Estado:</dt>
                                         </div>
                                         <div class="col-sm-8 text-sm-left">
-                                            <dd class="mb-1"><span class="label label-primary">En proceso</span></dd>
+                                            <?php
+                                            $pedidoSinAvance = $pedido->estado_avance == 0;
+                                            $pedidoCompletado = ($pedido->estado_avance == 1);
+                                            $pedidoEnProceso = !$pedidoSinAvance && !$pedidoCompletado;
+                                            ?>
+                                            <dd class="mb-1">
+                                                <span @class([ 'label' , 'label-secondary'=> $pedidoSinAvance,
+                                                    'label-primary'=> $pedidoCompletado,
+                                                    'label-success'=> $pedidoEnProceso,
+                                                    ])>
+                                                    @if($pedidoSinAvance)
+                                                    Sin avance
+                                                    @elseif ($pedidoEnProceso)
+                                                    En proceso
+                                                    @else
+                                                    Completado
+                                                    @endif
+                                                </span>
+                                            </dd>
                                         </div>
                                     </dl>
                                     <dl class="row mb-0">
-                                        <div class="col-sm-4" style="text-align: right;">
+                                        <div class="col-sm-4 text-right" >
                                             <dt>Creado por:</dt>
                                         </div>
                                         <div class="col-sm-8 text-sm-left">
-                                            <dd class="mb-1">ruddygh</dd>
+                                            <dd class="mb-1">{{ $pedido->usuario->username}}</dd>
                                         </div>
                                     </dl>
                                     <dl class="row mb-0">
-                                        <div class="col-sm-4" style="text-align: right;">
+                                        <div class="col-sm-4 text-right" >
                                             <dt>Vestimentas:</dt>
                                         </div>
                                         <div class="col-sm-8 text-sm-left">
-                                            <dd class="mb-1"> 154</dd>
+                                            <dd class="mb-1"> {{ $pedido->detalles_sum_cantidad }}</dd>
                                         </div>
                                     </dl>
                                     <dl class="row mb-0">
-                                        <div class="col-sm-4" style="text-align: right;">
+                                        <div class="col-sm-4 text-right" >
                                             <dt>Cliente:</dt>
                                         </div>
                                         <div class="col-sm-8 text-sm-left">
@@ -55,19 +73,25 @@
                                         </div>
                                     </dl>
                                     <dl class="row mb-0">
-                                        <div class="col-sm-4" style="text-align: right;">
+                                        <div class="col-sm-4 text-right" >
                                             <dt>Tipo de pedido:</dt>
                                         </div>
                                         <div class="col-sm-8 text-sm-left">
-                                            <dd class="mb-1"><i class="fa fa-user"></i> Personal </dd>
+                                            <dd class="mb-1">
+                                            @if($pedido->tipo == 0)
+                                            <i class="fa fa-user"></i> Personal
+                                            @else
+                                            <i class="fa fa-users"></i> Grupal
+                                            @endif
+                                            </dd>
                                         </div>
                                     </dl>
 
                                 </div>
-                                <div class="col-lg-6" id="cluster_info">
+                                <div class="col" id="cluster_info">
 
                                     <dl class="row mb-0">
-                                        <div class="col-sm-6" style="text-align: right;">
+                                        <div class="col-sm-6 text-right" >
                                             <dt>Última Actualización:</dt>
                                         </div>
                                         <div class="col-sm-6 text-sm-left">
@@ -75,35 +99,39 @@
                                         </div>
                                     </dl>
                                     <dl class="row mb-0">
-                                        <div class="col-sm-6" style="text-align: right;">
+                                        <div class="col-sm-6 text-right" >
                                             <dt>Creado:</dt>
                                         </div>
                                         <div class="col-sm-6 text-sm-left">
-                                            <dd class="mb-1"><i class="fa fa-calendar"></i> 2023-07-07 11:40:14</dd>
+                                            <dd class="mb-1"><i class="fa fa-calendar"></i> {{ $pedido->fecha_recepcion }}</dd>
                                         </div>
                                     </dl>
                                     <dl class="row mb-0">
-                                        <div class="col-sm-6" style="text-align: right;">
+                                        <div class="col-sm-6 text-right" >
                                             <dt>Descripcion:</dt>
                                         </div>
                                         <div class="col-sm-6 text-sm-left">
-                                            <dd class="mb-1"> Pedido para una persona particular</dd>
+                                            <dd class="mb-1"> {{ $pedido->descripcion }}</dd>
                                         </div>
                                     </dl>
+                                    
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-12">
                                     <dl class="row mb-0">
-                                        <div class="col-sm-2" style="text-align: right;">
+                                        <div class="col-sm-2 text-right" >
                                             <dt>Completado:</dt>
                                         </div>
                                         <div class="col-sm-10 text-sm-left">
                                             <dd>
                                                 <div class="progress m-b-1">
-                                                    <div style="width: 60%;" class="progress-bar progress-bar-striped progress-bar-warning"></div>
+                                                    <div style="width: {{ $pedido->estado_avance * 100 }}%;" @class([ 'progress-bar', 'progress-bar-striped' , 'progress-bar-secondary'=> $pedidoSinAvance,
+                                                    'progress-bar-primary'=> $pedidoCompletado,
+                                                    'progress-bar-success'=> $pedidoEnProceso,
+                                                    ])></div>
                                                 </div>
-                                                <small>Pedido finalizado en un <strong>60%</strong>.</small>
+                                                <small>Pedido finalizado en un <strong>{{ $pedido->estado_avance * 100 }} %</strong>.</small>
                                             </dd>
                                         </div>
                                     </dl>
@@ -207,7 +235,7 @@
                                                                     <div class="col-sm-4">
                                                                         <dt>Estado:</dt>
                                                                     </div>
-                                                                    <div class="col-sm-8" style="text-align: right;">
+                                                                    <div class="col-sm-8 text-right" >
                                                                         <dd class="mb-1"><span class="label label-primary">Cancelado</span></dd>
                                                                     </div>
                                                                 </dl>
@@ -230,7 +258,7 @@
                                                                     <div class="col-sm-4">
                                                                         <dt>Estado:</dt>
                                                                     </div>
-                                                                    <div class="col-sm-8" style="text-align: right;">
+                                                                    <div class="col-sm-8 text-right" >
                                                                         <dd class="mb-1"><span class="label label-warning">Pendiente</span></dd>
                                                                     </div>
                                                                 </dl>
@@ -253,7 +281,7 @@
                                                                     <div class="col-sm-4">
                                                                         <dt>Estado:</dt>
                                                                     </div>
-                                                                    <div class="col-sm-8" style="text-align: right;">
+                                                                    <div class="col-sm-8 text-right" >
                                                                         <dd class="mb-1"><span class="label label-warning">Pendiente</span></dd>
                                                                     </div>
                                                                 </dl>
@@ -281,12 +309,12 @@
                         <div class="text-center">
                             <i class="fa fa-user-circle-o" style="font-size: 10em;"></i>
                         </div>
-                        <h3 class="m-b-md text-center mt-3"><strong><i class="fa fa-address-book-o"></i> Fulano Perez</strong></h3>
+                        <h3 class="m-b-md text-center mt-3"><strong><i class="fa fa-address-book-o"></i> {{ $pedido->cliente->persona->nombre }} {{ $pedido->cliente->persona->apellido }} </strong></h3>
                         <hr>
                         <div class="text-center">
-                            <h4><i class="fa fa-phone"></i> 76621547</h4>
-                            <h4><i class="fa fa-address-card-o"></i> 1535687</h4>
-                            <h4><i class="fa fa-map-marker"></i> av. virgen de lujan</h4>
+                            <h4><i class="fa fa-phone"></i> {{ $pedido->cliente->telefonoPersonal->numero }}</h4>
+                            <h4><i class="fa fa-address-card-o"></i> {{ $pedido->cliente->persona->ci }}</h4>
+                            <h4><i class="fa fa-map-marker"></i> {{ $pedido->cliente->direccion }}</h4>
                         </div>
                     </div>
                 </div>
