@@ -38,11 +38,7 @@
                         <td>{{ $cliente->persona->nombre }}</td>
                         <td>{{ $cliente->persona->apellido }}</td>
                         <td>
-                            @foreach($cliente->telefonos as $telefono)
-                            @if ($telefono->tipo == 0)
-                            {{ $telefono->numero }}
-                            @endif
-                            @endforeach
+                            {{ $cliente->numero }}
                         </td>
                         <td>{{ $cliente->persona->ci }}</td>
                         <td>{{ $cliente->direccion }}</td>
@@ -127,7 +123,7 @@
             </div>
         </div>
 
-        <!-- Modal de creacion -->
+        <!-- Modal de edicion -->
         <div wire:ignore.self id="modalDeEdicion" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="editarCliente" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">

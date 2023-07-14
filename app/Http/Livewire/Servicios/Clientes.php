@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Servicios;
 
 use App\Models\servicios\Cliente;
+use App\Models\servicios\Telefono;
 use App\Models\usuarios\Funcionalidad;
 use App\Models\usuarios\Persona;
 use App\Models\usuarios\User;
@@ -18,15 +19,18 @@ class Clientes extends Component
     public User $usuario;
 
     protected $listeners = ['delete'];
-    
+
     public function render()
     {
-        return view('livewire.servicios.clientes', [
-                'clientes' => Cliente::whereHas('persona', function ($query) {
+        return view('livewire.servicios.clientes',
+            [
+                'clientes' => Cliente::addSelect([
+                    'numero' => Telefono::select('numero')
+                        ->whereColumn('id_cliente', 'cliente.id')
+                        ->limit(1)
+                ])->whereHas('persona', function ($query) {
                     $query->where('nombre', 'like', "%$this->busqueda%")
-                    ->orWhere('apellido', 'like', "%$this->busqueda%");
-                })->with('telefonos', function ($query) {
-                    $query->where('tipo', '0');
+                        ->orWhere('apellido', 'like', "%$this->busqueda%");
                 })->with('persona')->paginate(12),
                 'permisos' => Funcionalidad::whereHas('roles', function ($query) {
                     $query->where('id', $this->usuario->rol->id);
@@ -134,5 +138,4 @@ class Clientes extends Component
     {
         $this->resetPage();
     }
-
 }
