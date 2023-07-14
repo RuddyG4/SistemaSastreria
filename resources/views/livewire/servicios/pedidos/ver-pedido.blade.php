@@ -23,7 +23,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <dl class="row mb-0">
-                                        <div class="col-sm-4 text-right" >
+                                        <div class="col-sm-4 text-right">
                                             <dt>Estado:</dt>
                                         </div>
                                         <div class="col-sm-8 text-sm-left">
@@ -49,7 +49,7 @@
                                         </div>
                                     </dl>
                                     <dl class="row mb-0">
-                                        <div class="col-sm-4 text-right" >
+                                        <div class="col-sm-4 text-right">
                                             <dt>Creado por:</dt>
                                         </div>
                                         <div class="col-sm-8 text-sm-left">
@@ -57,7 +57,7 @@
                                         </div>
                                     </dl>
                                     <dl class="row mb-0">
-                                        <div class="col-sm-4 text-right" >
+                                        <div class="col-sm-4 text-right">
                                             <dt>Vestimentas:</dt>
                                         </div>
                                         <div class="col-sm-8 text-sm-left">
@@ -65,7 +65,7 @@
                                         </div>
                                     </dl>
                                     <dl class="row mb-0">
-                                        <div class="col-sm-4 text-right" >
+                                        <div class="col-sm-4 text-right">
                                             <dt>Cant. Clientes:</dt>
                                         </div>
                                         <div class="col-sm-8 text-sm-left">
@@ -73,16 +73,16 @@
                                         </div>
                                     </dl>
                                     <dl class="row mb-0">
-                                        <div class="col-sm-4 text-right" >
+                                        <div class="col-sm-4 text-right">
                                             <dt>Tipo de pedido:</dt>
                                         </div>
                                         <div class="col-sm-8 text-sm-left">
                                             <dd class="mb-1">
-                                            @if($pedido->tipo == 0)
-                                            <i class="fa fa-user"></i> Personal
-                                            @else
-                                            <i class="fa fa-users"></i> Grupal
-                                            @endif
+                                                @if($pedido->tipo == 0)
+                                                <i class="fa fa-user"></i> Personal
+                                                @else
+                                                <i class="fa fa-users"></i> Grupal
+                                                @endif
                                             </dd>
                                         </div>
                                     </dl>
@@ -91,7 +91,7 @@
                                 <div class="col" id="cluster_info">
 
                                     <dl class="row mb-0">
-                                        <div class="col-sm-6 text-right" >
+                                        <div class="col-sm-6 text-right">
                                             <dt>Última Actualización:</dt>
                                         </div>
                                         <div class="col-sm-6 text-sm-left">
@@ -99,7 +99,7 @@
                                         </div>
                                     </dl>
                                     <dl class="row mb-0">
-                                        <div class="col-sm-6 text-right" >
+                                        <div class="col-sm-6 text-right">
                                             <dt>Creado:</dt>
                                         </div>
                                         <div class="col-sm-6 text-sm-left">
@@ -107,29 +107,29 @@
                                         </div>
                                     </dl>
                                     <dl class="row mb-0">
-                                        <div class="col-sm-6 text-right" >
+                                        <div class="col-sm-6 text-right">
                                             <dt>Descripcion:</dt>
                                         </div>
                                         <div class="col-sm-6 text-sm-left">
                                             <dd class="mb-1"> {{ $pedido->descripcion }}</dd>
                                         </div>
                                     </dl>
-                                    
+
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-12">
                                     <dl class="row mb-0">
-                                        <div class="col-sm-2 text-right" >
+                                        <div class="col-sm-2 text-right">
                                             <dt>Completado:</dt>
                                         </div>
                                         <div class="col-sm-10 text-sm-left">
                                             <dd>
                                                 <div class="progress m-b-1">
-                                                    <div style="width: {{ $pedido->estado_avance * 100 }}%;" @class([ 'progress-bar', 'progress-bar-striped' , 'progress-bar-secondary'=> $pedidoSinAvance,
-                                                    'progress-bar-primary'=> $pedidoCompletado,
-                                                    'progress-bar-success'=> $pedidoEnProceso,
-                                                    ])></div>
+                                                    <div style="width: {{ $pedido->estado_avance * 100 }}%;" @class([ 'progress-bar' , 'progress-bar-striped' , 'progress-bar-secondary'=> $pedidoSinAvance,
+                                                        'progress-bar-primary'=> $pedidoCompletado,
+                                                        'progress-bar-success'=> $pedidoEnProceso,
+                                                        ])></div>
                                                 </div>
                                                 <small>Pedido finalizado en un <strong>{{ $pedido->estado_avance * 100 }} %</strong>.</small>
                                             </dd>
@@ -155,10 +155,8 @@
                                                     <thead>
                                                         <tr>
                                                             <th>Nombre</th>
-                                                            <th>prenda 1</th>
-                                                            <th>prenda 2</th>
-                                                            <th>prenda 3</th>
-                                                            <th>prenda 4</th>
+                                                            <th>Cant. Vestimentas</th>
+                                                            <th>Acción</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -167,16 +165,10 @@
                                                                 Jorge
                                                             </td>
                                                             <td>
-                                                                camisa
+                                                                5 Unidades
                                                             </td>
                                                             <td>
-                                                                saco
-                                                            </td>
-                                                            <td>
-                                                                chaleco
-                                                            </td>
-                                                            <td>
-                                                                pantalon
+                                                                <a data-bs-toggle="modal" data-bs-target="#Detalle" class="btn btn-danger btn-xs"><i class="fa fa-info-circle"></i> Detalle Vestimenta</a>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -184,33 +176,10 @@
                                                                 camila
                                                             </td>
                                                             <td>
-                                                                camisa
+                                                                6 Unidades
                                                             </td>
                                                             <td>
-                                                                saco
-                                                            </td>
-                                                            <td>
-                                                                chaleco
-                                                            </td>
-                                                            <td>
-                                                                pantalon
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                patricio
-                                                            </td>
-                                                            <td>
-                                                                camisa
-                                                            </td>
-                                                            <td>
-                                                                saco
-                                                            </td>
-                                                            <td>
-                                                                chaleco
-                                                            </td>
-                                                            <td>
-                                                                pantalon
+                                                                <a data-bs-toggle="modal" data-bs-target="#Detalle" class="btn btn-danger btn-xs"><i class="fa fa-info-circle"></i> Detalle Vestimenta</a>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -218,7 +187,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div id="tab-2" class="tab-pane">
                                         <div class="full-height-scroll">
                                             <div class="table-responsive">
@@ -235,7 +203,7 @@
                                                                     <div class="col-sm-4">
                                                                         <dt>Estado:</dt>
                                                                     </div>
-                                                                    <div class="col-sm-8 text-right" >
+                                                                    <div class="col-sm-8 text-right">
                                                                         <dd class="mb-1"><span class="label label-primary">Cancelado</span></dd>
                                                                     </div>
                                                                 </dl>
@@ -258,7 +226,7 @@
                                                                     <div class="col-sm-4">
                                                                         <dt>Estado:</dt>
                                                                     </div>
-                                                                    <div class="col-sm-8 text-right" >
+                                                                    <div class="col-sm-8 text-right">
                                                                         <dd class="mb-1"><span class="label label-warning">Pendiente</span></dd>
                                                                     </div>
                                                                 </dl>
@@ -281,7 +249,7 @@
                                                                     <div class="col-sm-4">
                                                                         <dt>Estado:</dt>
                                                                     </div>
-                                                                    <div class="col-sm-8 text-right" >
+                                                                    <div class="col-sm-8 text-right">
                                                                         <dd class="mb-1"><span class="label label-warning">Pendiente</span></dd>
                                                                     </div>
                                                                 </dl>
@@ -319,5 +287,162 @@
                     </div>
                 </div>
             </div>
-        </div>
+            <!-- MODAL 1 -->
+            <div wire:ignore.self id="Detalle" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="crearUsuario" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">Detalles Vestimenta</h3>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cancelar"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="col-lg-12">
+                                <div class="ibox panel panel-success">
+                                    <div class="ibox collapsed">
+                                        <div class="ibox-title collapse-link" style="cursor: pointer;">
+                                            <h5>Pantalon</h5><i class="fa fa-chevron-up pull-right"></i>
+                                        </div>
+                                        <div class="ibox-content">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <dl class="row mb-0">
+                                                        <div class="col-sm-4 text-right">
+                                                            <dt>Brazos:</dt>
+                                                        </div>
+                                                        <div class="col-sm-8 text-sm-left">
+                                                            <dd class="mb-1"> 130 cm</dd>
+                                                        </div>
+                                                    </dl>
+                                                    <dl class="row mb-0">
+                                                        <div class="col-sm-4 text-right">
+                                                            <dt>Pecho:</dt>
+                                                        </div>
+                                                        <div class="col-sm-8 text-sm-left">
+                                                            <dd class="mb-1">100 cm </dd>
+                                                        </div>
+                                                    </dl>
+                                                    <dl class="row mb-0">
+                                                        <div class="col-sm-4 text-right">
+                                                            <dt>Cintura:</dt>
+                                                        </div>
+                                                        <div class="col-sm-8 text-sm-left">
+                                                            <dd class="mb-1">
+                                                                160 cm
+                                                            </dd>
+                                                        </div>
+                                                    </dl>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <dl class="row mb-0">
+                                                        <div class="col-sm-4 text-right">
+                                                            <dt>Hombro:</dt>
+                                                        </div>
+                                                        <div class="col-sm-8 text-sm-left">
+                                                            <dd class="mb-1"> 130 cm</dd>
+                                                        </div>
+                                                    </dl>
+                                                    <dl class="row mb-0">
+                                                        <div class="col-sm-4 text-right">
+                                                            <dt>Pie:</dt>
+                                                        </div>
+                                                        <div class="col-sm-8 text-sm-left">
+                                                            <dd class="mb-1">100 cm </dd>
+                                                        </div>
+                                                    </dl>
+                                                    <dl class="row mb-0">
+                                                        <div class="col-sm-4 text-right">
+                                                            <dt>Manga:</dt>
+                                                        </div>
+                                                        <div class="col-sm-8 text-sm-left">
+                                                            <dd class="mb-1">
+                                                                160 cm
+                                                            </dd>
+                                                        </div>
+                                                    </dl>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="ibox panel panel-success">
+                                    <div class="ibox collapsed">
+                                        <div class="ibox-title collapse-link" style="cursor: pointer;">
+                                            <h5>Chaleco</h5><i class="fa fa-chevron-up pull-right"></i>
+                                        </div>
+                                        <div class="ibox-content">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <dl class="row mb-0">
+                                                        <div class="col-sm-4 text-right">
+                                                            <dt>Brazos:</dt>
+                                                        </div>
+                                                        <div class="col-sm-8 text-sm-left">
+                                                            <dd class="mb-1"> 130 cm</dd>
+                                                        </div>
+                                                    </dl>
+                                                    <dl class="row mb-0">
+                                                        <div class="col-sm-4 text-right">
+                                                            <dt>Pecho:</dt>
+                                                        </div>
+                                                        <div class="col-sm-8 text-sm-left">
+                                                            <dd class="mb-1">100 cm </dd>
+                                                        </div>
+                                                    </dl>
+                                                    <dl class="row mb-0">
+                                                        <div class="col-sm-4 text-right">
+                                                            <dt>Cintura:</dt>
+                                                        </div>
+                                                        <div class="col-sm-8 text-sm-left">
+                                                            <dd class="mb-1">
+                                                                160 cm
+                                                            </dd>
+                                                        </div>
+                                                    </dl>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <dl class="row mb-0">
+                                                        <div class="col-sm-4 text-right">
+                                                            <dt>Hombro:</dt>
+                                                        </div>
+                                                        <div class="col-sm-8 text-sm-left">
+                                                            <dd class="mb-1"> 130 cm</dd>
+                                                        </div>
+                                                    </dl>
+                                                    <dl class="row mb-0">
+                                                        <div class="col-sm-4 text-right">
+                                                            <dt>Pie:</dt>
+                                                        </div>
+                                                        <div class="col-sm-8 text-sm-left">
+                                                            <dd class="mb-1">100 cm </dd>
+                                                        </div>
+                                                    </dl>
+                                                    <dl class="row mb-0">
+                                                        <div class="col-sm-4 text-right">
+                                                            <dt>Manga:</dt>
+                                                        </div>
+                                                        <div class="col-sm-8 text-sm-left">
+                                                            <dd class="mb-1">
+                                                                160 cm
+                                                            </dd>
+                                                        </div>
+                                                    </dl>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" wire:click="cancelar"> Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @push('scripts')
+
+            @endpush
 </x-app>
