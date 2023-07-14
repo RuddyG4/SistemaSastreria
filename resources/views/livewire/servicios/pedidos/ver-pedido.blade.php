@@ -66,10 +66,10 @@
                                     </dl>
                                     <dl class="row mb-0">
                                         <div class="col-sm-4 text-right" >
-                                            <dt>Cliente:</dt>
+                                            <dt>Cant. Clientes:</dt>
                                         </div>
                                         <div class="col-sm-8 text-sm-left">
-                                            <dd class="mb-1">Fulanito </dd>
+                                            <dd class="mb-1">10 personas </dd>
                                         </div>
                                     </dl>
                                     <dl class="row mb-0">
