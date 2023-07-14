@@ -12,7 +12,7 @@
                                 <div class="col-lg-12">
                                     <div class="row">
                                         <div class="col-lg-6">
-                                            <h2>Contrato con {{ $pedido->cliente->persona->nombre }} {{ $pedido->cliente->persona->apellido }}</h2>
+                                            <h2><strong>Contrato con {{ $pedido->nombre_cliente }} {{ $pedido->apellido_cliente }}</strong></h2>
                                         </div>
                                         <div class="col-lg-6 text-right">
                                             <a href="#" class="btn btn-success btn-xs"><i class="fa fa-edit"></i> Editar pedido</a>
@@ -53,7 +53,7 @@
                                             <dt>Creado por:</dt>
                                         </div>
                                         <div class="col-sm-8 text-sm-left">
-                                            <dd class="mb-1">{{ $pedido->usuario->username}}</dd>
+                                            <dd class="mb-1">{{ $pedido->usuario }}</dd>
                                         </div>
                                     </dl>
                                     <dl class="row mb-0">
@@ -149,115 +149,121 @@
                                 </ul>
                                 <div class="tab-content">
                                     <div id="tab-1" class="tab-pane active">
-                                        <div class="full-height-scroll">
-                                            <div class="table-responsive">
-                                                <table class="table table-striped">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Nombre</th>
-                                                            <th>Cant. Vestimentas</th>
-                                                            <th>Acción</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                Jorge
-                                                            </td>
-                                                            <td>
-                                                                5 Unidades
-                                                            </td>
-                                                            <td>
-                                                                <a data-bs-toggle="modal" data-bs-target="#Detalle" class="btn btn-danger btn-xs"><i class="fa fa-info-circle"></i> Detalle Vestimenta</a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                camila
-                                                            </td>
-                                                            <td>
-                                                                6 Unidades
-                                                            </td>
-                                                            <td>
-                                                                <a data-bs-toggle="modal" data-bs-target="#Detalle" class="btn btn-danger btn-xs"><i class="fa fa-info-circle"></i> Detalle Vestimenta</a>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nombre</th>
+                                                        <th>Cant. Vestimentas</th>
+                                                        <th>Acción</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            Jorge
+                                                        </td>
+                                                        <td>
+                                                            5 Unidades
+                                                        </td>
+                                                        <td>
+                                                            <a data-bs-toggle="modal" data-bs-target="#Detalle" class="btn btn-danger btn-xs"><i class="fa fa-info-circle"></i> Detalle Vestimenta</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            camila
+                                                        </td>
+                                                        <td>
+                                                            6 Unidades
+                                                        </td>
+                                                        <td>
+                                                            <a data-bs-toggle="modal" data-bs-target="#Detalle" class="btn btn-danger btn-xs"><i class="fa fa-info-circle"></i> Detalle Vestimenta</a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                     <div id="tab-2" class="tab-pane">
-                                        <div class="full-height-scroll">
-                                            <div class="table-responsive">
-                                                <div class="ibox-content" id="ibox-content">
-                                                    <div id="vertical-timeline" class="vertical-container dark-timeline center-orientation">
-                                                        <div class="vertical-timeline-block">
-                                                            <div class="vertical-timeline-icon navy-bg">
-                                                                <i class="fa fa-calendar-o"></i>
-                                                            </div>
-                                                            <div class="vertical-timeline-content">
-                                                                <h2>Primer Pago</h2>
-                                                                <p>El pago realizado el dia de la realizacion del pedido</p>
-                                                                <dl class="row mb-0">
-                                                                    <div class="col-sm-4">
-                                                                        <dt>Estado:</dt>
-                                                                    </div>
-                                                                    <div class="col-sm-8 text-right">
-                                                                        <dd class="mb-1"><span class="label label-primary">Cancelado</span></dd>
-                                                                    </div>
-                                                                </dl>
-                                                                <span class="vertical-date">
-                                                                    Fecha de Pago <br />
-                                                                    <small>2023-07-07 11:40:14</small>
-                                                                </span>
-                                                            </div>
+                                        <div class="table-responsive">
+                                            <div class="ibox-content" id="ibox-content">
+                                                <div id="vertical-timeline" class="vertical-container dark-timeline center-orientation">
+                                                    @foreach ($pedido->fechasPago as $fecha_pago)
+                                                    <div class="vertical-timeline-block">
+                                                        <div class="vertical-timeline-icon navy-bg">
+                                                            <i class="fa fa-calendar-o"></i>
+                                                        </div>
+                                                        <div class="vertical-timeline-content">
+                                                            <h2>Pago {{ $loop->index + 1 }}</h2>
+                                                            <p>{{ $fecha_pago->descripcion }}</p>
+                                                            <dl class="row mb-0">
+                                                                <div class="col-sm-4">
+                                                                    <dt>Monto:</dt>
+                                                                </div>
+                                                                <div class="col-sm-8 text-right">
+                                                                    <dd class="mb-1"><span>{{ $fecha_pago->monto }}</span></dd>
+                                                                </div>
+                                                            </dl>
+                                                            <dl class="row mb-0">
+                                                                <div class="col-sm-4">
+                                                                    <dt>Estado:</dt>
+                                                                </div>
+                                                                <div class="col-sm-8 text-right">
+                                                                    <dd class="mb-1"><span class="label label-primary">Cancelado</span></dd>
+                                                                </div>
+                                                            </dl>
+                                                            <span class="vertical-date">
+                                                                Fecha de Pago <br />
+                                                                <small>{{ $fecha_pago->fecha }}</small>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    @endforeach
+
+                                                    <div class="vertical-timeline-block">
+                                                        <div class="vertical-timeline-icon blue-bg">
+                                                            <i class="fa fa-calendar-o"></i>
                                                         </div>
 
-                                                        <div class="vertical-timeline-block">
-                                                            <div class="vertical-timeline-icon blue-bg">
-                                                                <i class="fa fa-calendar-o"></i>
-                                                            </div>
+                                                        <div class="vertical-timeline-content">
+                                                            <h2>x- pago</h2>
+                                                            <p>x- pago con el monto de pago de XX</p>
+                                                            <dl class="row mb-0">
+                                                                <div class="col-sm-4">
+                                                                    <dt>Estado:</dt>
+                                                                </div>
+                                                                <div class="col-sm-8 text-right">
+                                                                    <dd class="mb-1"><span class="label label-warning">Pendiente</span></dd>
+                                                                </div>
+                                                            </dl>
+                                                            <span class="vertical-date">
+                                                                Fecha de Pago <br />
+                                                                <small>2023-09-07</small>
+                                                            </span>
+                                                        </div>
+                                                    </div>
 
-                                                            <div class="vertical-timeline-content">
-                                                                <h2>x- pago</h2>
-                                                                <p>x- pago con el monto de pago de XX</p>
-                                                                <dl class="row mb-0">
-                                                                    <div class="col-sm-4">
-                                                                        <dt>Estado:</dt>
-                                                                    </div>
-                                                                    <div class="col-sm-8 text-right">
-                                                                        <dd class="mb-1"><span class="label label-warning">Pendiente</span></dd>
-                                                                    </div>
-                                                                </dl>
-                                                                <span class="vertical-date">
-                                                                    Fecha de Pago <br />
-                                                                    <small>2023-09-07</small>
-                                                                </span>
-                                                            </div>
+                                                    <div class="vertical-timeline-block">
+                                                        <div class="vertical-timeline-icon lazur-bg">
+                                                            <i class="fa fa-calendar-o"></i>
                                                         </div>
 
-                                                        <div class="vertical-timeline-block">
-                                                            <div class="vertical-timeline-icon lazur-bg">
-                                                                <i class="fa fa-calendar-o"></i>
-                                                            </div>
-
-                                                            <div class="vertical-timeline-content">
-                                                                <h2>x- pago</h2>
-                                                                <p>x- pago con el monto de pago de XX</p>
-                                                                <dl class="row mb-0">
-                                                                    <div class="col-sm-4">
-                                                                        <dt>Estado:</dt>
-                                                                    </div>
-                                                                    <div class="col-sm-8 text-right">
-                                                                        <dd class="mb-1"><span class="label label-warning">Pendiente</span></dd>
-                                                                    </div>
-                                                                </dl>
-                                                                <span class="vertical-date">
-                                                                    Fecha de Pago <br />
-                                                                    <small>2023-12-07</small>
-                                                                </span>
-                                                            </div>
+                                                        <div class="vertical-timeline-content">
+                                                            <h2>x- pago</h2>
+                                                            <p>x- pago con el monto de pago de XX</p>
+                                                            <dl class="row mb-0">
+                                                                <div class="col-sm-4">
+                                                                    <dt>Estado:</dt>
+                                                                </div>
+                                                                <div class="col-sm-8 text-right">
+                                                                    <dd class="mb-1"><span class="label label-warning">Pendiente</span></dd>
+                                                                </div>
+                                                            </dl>
+                                                            <span class="vertical-date">
+                                                                Fecha de Pago <br />
+                                                                <small>2023-12-07</small>
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -277,16 +283,17 @@
                         <div class="text-center">
                             <i class="fa fa-user-circle-o" style="font-size: 10em;"></i>
                         </div>
-                        <h3 class="m-b-md text-center mt-3"><strong><i class="fa fa-address-book-o"></i> {{ $pedido->cliente->persona->nombre }} {{ $pedido->cliente->persona->apellido }} </strong></h3>
+                        <h3 class="m-b-md text-center mt-3"><strong><i class="fa fa-address-book-o"></i> {{ $pedido->nombre_cliente }} {{ $pedido->apellido_cliente }} </strong></h3>
                         <hr>
                         <div class="text-center">
-                            <h4><i class="fa fa-phone"></i> {{ $pedido->cliente->telefonoPersonal->numero }}</h4>
-                            <h4><i class="fa fa-address-card-o"></i> {{ $pedido->cliente->persona->ci }}</h4>
-                            <h4><i class="fa fa-map-marker"></i> {{ $pedido->cliente->direccion }}</h4>
+                            <h4><i class="fa fa-phone"></i> {{ $pedido->numero_cliente }}</h4>
+                            <h4><i class="fa fa-address-card-o"></i> {{ $pedido->ci_cliente }}</h4>
+                            <h4><i class="fa fa-map-marker"></i> {{ $pedido->direccion_cliente }}</h4>
                         </div>
                     </div>
                 </div>
             </div>
+
             <!-- MODAL 1 -->
             <div wire:ignore.self id="Detalle" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="crearUsuario" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -298,8 +305,8 @@
                         <div class="modal-body">
                             <div class="col-lg-12">
                                 <div class="ibox panel panel-success">
-                                    <div class="ibox collapsed">
-                                        <div class="ibox-title collapse-link" style="cursor: pointer;">
+                                    <div class="ibox collapsed mb-1">
+                                        <div class="ibox-title collapse-link">
                                             <h5>Pantalon</h5><i class="fa fa-chevron-up pull-right"></i>
                                         </div>
                                         <div class="ibox-content">
@@ -367,7 +374,7 @@
                             </div>
                             <div class="col-lg-12">
                                 <div class="ibox panel panel-success">
-                                    <div class="ibox collapsed">
+                                    <div class="ibox collapsed mb-1">
                                         <div class="ibox-title collapse-link" style="cursor: pointer;">
                                             <h5>Chaleco</h5><i class="fa fa-chevron-up pull-right"></i>
                                         </div>

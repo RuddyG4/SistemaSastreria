@@ -3,6 +3,8 @@
 namespace App\Http\Livewire\Servicios\Pedidos;
 
 use App\Models\servicios\Pedido;
+use App\Models\servicios\Telefono;
+use App\Models\usuarios\Persona;
 use Dotenv\Validator;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -10,7 +12,7 @@ use Livewire\WithPagination;
 class TablaPedidos extends Component
 {
     use WithPagination;
-    
+
     public $nombre, $fechaDesde, $fechaHasta;
 
     protected $rules = [
@@ -28,8 +30,12 @@ class TablaPedidos extends Component
     public function render()
     {
         return view('livewire.servicios.pedidos.tabla', [
-            'pedidos' => Pedido::with('cliente.persona')
-                ->whereBetween('fecha_recepcion', [$this->fechaDesde, $this->fechaHasta.' 23:59:59'])
+            'pedidos' => Pedido::addSelect([
+                'telefono' => Telefono::select('numero')->whereColumn('id_cliente', 'telefono.id_cliente')->limit(1),
+                'nombre_cliente' => Persona::select('nombre')->whereColumn('id_cliente', 'persona.id')->limit(1),
+                'apellido_cliente' => Persona::select('apellido')->whereColumn('id_cliente', 'persona.id')->limit(1),
+            ])
+                ->whereBetween('fecha_recepcion', [$this->fechaDesde, $this->fechaHasta . ' 23:59:59'])
                 ->whereHas('cliente.persona', function ($query) {
                     $query->where('nombre', 'like', "%$this->nombre%");
                 })

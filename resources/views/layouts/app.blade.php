@@ -33,8 +33,8 @@
     use Illuminate\Support\Facades\Auth;
 
     $user = Auth::user();
-    $permisos = Funcionalidad::whereHas('roles', function ($query) {
-        $query->where('id', Auth::user()->rol->id);
+    $permisos = Funcionalidad::whereHas('roles', function ($query) use($user) {
+        $query->where('id', $user->rol->id);
     })->where(function ($query) {
         $query->where('nombre', 'LIKE', "adm.%")
             ->orWhere('nombre', 'like', "%.lista");
@@ -151,10 +151,9 @@
                         <a class="navbar-minimalize minimalize-styl-2 btn btn-primary">
                             <i class="fa fa-bars"></i>
                         </a>
-                        <h2 class="ml-2">Bienvenido <b>{{Auth::user()->username}}</b></h2>
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
-                        <li style="padding: 20px">
+                        <li class="p-2">
                             <span class="m-r-sm text-muted welcome-message"><b>Bienvenido - Sastreria Maya.</b></span>
                         </li>
                         <li>

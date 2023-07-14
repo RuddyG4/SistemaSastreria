@@ -3,7 +3,11 @@
 namespace App\Http\Livewire\Servicios\Pedidos;
 
 use App\Http\Controllers\Controller;
+use App\Models\servicios\Cliente;
 use App\Models\servicios\Pedido;
+use App\Models\servicios\Telefono;
+use App\Models\usuarios\Persona;
+use App\Models\usuarios\User;
 use Illuminate\Http\Request;
 
 class PedidoController extends Controller
@@ -39,7 +43,20 @@ class PedidoController extends Controller
      */
     public function show($id)
     {
-        $pedido = Pedido::with(['cliente.persona', 'usuario'])->withSum('detalles', 'cantidad')->find($id);
+        $pedido = Pedido::addSelect(
+            [
+                'nombre_cliente' => Persona::select('nombre')->whereColumn('id_cliente', 'persona.id')->limit(1),
+                'apellido_cliente' => Persona::select('apellido')->whereColumn('id_cliente', 'persona.id')->limit(1),
+                'ci_cliente' => Persona::select('ci')->whereColumn('id_cliente', 'persona.id')->limit(1),
+                'direccion_cliente' => Cliente::select('direccion')->whereColumn('id_cliente', 'cliente.id')->limit(1),
+                'usuario' => User::select('username')->whereColumn('id_usuario', 'usuario.id')->limit(1),
+                'numero_cliente' => Telefono::select('numero')->whereColumn('id_cliente', 'telefono.id_cliente')->limit(1),
+            ]
+        )
+        ->with(['fechasPago' => function ($query) {
+            $query->orderBy('fecha');
+        }])
+        ->withSum('detalles', 'cantidad')->find($id);
         return view('livewire.servicios.pedidos.ver-pedido', compact('pedido'));
     }
 

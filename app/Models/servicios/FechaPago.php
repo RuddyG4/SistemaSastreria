@@ -4,6 +4,7 @@ namespace App\Models\servicios;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class FechaPago extends Model
 {
@@ -17,4 +18,9 @@ class FechaPago extends Model
         'monto',
         'id_pedido',
     ];
+
+    public function pedido(): BelongsTo
+    {
+        return $this->belongsTo(Pedido::class, 'id_pedido');
+    }
 }

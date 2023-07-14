@@ -43,4 +43,9 @@ class Pedido extends Model
     {
         return $this->hasMany(UnidadVestimenta::class, 'id_pedido');
     }
+
+    public function fechasPago(): HasMany
+    {
+        return $this->hasMany(FechaPago::class, 'id_pedido');
+    }
 }
