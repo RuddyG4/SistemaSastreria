@@ -369,11 +369,11 @@
 
                     <div class="modal-body">
 
-                        {{-- @if (in_array('medida.crear', $permisos)) --}}
+                        @if (in_array('medida.crear', $permisos))
                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalMedidaAdd">Nueva
                             medida</button>
-                        {{-- @endif --}}
-                        <br>
+                        @endif
+                        {{-- <br> --}}
                         <p>Lista de medidas</p>
 
                         <div class="d-flex flex-wrap ">
@@ -381,11 +381,11 @@
                             <div class="p-1">
                                 <span class="badge badge-secundary">
                                     {{ $list->nombre }}
-                                    {{-- @if (in_array('medida.eliminar', $permisos)) --}}
+                                    @if (in_array('medida.eliminar', $permisos))
                                     <button data-bs-toggle="modal" data-bs-target="#modalDeleteMedida" wire:click="loadData({{ $list->id }})" class="close btn-close btn-close-danger" aria-label="Dismiss">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
-                                    {{-- @endif --}}
+                                    @endif
                                 </span>
                             </div>
                             @endforeach
