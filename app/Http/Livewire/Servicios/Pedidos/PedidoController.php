@@ -53,11 +53,26 @@ class PedidoController extends Controller
                 'numero_cliente' => Telefono::select('numero')->whereColumn('id_cliente', 'telefono.id_cliente')->limit(1),
             ]
         )
-        ->with(['fechasPago' => function ($query) {
-            $query->orderBy('fecha');
-        }])
-        ->withSum('detalles', 'cantidad')->find($id);
-        return view('livewire.servicios.pedidos.ver-pedido', compact('pedido'));
+            ->with(['fechasPago' => function ($query) {
+                $query->orderBy('fecha');
+            }])
+            ->withCount('vestimentas')
+            ->withSum('detalles', 'cantidad')->find($id);
+        $propietariosVestimentas = Cliente::join('persona', 'cliente.id', '=', 'persona.id')
+            ->select('persona.nombre', 'persona.apellido', 'cliente.id')
+            ->whereHas('unidadesVestimenta', function ($query) use ($id) {
+                $query->where('id_pedido', $id);
+            })
+            ->with('unidadesVestimenta', function ($query) use ($id) {
+                $query->where('id_pedido', $id)
+                ->with(['vestimenta', 'medidasVestimenta.medida'])
+                ->withCount('medidasVestimenta');
+            })
+            ->withCount(['unidadesVestimenta', 'unidadesVestimenta as vestimentas_terminadas_count' => function ($query) {
+                $query->where('estado', 1);
+            }])
+            ->get();
+        return view('livewire.servicios.pedidos.ver-pedido', compact('pedido', 'propietariosVestimentas'));
     }
 
     /**

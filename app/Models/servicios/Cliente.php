@@ -19,8 +19,9 @@ class Cliente extends Model
     ];
     protected $guarded = ['id'];
 
-    public function persona(): BelongsTo{
-        return $this->belongsTo(Persona::class,'id');
+    public function persona(): BelongsTo
+    {
+        return $this->belongsTo(Persona::class, 'id');
     }
 
     public function telefonos(): HasMany
@@ -28,8 +29,13 @@ class Cliente extends Model
         return $this->hasMany(Telefono::class, 'id_cliente');
     }
 
-    public function telefonoPersonal() : HasOne
+    public function telefonoPersonal(): HasOne
     {
         return $this->hasOne(Telefono::class, 'id_cliente')->where('tipo', 0);
+    }
+
+    public function unidadesVestimenta(): HasMany
+    {
+        return $this->hasMany(UnidadVestimenta::class, 'id_cliente');
     }
 }

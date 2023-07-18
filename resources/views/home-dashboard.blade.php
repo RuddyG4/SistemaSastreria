@@ -6,8 +6,8 @@
             <div class="row">
                 <div class="col-lg-10 p-xs">
                     <h1 class="text-primary display-1 fw-bold" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); font-size: 3rem;">
-                        <span style="background-color: #6C757D; padding: 0 10px; border-radius: 10px; color: #FFF;">SISTEMA DE ADMINISTRACION DE</span><br>
-                        <span style="background-color: #007BFF; padding: 0 10px; border-radius: 10px; color: #FFF; font-size: 4rem;">"SASTRERIA MAYA"</span>
+                        <span class="b-r-lg py-2 px-3" style="background-color: #6C757D; color: #FFF;">SISTEMA DE ADMINISTRACION DE</span><br>
+                        <span class="b-r-lg px-3" style="background-color: #007BFF; color: #FFF; font-size: 4rem;">"SASTRERIA MAYA"</span>
                     </h1>
                 </div>
                 <div class="col-lg-2 p-xs d-flex align-items-center justify-content-end">
