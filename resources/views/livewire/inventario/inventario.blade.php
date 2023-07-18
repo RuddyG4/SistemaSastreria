@@ -365,27 +365,5 @@
                 'success'
             )
         })
-        // Obtén todas las etiquetas <span> con la clase "stock-label"
-        var stockLabels = document.getElementsByClassName("stock-label");
-
-        // Itera sobre cada etiqueta <span> y actualiza su estado de acuerdo a la cantidad
-        for (var i = 0; i < stockLabels.length; i++) {
-            var cantidadElement = stockLabels[i].parentNode.previousElementSibling;
-            var cantidad = parseInt(cantidadElement.textContent);
-
-            if (cantidad > 150) {
-                stockLabels[i].className = "label label-primary"; // Stock Alto
-                stockLabels[i].textContent = "Stock Alto";
-            } else if (cantidad < 150 && cantidad > 50) {
-                stockLabels[i].className = "label label-info"; // Stock Medio
-                stockLabels[i].textContent = "Stock Medio";
-            } else if (cantidad < 50 && cantidad > 0) {
-                stockLabels[i].className = "label label-warning"; // Stock Bajo
-                stockLabels[i].textContent = "Stock Bajo";
-            } else if (cantidad = 0) {
-                stockLabels[i].className = "label label-danger"; // Stock Agotado
-                stockLabels[i].textContent = "Stock Agotado";
-            }
-        }
     </script>
     @endpush
