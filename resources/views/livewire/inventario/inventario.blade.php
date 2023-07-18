@@ -52,7 +52,7 @@
             <div class="ibox-content">
                 <div class="row">
                     <div class="col-sm-2 m-b-xs">
-                        <select wire:model="almacen" id="rol" class="form-control">
+                        <select wire:model="almacen.id" id="rol" class="form-control">
                             @foreach($almacenes as $almacen)
                             <option value="{{ $almacen->id }}">{{ $almacen->nombre }}</option>
                             @endforeach

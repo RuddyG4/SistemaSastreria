@@ -18,7 +18,7 @@ use Livewire\WithPagination;
 class Inventario extends Component
 {
     use WithPagination;
-    public $busqueda, $almacen;
+    public $busqueda, $almacen, $almacenes;
     public $detalles, $detallesSalida, $id_material, $cantidad, $precio, $descripcion;
     public User $usuario;
 
@@ -31,6 +31,7 @@ class Inventario extends Component
         'detalles.*.precio' => 'required|decimal:0,2',
         'detallesSalida.*.id_material' => 'required|numeric',
         'detallesSalida.*.cantidad' => 'required|numeric|integer',
+        'almacen.id' => 'required|numeric|integer',
     ];
 
     protected $messages = [
@@ -45,13 +46,10 @@ class Inventario extends Component
 
     public function render()
     {
-        $almacenes = Almacen::all();
-        if ($almacenes->isEmpty()) {
+        if ($this->almacenes->isEmpty()) {
             return view('livewire.inventario.inventario');
         } else {
-            $this->almacen = $almacenes->first();
             return view('livewire.inventario.inventario', [
-                'almacenes' => $almacenes,
                 'materiales' => Material::all(),
                 'datos' => MInventario::Where('id_almacen', $this->almacen->id)->whereHas('material', function ($query) {
                     $query->where('nombre', 'like', "%$this->busqueda%");
@@ -70,6 +68,8 @@ class Inventario extends Component
         $this->detalles = new \Illuminate\Database\Eloquent\Collection();
         $this->detallesSalida = new \Illuminate\Database\Eloquent\Collection();
         $this->usuario = Auth::user();
+        $this->almacenes = Almacen::all();
+        $this->almacen = $this->almacenes->first();
     }
 
     // Métodos para el manejo de las notas de ingreso
