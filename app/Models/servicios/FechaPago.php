@@ -17,6 +17,7 @@ class FechaPago extends Model
         'descripcion',
         'monto',
         'id_pedido',
+        'estado',
     ];
 
     public function pedido(): BelongsTo

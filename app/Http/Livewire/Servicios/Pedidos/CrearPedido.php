@@ -198,12 +198,14 @@ class CrearPedido extends Component
         $this->fechas->push(new FechaPago([
             'fecha' => now()->toDateString(),
             'monto' => $this->pagoInicial,
+            'estado' => 0,
+            'descripcion' => 'Pago inicial',
         ]));
         foreach ($this->fechas as $fechaPago) {
             $fechaPago->id_pedido = $this->pedido->id;
             $fechaPago->save();
         }
-        $this->usuario->generarBitacora('Pedido creado, id: ' . $this->usuario->id);
+        $this->usuario->generarBitacora('Pedido creado, id: ' . $this->pedido->id);
         return redirect('/dashboard/adm_servicios/pedidos');
     }
 

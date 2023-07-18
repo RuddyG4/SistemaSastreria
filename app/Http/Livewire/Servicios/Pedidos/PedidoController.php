@@ -58,21 +58,7 @@ class PedidoController extends Controller
             }])
             ->withCount('vestimentas')
             ->withSum('detalles', 'cantidad')->find($id);
-        $propietariosVestimentas = Cliente::join('persona', 'cliente.id', '=', 'persona.id')
-            ->select('persona.nombre', 'persona.apellido', 'cliente.id')
-            ->whereHas('unidadesVestimenta', function ($query) use ($id) {
-                $query->where('id_pedido', $id);
-            })
-            ->with('unidadesVestimenta', function ($query) use ($id) {
-                $query->where('id_pedido', $id)
-                ->with(['vestimenta', 'medidasVestimenta.medida'])
-                ->withCount('medidasVestimenta');
-            })
-            ->withCount(['unidadesVestimenta', 'unidadesVestimenta as vestimentas_terminadas_count' => function ($query) {
-                $query->where('estado', 1);
-            }])
-            ->get();
-        return view('livewire.servicios.pedidos.ver-pedido', compact('pedido', 'propietariosVestimentas'));
+        return view('livewire.servicios.pedidos.ver-pedido', compact('pedido'));
     }
 
     /**

@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
     // Paquete de Servicios
     Route::get('/dashboard/adm_servicios/clientes', App\Http\Livewire\Servicios\Clientes::class);
     Route::get('/dashboard/adm_servicios/vestimentas', App\Http\Livewire\Servicios\Vestimentas::class);
+    Route::get('/dashboard/adm_servicios/pedidos/{id}/asignar-vestimentas', App\Http\Livewire\Servicios\Pedidos\AsignarVestimentas::class);
     Route::resource('/dashboard/adm_servicios/pedidos', App\Http\Livewire\Servicios\Pedidos\PedidoController::class);
 
     // Paquete de Inventario
@@ -43,6 +44,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/adm_inventario/inventario', App\Http\Livewire\Inventario\Inventario::class);
     Route::get('/dashboard/adm_inventario/notas', App\Http\Livewire\Inventario\Notas::class);
     
+    Route::get('/dashboard/prueba', function () {
+        return view('child');
+    });
 });
 
 

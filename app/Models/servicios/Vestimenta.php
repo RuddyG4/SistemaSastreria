@@ -26,5 +26,10 @@ class Vestimenta extends Model
     {
         return $this->hasMany(DetallePedido::class, 'id_vestimenta');
     }
+
+    public function unidadesVestimenta(): HasMany
+    {
+        return $this->hasMany(UnidadVestimenta::class, 'id_vestimenta');
+    }
 }
 
