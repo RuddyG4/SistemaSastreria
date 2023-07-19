@@ -42,6 +42,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/adm_inventario/materiales', App\Http\Livewire\Inventario\Materiales::class);
     Route::get('/dashboard/adm_inventario/inventario', App\Http\Livewire\Inventario\Inventario::class);
     Route::get('/dashboard/adm_inventario/notas', App\Http\Livewire\Inventario\Notas::class);
+
+    // paquetes de reportes
+    Route::get('/dashboard/adm_reporte/inventarios', App\Http\Livewire\Reportes\Inventarios::class);
     
 });
 
