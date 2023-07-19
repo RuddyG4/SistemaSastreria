@@ -42,4 +42,19 @@ class VestimentaPedido extends Component
             ->with('vestimenta')
             ->get();
     }
+
+    public function marcarComoTerminado(UnidadVestimenta $vestimenta)
+    {
+        $vestimenta->estado = 1;
+        $vestimenta->save();
+        $this->vestimentas = UnidadVestimenta::where('id_cliente', $vestimenta->id_cliente)
+            ->where('id_pedido', $this->pedido->id)
+            ->with('vestimenta')
+            ->get();
+    }
+
+    public function cancelar()
+    {
+        // 
+    }
 }

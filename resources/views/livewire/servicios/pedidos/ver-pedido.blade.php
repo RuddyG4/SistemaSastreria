@@ -14,9 +14,9 @@
                                     <div class="col-lg-6">
                                         <h2><strong>Contrato con {{ $pedido->nombre_cliente }} {{ $pedido->apellido_cliente }}</strong></h2>
                                     </div>
-                                    <div class="col-lg-6 text-right">
+                                    <!-- <div class="col-lg-6 text-right">
                                         <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i> Editar pedido</a>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>

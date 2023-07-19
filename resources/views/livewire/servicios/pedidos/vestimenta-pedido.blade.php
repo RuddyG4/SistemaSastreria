@@ -99,99 +99,35 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title">Vestimentas de <strong>Nombre</strong></h3>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" wire:click="cancelar"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" ></button>
                 </div>
                 <div class="modal-body">
                     @foreach($vestimentas as $vestimenta)
-                    <div class="row">
-                        <div class="col">
-                            <div class="ibox-title">
-                                <h5>titulo</h5>
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                    </a>
+                    <?php $terminado = $vestimenta->estado == 1 ?>
+                    <div @class(['panel', 'panel-pad', 'panel-primary' => $terminado, 'panel-default' => !$terminado])>
+                            <div class="row">
+                                <div class="col">
+                                    <h3 class="fs-6">{{ $vestimenta->vestimenta->nombre}}</h3>
                                 </div>
+                                @if(!$terminado)
+                                <div class="col-auto text-right">
+                                    <button class="btn btn-primary btn-sm" wire:click="marcarComoTerminado( {{ $vestimenta->id }} )" type="button">Marcar como terminado</button>
+                                </div>
+                                @endif
                             </div>
-
-                            <div class="ibox-content">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <dl class="row mb-0">
-                                            <div class="col-sm-4 text-right">
-                                                <dt>Medida</dt>
-                                            </div>
-                                            <div class="col-sm-8 text-sm-left">
-                                                <dd class="mb-1"> 10cm</dd>
-                                            </div>
-                                        </dl>
-                                    </div>
+                            <div class="row">
+                                @foreach($vestimenta->medidasVestimenta as $medida)
+                                <div class="col-lg-6">
+                                    <label for=""><strong>{{ $medida->medida->nombre }} :</strong></label>
+                                    <span>{{ $medida->valor }}</span>
                                 </div>
+                                @endforeach
                             </div>
-                        </div>
-                        <div class="col">
-                            <div class="ibox ">
-                                <div class="ibox-title">
-                                    <h5>Basic Table</h5>
-                                    <div class="ibox-tools">
-                                        <a class="collapse-link">
-                                            <i class="fa fa-chevron-up"></i>
-                                        </a>
-                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                            <i class="fa fa-wrench"></i>
-                                        </a>
-                                        <ul class="dropdown-menu dropdown-user">
-                                            <li><a href="#" class="dropdown-item">Config option 1</a>
-                                            </li>
-                                            <li><a href="#" class="dropdown-item">Config option 2</a>
-                                            </li>
-                                        </ul>
-                                        <a class="close-link">
-                                            <i class="fa fa-times"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="ibox-content">
-
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Username</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
-                                                <td>@twitter</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     @endforeach
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" wire:click="cancelar"> Cerrar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Cerrar</button>
                 </div>
             </div>
         </div>
