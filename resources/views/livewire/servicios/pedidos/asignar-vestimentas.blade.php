@@ -76,21 +76,19 @@
                         </div>
 
                         <!-- Asignar medidas de las vestimentas -->
-                        <div class="panel panel-pad panel-default">
+                        <!-- <div class="panel panel-pad panel-default">
                             <div class="row">
                                 <div class="col">
                                     <h3 class="fs-6">Ingrese las medidas</h3>
                                 </div>
                             </div>
                             <div class="row">
-                                @foreach($vestimenta->medidasVestimenta as $medida)
                                 <div class="col-lg-6">
-                                    <label for=""><strong>{{ $medida->medida->nombre }} :</strong></label>
+                                    <label for=""><strong>Medida :</strong></label>
                                     <input type="number" wire:model="">
                                 </div>
-                                @endforeach
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="modal-footer">
