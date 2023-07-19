@@ -139,21 +139,7 @@
                         </div>
 
                         <!-- Vestimentas sin asignar -->
-                        <?php
-                        $vestimentasSinAsignar = $pedido->detalles_sum_cantidad - $pedido->vestimentas_count;
-                        ?>
-                        @if ($vestimentasSinAsignar > 0)
-                        <div class="panel panel-default my-2 px-2 py-2">
-                            <div class="row">
-                                <div class="col">
-                                    <span class="fs-6"><strong class="text-warning">Vestimentas sin asignar :</strong> <b>{{ $vestimentasSinAsignar }}</b></span>
-                                </div>
-                                <div class="col text-right">
-                                    <a href=" {{ asset('/dashboard/adm_servicios/pedidos/'.$pedido->id.'/asignar-vestimentas/') }} " class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp; Asignar vestimentas</a>
-                                </div>
-                            </div>
-                        </div>
-                        @endif
+                        <livewire:servicios.pedidos.asignar-vestimentas :id_pedido="$pedido->id" />
 
                         <!-- inicio  tabs-->
                         <livewire:servicios.pedidos.vestimenta-pedido :pedido="$pedido" />

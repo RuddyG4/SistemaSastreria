@@ -15,6 +15,7 @@ class UnidadVestimenta extends Model
 
     protected $fillable = [
         'estado',
+        'fecha_cambio',
         'id_pedido',
         'id_vestimenta',
         'id_cliente',

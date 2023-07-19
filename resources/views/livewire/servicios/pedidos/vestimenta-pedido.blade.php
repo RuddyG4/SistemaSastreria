@@ -93,7 +93,7 @@
         </div>
     </div>
 
-
+    <!-- Modal para ver las vestimentas -->
     <div wire:ignore.self id="vestimentas" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="crearUsuario" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -116,12 +116,25 @@
                                 @endif
                             </div>
                             <div class="row">
+                                @if($medidas != null && $id_vestimenta == $vestimenta->id && $vestimenta->fecha_cambio == null)
+                                @foreach($medidas as $i => $medida)
+                                <label for=""><strong>{{ $medida->medida->nombre }} :</strong></label>
+                                <input class="form-control" type="number" wire:model="medidas.{{ $i }}.valor">
+                                @endforeach
+                                <button class="btn btn-success btn-sm mt-2" wire:click="guardarMedidas( {{ $vestimenta->id_cliente }} )" type="button">Guardar Cambios</button>
+                                @else
                                 @foreach($vestimenta->medidasVestimenta as $medida)
                                 <div class="col-lg-6">
                                     <label for=""><strong>{{ $medida->medida->nombre }} :</strong></label>
                                     <span>{{ $medida->valor }}</span>
                                 </div>
                                 @endforeach
+                                @if($vestimenta->fecha_cambio == null && !$terminado)
+                                <div class="col-lg-12 py-2">
+                                    <button class="btn btn-success btn-sm" type="button" wire:click="cambiarMedidas( {{ $vestimenta->id }} )">Cambiar medidas</button>
+                                </div>
+                                @endif
+                                @endif
                             </div>
                     </div>
                     @endforeach
