@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ? $title.' |': '' }} Sastreria Maya</title>
+    <title>App Name - @yield('title')</title>
     <!-- Logo -->
     <link rel="shortcut icon" href="{{ asset('images/logo-icon.jpg') }}">
 
@@ -167,7 +167,7 @@
 
             <!-- Contenido principal -->
             <div class="wrapper wrapper-content">
-                {{ $slot }}
+                @yield('content')
             </div>
 
             <!-- Footer -->

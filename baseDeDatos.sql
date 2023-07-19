@@ -164,7 +164,7 @@ foreign key (id_usuario) references usuario(id)
 create table cliente
 (
 id integer unique not null,
-direccion varchar(30)not null,
+direccion varchar(50)not null,
 primary key (id),
 foreign key (id) references persona(id)
 	on update cascade on delete cascade
@@ -203,6 +203,7 @@ fecha date not null,
 descripcion varchar(100),
 monto decimal(7,2) not null,
 id_pedido integer not null,
+estado bool not null default 0, -- 0 = sin pagar, 1 = pagado
 primary key (id,id_pedido),
 foreign key (id_pedido) references pedido(id)
 	on update cascade on delete cascade
@@ -240,6 +241,7 @@ create table unidad_vestimenta
 (
 id integer not null auto_increment,
 estado bool not null default 0, -- 0=no hecho    1=terminado
+fecha_cambio datetime,
 id_pedido integer not null,
 id_vestimenta integer not null,
 id_cliente integer not null,
@@ -275,17 +277,6 @@ primary key(id,id_unidad_vestimenta),
 foreign key(id_unidad_vestimenta) references unidad_vestimenta(id)
     on update cascade on delete cascade,
 foreign key(id_medida) references medida(id)
-    on update cascade on delete cascade
-);
-
-create table cambio
-(
-id integer not null auto_increment,
-fecha datetime not null,
-nuevo_valor decimal(5,2) not null,
-id_medida_vestimenta integer not null,
-primary key(id),
-foreign key(id_medida_vestimenta) references medida_vestimenta(id)
     on update cascade on delete cascade
 );
 
@@ -413,11 +404,11 @@ insert into persona values(3,'Maria','Hernades',846185);
 insert into persona values(null,'Reymar','Loaiza Labarden',7849337);
 insert into persona values(null,'Rubén','Espejo Apaza',7849338);
 insert into persona values(null,'Adrián','Rosales',7849339);
-insert into persona values(7,'laura','profesora',84617885);
-insert into persona values(8,'a','alumno',84663185);
-insert into persona values(9,'b','alumno',8468185);
-insert into persona values(10,'c','alumno',8464185);
-insert into persona values(11,'d','alumno',8461285);
+insert into persona values(7,'Laura','Rivera',84617885);
+insert into persona values(8,'Ernesto','Lopez',84663185);
+insert into persona values(9,'Juan','Roman',8468185);
+insert into persona values(10,'David','Flores',8464185);
+insert into persona values(11,'Junior','Ochoa',8461285);
 
 insert into rol values(null,'Administrador general', 'usuario con el máximo control del sistema');
 insert into rol values(null,'Administrador', 'administra las funcionalidades de servicio e inventario');
@@ -582,7 +573,7 @@ insert into pedido values(null, 'Pedido para colegio Don Bosco',  now(),    0.1 
 insert into pedido values(null, 'Pedido para colegio Josefina B.',  now(),  1      , 4 ,         9 ,       1);
 insert into pedido values(null, 'Pedido para una persona particular',now(), 0,       2,          3,        0);
 
-insert into fecha_pago values(null,now(),'primer pago', 100, 1);
+insert into fecha_pago values(null,now(),'primer pago', 100, 1, 0);
 
 --									mujer
 insert into vestimenta values(1,'saco mujer',0,0);
@@ -681,14 +672,12 @@ insert into medida_necesaria values(5,4);
 
 -- SELECT VESTIMENTA.NOMBRE, MEDIDA.NOMBRE, ID_MEDIDA FROM VESTIMENTA,MEDIDA, MEDIDA_NECESARIA WHERE ID_VESTIMENTA=VESTIMENTA.ID AND MEDIDA.ID=ID_MEDIDA AND GENERO=1 AND VESTIMENTA.nombre='CAMISA';
 
-insert into unidad_vestimenta values(null,0,1,1,3);
+insert into unidad_vestimenta values(null,0,null, 1,1,3);
 
 insert into detalle_pedido values(null,1,1,1);
 
 insert into medida_vestimenta values(null,40,1,1);
 insert into medida_vestimenta values(null,50,1,2);
-
-insert into cambio values(null,now(),48,2);
 
 --							numero    priv/  cliente
 insert into telefono values(70225414,0,    7);
@@ -699,22 +688,22 @@ insert into telefono values(70225418,0,    11);
 
 
 
--- 							id      fecha 	    descrip      monto id-pedid
-insert into fecha_pago values(null,'2023-05-08','primer pago',100, 2   );
-insert into fecha_pago values(null,'2023-05-10','segundo pago',200, 2   );
-insert into fecha_pago values(null,'2023-05-15','tercer pago',200, 2   );
-insert into fecha_pago values(null,'2023-05-20','pago final ',100, 2   );
+-- 							id      fecha 	    descrip     monto id-pedid	estado
+insert into fecha_pago values(null,'2023-05-08','primer pago',100, 	2   	,	0);
+insert into fecha_pago values(null,'2023-05-10','segundo pago',200, 2   	,	0);
+insert into fecha_pago values(null,'2023-05-15','tercer pago',200, 	2   	,	0);
+insert into fecha_pago values(null,'2023-05-20','pago final ',100, 	2   	,	0);
 
 -- INSERT INTO UNIDAD_VESTIMENTA VALUES(NULL,0,1,1,3);
---                                    ID  ESTADO  IDPEDI  IDVEST  IDCLIEN
+--                                    ID  ESTADO FechaCambio   IDPEDI   IDVEST  IDCLIEN
 
 -- CLIENTE B MUJER
-insert into unidad_vestimenta values(null,0,       2,       1,       9); -- saco m
-insert into unidad_vestimenta values(null,0,       2,       2,       9); -- camisa m
+insert into unidad_vestimenta values(null,  0,    null,     2,         1,       9); -- saco m
+insert into unidad_vestimenta values(null,  0,    null,     2,         2,       9); -- camisa m
 
 -- cliente c hombre
-insert into unidad_vestimenta values(null,0,       2,       7,       10); -- saco h
-insert into unidad_vestimenta values(null,0,       2,       8,       10); -- camisa h
+insert into unidad_vestimenta values(null,  0,    null,   2,          7,       10); -- saco h
+insert into unidad_vestimenta values(null,  0,    null,   2,          8,       10); -- camisa h
 
 --                                   id  cant   idpedi   idvestim
 -- insert into detalle_pedido values(null, 1,      1,       1);
@@ -743,5 +732,3 @@ insert into medida_vestimenta values(null,   42,        4,            4);
 insert into medida_vestimenta values(null,   50,        5,            4); 
 insert into medida_vestimenta values(null,   44,        5,            6); 
 insert into medida_vestimenta values(null,   42,        5,            3); 
-
-insert into cambio values(null,now(),48,2);

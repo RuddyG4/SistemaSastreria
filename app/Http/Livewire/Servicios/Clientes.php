@@ -46,19 +46,22 @@ class Clientes extends Component
     }
 
     protected $rules = [
-        'nombre' => 'required',
-        'apellido' => 'required',
+        'nombre' => 'required|string|max:40',
+        'apellido' => 'required|max:40',
         'ci' => 'required|numeric|unique:persona',
-        'direccion' => 'required',
+        'direccion' => 'required|max:50',
     ];
 
     protected $messages = [
         'nombre.required' => 'El nombre es obligatorio',
+        'nombre.max' => 'El nombre debe tener un maximo de 40 caracteres',
         'apellido.required' => 'El apellido es obligatorio',
+        'apellido.max' => 'El apellido debe tener un maximo de 40 caracteres',
         'ci.required' => 'El C.I. es obligatorio',
         'ci.numeric' => 'El C.I. solo debe contener números',
         'ci.unique' => 'El C.I. ingresado ya existe',
-        'direccion.required' => 'Debe ingresar una direccion.',
+        'direccion.required' => 'Debe ingresar una direccion',
+        'direccion.max' => 'La direccion debe tener un maximo de 50 caracteres',
     ];
 
     public function updated($propertyName)

@@ -80,7 +80,7 @@
         <table class="footable table table-striped">
             <thead>
                 <tr>
-                    <th>Id</th>
+                    <th>ID</th>
                     <th>Cliente</th>
                     <th>Telefono</th>
                     <th>Descripcion</th>
@@ -96,8 +96,8 @@
                 @foreach($pedidos as $pedido)
                 <tr>
                     <td>{{ $pedido->id }}</td>
-                    <td>{{ $pedido->cliente->persona->nombre }}</td>
-                    <td>{{ $pedido->cliente->telefonoPersonal->numero }}</td>
+                    <td>{{ $pedido->nombre_cliente }} {{ $pedido->apellido_cliente }}</td>
+                    <td>{{ $pedido->telefono }}</td>
                     <td>{{ $pedido->descripcion }}</td>
                     <td>
                         <?php
