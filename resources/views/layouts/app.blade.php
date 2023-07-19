@@ -139,6 +139,21 @@
                         </ul>
                     </li>
                     @endif
+
+                    <li class="{{ Request::is('dashboard/adm_reporte/*') ? 'active' : '' }}">
+                        <a href="#"><i class=" fa fa-wrench"></i>
+                            <span class="nav-label">Adm. de Reportes</span><span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level collapse">
+                            
+                            {{-- @if(in_array('nota_ingreso.lista', $permisos) || in_array('nota_salida.lista', $permisos)) --}}
+                            <li class="{{ Request::is('dashboard/adm_reporte/inventarios') ? 'active' : '' }}">
+                                <a href="{{url('/dashboard/adm_reporte/inventarios')}}">Inventarios</a>
+                            </li>
+                            {{-- @endif --}}
+                            
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </nav>
