@@ -3,15 +3,14 @@
 namespace App\Http\Livewire\Servicios\Pedidos;
 
 use App\Models\servicios\Cliente;
-use App\Models\servicios\Pedido;
 use App\Models\servicios\UnidadVestimenta;
 use App\Models\servicios\Vestimenta;
 use Livewire\Component;
 
 class AsignarVestimentas extends Component
 {
-    public $pedido, $id_pedido;
-    public $id_cliente, $id_vestimenta, $cantidad;
+    public $pedido, $id_pedido, $vestimentasSinAsignar;
+    public $id_cliente, $id_vestimenta, $cantidad, $modalAbierto = false;
 
     protected $rules = [
         'id_cliente' => 'required',
@@ -21,22 +20,28 @@ class AsignarVestimentas extends Component
 
     public function render()
     {
-        $this->pedido = Pedido::withCount('vestimentas')
-            ->withSum('detalles', 'cantidad')
-            ->find($this->id_pedido);
-        return view('livewire.servicios.pedidos.asignar-vestimentas', [
-            'clientes' => Cliente::all(),
-            'vestimentas' => Vestimenta::whereHas('detalles', function ($query) {
-                $query->where('id_pedido', $this->pedido->id);
-            })
-                ->with('detalles', function ($query) {
+        if ($this->modalAbierto) {
+            return view('livewire.servicios.pedidos.asignar-vestimentas', [
+                'clientes' => Cliente::with('persona')->get(),
+                'vestimentas' => Vestimenta::whereHas('detalles', function ($query) {
                     $query->where('id_pedido', $this->pedido->id);
                 })
-                ->withCount(['unidadesVestimenta' => function ($query) {
-                    $query->where('id_pedido', $this->pedido->id);
-                },])
-                ->get(),
-        ]);
+                    ->with('detalles', function ($query) {
+                        $query->where('id_pedido', $this->pedido->id);
+                    })
+                    ->withCount(['unidadesVestimenta' => function ($query) {
+                        $query->where('id_pedido', $this->pedido->id);
+                    },])
+                    ->get(),
+            ]);
+        } else {
+            return view('livewire.servicios.pedidos.asignar-vestimentas');
+        }
+    }
+
+    public function mount($pedido)
+    {
+        $this->vestimentasSinAsignar = $pedido->detalles_sum_cantidad - $pedido->vestimentas_count;
     }
 
     public function asignarVestimenta()
@@ -51,6 +56,8 @@ class AsignarVestimentas extends Component
                 'id_pedido' => $this->pedido->id,
             ]);
         }
+        $this->vestimentasSinAsignar = $this->vestimentasSinAsignar - $this->cantidad;
+        $this->emit('vestimentaAsignada');
         $this->reset(['id_cliente', 'id_vestimenta', 'cantidad']);
     }
 }

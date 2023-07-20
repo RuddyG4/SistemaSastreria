@@ -139,7 +139,7 @@
                         </div>
 
                         <!-- Vestimentas sin asignar -->
-                        <livewire:servicios.pedidos.asignar-vestimentas :id_pedido="$pedido->id" />
+                        <livewire:servicios.pedidos.asignar-vestimentas :pedido="$pedido" />
 
                         <!-- inicio  tabs-->
                         <livewire:servicios.pedidos.vestimenta-pedido :pedido="$pedido" />

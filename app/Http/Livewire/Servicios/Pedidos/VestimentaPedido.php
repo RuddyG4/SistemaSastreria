@@ -14,6 +14,8 @@ class VestimentaPedido extends Component
     public $medidas;
     public Pedido $pedido;
 
+    protected $listeners = ['vestimentaAsignada' => '$refresh'];
+
     protected $rules = [
         'medidas.*.valor' => 'required',
     ];
@@ -78,10 +80,5 @@ class VestimentaPedido extends Component
         $vestimenta->save();
         $this->verVestimentas($id_propietario);
         $this->reset(['medidas', 'id_vestimenta']);
-    }
-
-    public function cancelar()
-    {
-        // 
     }
 }

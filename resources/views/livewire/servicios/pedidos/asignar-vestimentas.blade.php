@@ -2,9 +2,6 @@
     <x-slot:title>
         Asignacion de vestimentas
     </x-slot:title>
-    <?php
-    $vestimentasSinAsignar = $pedido->detalles_sum_cantidad - $pedido->vestimentas_count;
-    ?>
     @if ($vestimentasSinAsignar > 0)
     <div class="panel panel-default my-2 px-2 py-2">
         <div class="row">
@@ -12,7 +9,9 @@
                 <span class="fs-6"><strong class="text-warning">Vestimentas sin asignar :</strong> <b>{{ $vestimentasSinAsignar }}</b></span>
             </div>
             <div class="col text-right">
-                <button type="button" data-bs-toggle="modal" data-bs-target="#asignarVestimentas" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp; Asignar vestimentas</a>
+                <button type="button" wire:click="$set('modalAbierto', true)" data-bs-toggle="modal" data-bs-target="#asignarVestimentas" class="btn btn-primary">
+                    <i class="fa fa-plus"></i>&nbsp; Asignar vestimentas
+                </button>
             </div>
         </div>
     </div>
@@ -27,6 +26,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
                 </div>
                 <div class="modal-body">
+                    @if($modalAbierto)
                     <div class="row mb-2">
                         <div class="col">
                             <div>
@@ -90,9 +90,10 @@
                             </div>
                         </div> -->
                     </div>
+                    @endif
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> Cerrar</button>
+                    <button wire:click="$set('modalAbierto', false)" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>

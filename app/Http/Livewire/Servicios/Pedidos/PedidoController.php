@@ -43,16 +43,27 @@ class PedidoController extends Controller
      */
     public function show($id)
     {
-        $pedido = Pedido::addSelect(
-            [
-                'nombre_cliente' => Persona::select('nombre')->whereColumn('id_cliente', 'persona.id')->limit(1),
-                'apellido_cliente' => Persona::select('apellido')->whereColumn('id_cliente', 'persona.id')->limit(1),
-                'ci_cliente' => Persona::select('ci')->whereColumn('id_cliente', 'persona.id')->limit(1),
-                'direccion_cliente' => Cliente::select('direccion')->whereColumn('id_cliente', 'cliente.id')->limit(1),
-                'usuario' => User::select('username')->whereColumn('id_usuario', 'usuario.id')->limit(1),
-                'numero_cliente' => Telefono::select('numero')->whereColumn('id_cliente', 'telefono.id_cliente')->limit(1),
-            ]
-        )
+        $pedido = Pedido::
+            join('persona', 'pedido.id_cliente', '=', 'persona.id')
+            //     ->join('cliente', 'pedido.id_cliente', '=', 'cliente.id')
+            //     ->join('usuario', 'pedido.id_usuario', '=', 'usuario.id')
+            //     ->join('telefono', function ($query) {
+            //         $query->on('pedido.id_cliente', '=', 'telefono.id_cliente')
+            //         ->where('telefono.tipo', 0);
+            //     })
+            //     ->select('persona.nombre as nombre_cliente', 'persona.apellido as apellido_cliente', 'persona.ci as ci_cliente', 
+            //             'cliente.direccion as direccion_cliente', 'usuario.username as usuario', 'pedido.*', 'telefono.numero as numero_cliente')
+            ->select('persona.nombre as nombre_cliente', 'persona.apellido as apellido_cliente', 'persona.ci as ci_cliente', 'pedido.*')
+            ->addSelect(
+                [
+                    // 'nombre_cliente' => Persona::select('nombre')->whereColumn('id_cliente', 'persona.id')->limit(1),
+                    // 'apellido_cliente' => Persona::select('apellido')->whereColumn('id_cliente', 'persona.id')->limit(1),
+                    // 'ci_cliente' => Persona::select('ci')->whereColumn('id_cliente', 'persona.id')->limit(1),
+                    'direccion_cliente' => Cliente::select('direccion')->whereColumn('id_cliente', 'cliente.id')->limit(1),
+                    'usuario' => User::select('username')->whereColumn('id_usuario', 'usuario.id')->limit(1),
+                    'numero_cliente' => Telefono::select('numero')->whereColumn('id_cliente', 'telefono.id_cliente')->limit(1),
+                ]
+            )
             ->with(['fechasPago' => function ($query) {
                 $query->orderBy('fecha');
             }])

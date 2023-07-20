@@ -99,43 +99,49 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title">Vestimentas de <strong>Nombre</strong></h3>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close" ></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
                 </div>
                 <div class="modal-body">
                     @foreach($vestimentas as $vestimenta)
                     <?php $terminado = $vestimenta->estado == 1 ?>
-                    <div @class(['panel', 'panel-pad', 'panel-primary' => $terminado, 'panel-default' => !$terminado])>
-                            <div class="row">
-                                <div class="col">
-                                    <h3 class="fs-6">{{ $vestimenta->vestimenta->nombre}}</h3>
-                                </div>
-                                @if(!$terminado)
-                                <div class="col-auto text-right">
-                                    <button class="btn btn-primary btn-sm" wire:click="marcarComoTerminado( {{ $vestimenta->id }} )" type="button">Marcar como terminado</button>
-                                </div>
-                                @endif
+                    <div @class(['panel', 'panel-pad' , 'panel-primary'=> $terminado, 'panel-default' => !$terminado])>
+                        <div class="row">
+                            <div class="col">
+                                <h3 class="fs-6">{{ $vestimenta->vestimenta->nombre}}</h3>
                             </div>
-                            <div class="row">
-                                @if($medidas != null && $id_vestimenta == $vestimenta->id && $vestimenta->fecha_cambio == null)
-                                @foreach($medidas as $i => $medida)
+
+                        </div>
+                        <div class="row">
+                            @if($medidas != null && $id_vestimenta == $vestimenta->id && $vestimenta->fecha_cambio == null)
+                            @foreach($medidas as $i => $medida)
+                            <label for=""><strong>{{ $medida->medida->nombre }} :</strong></label>
+                            <input class="form-control" type="number" wire:model="medidas.{{ $i }}.valor">
+                            @endforeach
+                            <button class="btn btn-success btn-sm mt-2" wire:click="guardarMedidas( {{ $vestimenta->id_cliente }} )" type="button">Guardar Cambios</button>
+                            @else
+                            @foreach($vestimenta->medidasVestimenta as $medida)
+                            <div class="col-lg-6">
                                 <label for=""><strong>{{ $medida->medida->nombre }} :</strong></label>
-                                <input class="form-control" type="number" wire:model="medidas.{{ $i }}.valor">
-                                @endforeach
-                                <button class="btn btn-success btn-sm mt-2" wire:click="guardarMedidas( {{ $vestimenta->id_cliente }} )" type="button">Guardar Cambios</button>
-                                @else
-                                @foreach($vestimenta->medidasVestimenta as $medida)
-                                <div class="col-lg-6">
-                                    <label for=""><strong>{{ $medida->medida->nombre }} :</strong></label>
-                                    <span>{{ $medida->valor }}</span>
-                                </div>
-                                @endforeach
-                                @if($vestimenta->fecha_cambio == null && !$terminado)
-                                <div class="col-lg-12 py-2">
-                                    <button class="btn btn-success btn-sm" type="button" wire:click="cambiarMedidas( {{ $vestimenta->id }} )">Cambiar medidas</button>
-                                </div>
-                                @endif
-                                @endif
+                                <span>{{ $medida->valor }}</span>
                             </div>
+                            @endforeach
+                            @endif
+
+
+                        </div>
+                        <div class="row">
+                            @if($vestimenta->fecha_cambio == null && !$terminado)
+                            <div class="col-lg-6 py-2">
+                                <button class="btn btn-success btn-sm" type="button" wire:click="cambiarMedidas( {{ $vestimenta->id }} )">Cambiar medidas &nbsp;&nbsp;<i class="fa fa-edit"></i></button>
+                            </div>
+                            @endif
+
+                            @if(!$terminado)
+                            <div class="col-lg-6 py-2 text-right">
+                                <button class="btn btn-primary btn-sm" wire:click="marcarComoTerminado( {{ $vestimenta->id }} )" type="button">Marcar como terminado &nbsp;&nbsp;<i class="fa fa-check-circle"></i></button>
+                            </div>
+                            @endif
+                        </div>
                     </div>
                     @endforeach
                 </div>
