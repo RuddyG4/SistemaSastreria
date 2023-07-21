@@ -52,8 +52,8 @@
                                         <div>
                                             <ul class="todo-list small-list">
                                                 @foreach ($clientes as $cliente)
-                                                <li>
-                                                    <button class="btn" type="button" wire:click="seleccionarCliente( {{ $cliente->id }} )">{{
+                                                <li class="p-0">
+                                                    <button class="btn col-lg-12 text-start" type="button" wire:click="seleccionarCliente( {{ $cliente->id }} )">{{
                                                         $cliente->nombre }} {{ $cliente->apellido }}</button>
                                                 </li>
                                                 @endforeach
@@ -63,17 +63,19 @@
                                     </div>
                                 </div>
                                 <div class="text-center">
-                                    <i class="fa fa-user fa-5x"></i>
                                     @if ($pedido->id_cliente)
                                     <?php
                                     $persona = $pedido->cliente->persona
                                     ?>
+                                    <i class="fa fa-user fa-5x text-navy"></i>
                                     <div>
                                         <span><strong>Nombre: </strong></span>{{ $persona->nombre }} {{
                                         $persona->apellido }}
                                         <br>
                                         <span><strong>CI: </strong></span> {{ $persona->ci }}
                                     </div>
+                                    @else
+                                    <i class="fa fa-user fa-5x"></i>
                                     @endif
                                 </div>
 
@@ -82,10 +84,8 @@
                                     <div class="radio radio-info">
                                         <input type="radio" id="inlineRadio1" wire:model="pedido.tipo" value="0" name="radioInline" />
                                         <label for="inlineRadio1">
-                                            PERSONAL <i class="fa fa-user"></i>
+                                            PERSONAL <i class="fa fa-user"></i> &nbsp;&nbsp;
                                         </label>
-                                    </div>
-                                    <div class="radio radio-info">
                                         <input type="radio" id="inlineRadio2" wire:model="pedido.tipo" value="1" name="radioInline" />
                                         <label for="inlineRadio2">
                                             GRUPAL <i class="fa fa-users"></i>

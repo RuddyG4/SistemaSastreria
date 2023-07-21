@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\servicios\Cliente;
 use App\Models\servicios\Pedido;
 use App\Models\servicios\Telefono;
-use App\Models\usuarios\Persona;
 use App\Models\usuarios\User;
 use Illuminate\Http\Request;
 
