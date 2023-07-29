@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect()->to('/dashboard');
 });
-    
+
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return view('home-dashboard');
@@ -26,30 +26,34 @@ Route::middleware('auth')->group(function () {
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
     // Paquete de usuarios
-    Route::get('/dashboard/adm_usuarios/roles', App\Http\Livewire\usuarios\Roles::class);
-    Route::get('/dashboard/adm_usuarios/funcionalidades', App\Http\Livewire\usuarios\Funcionalidades::class);
-    Route::get('/dashboard/adm_usuarios/usuarios', App\Http\Livewire\usuarios\Usuarios::class);
-    Route::get('/dashboard/adm_usuarios/bitacora', App\Http\Livewire\usuarios\Bitacora::class);
-    Route::get('/dashboard/adm_usuarios/perfil',function(){return view('livewire.usuarios.perfil');});
+    Route::prefix('/dashboard/adm_usuarios')->group(function () {
+        Route::get('/roles', App\Http\Livewire\usuarios\Roles::class);
+        Route::get('/funcionalidades', App\Http\Livewire\usuarios\Funcionalidades::class);
+        Route::get('/usuarios', App\Http\Livewire\usuarios\Usuarios::class);
+        Route::get('/bitacora', App\Http\Livewire\usuarios\Bitacora::class);
+        Route::get('/perfil', function () {
+            return view('livewire.usuarios.perfil');
+        });
+    });
 
     // Paquete de Servicios
-    Route::get('/dashboard/adm_servicios/clientes', App\Http\Livewire\Servicios\Clientes::class);
-    Route::get('/dashboard/adm_servicios/vestimentas', App\Http\Livewire\Servicios\Vestimentas::class);
-    Route::get('/dashboard/adm_servicios/pedidos/{id}/asignar-vestimentas', App\Http\Livewire\Servicios\Pedidos\AsignarVestimentas::class);
-    Route::resource('/dashboard/adm_servicios/pedidos', App\Http\Livewire\Servicios\Pedidos\PedidoController::class);
+    Route::prefix('/dashboard/adm_servicios')->group(function () {
+        Route::get('/clientes', App\Http\Livewire\Servicios\Clientes::class);
+        Route::get('/vestimentas', App\Http\Livewire\Servicios\Vestimentas::class);
+        Route::get('/pedidos/{id}/asignar-vestimentas', App\Http\Livewire\Servicios\Pedidos\AsignarVestimentas::class);
+        Route::resource('/pedidos', App\Http\Livewire\Servicios\Pedidos\PedidoController::class);
+    });
 
     // Paquete de Inventario
-    Route::get('/dashboard/adm_inventario/almacenes', App\Http\Livewire\Inventario\Almacenes::class);
-    Route::get('/dashboard/adm_inventario/materiales', App\Http\Livewire\Inventario\Materiales::class);
-    Route::get('/dashboard/adm_inventario/inventario', App\Http\Livewire\Inventario\Inventario::class);
-    Route::get('/dashboard/adm_inventario/notas', App\Http\Livewire\Inventario\Notas::class);
+    Route::prefix('/dashboard/adm_inventario')->group(function () {
+        Route::get('/almacenes', App\Http\Livewire\Inventario\Almacenes::class);
+        Route::get('/materiales', App\Http\Livewire\Inventario\Materiales::class);
+        Route::get('/inventario', App\Http\Livewire\Inventario\Inventario::class);
+        Route::get('/notas', App\Http\Livewire\Inventario\Notas::class);
+    });
 
     // paquetes de reportes
     Route::get('/dashboard/adm_reporte/inventarios', App\Http\Livewire\Reportes\Inventarios::class);
-    
-    Route::get('/dashboard/prueba', function () {
-        return view('child');
-    });
 });
 
 
@@ -58,5 +62,6 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
 });
 
-
-
+// Route::group(['prefix' => '/dashboard', 'middleware' => 'auth'], function () {
+//     // Rutas...
+// } );
