@@ -14,60 +14,6 @@
                     <img src="{{ asset('images/puntada.png') }}" alt="Logo" style="width: 230px; height: auto; margin-left: 50px;">
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="widget style1 red-bg py-2 px-5">
-                        <div class="row">
-                            <div class="col-4 text-center">
-                                <i class="fa fa-tag fa-4x"></i>
-                            </div>
-                            <div class="col-8 text-right">
-                                <span> Pedidos totales</span>
-                                <h2 class="font-bold">100</h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="widget style1 yellow-bg py-2 px-5">
-                        <div class="row">
-                            <div class="col-4">
-                                <i class="fa fa-male fa-4x"></i>
-                            </div>
-                            <div class="col-8 text-right">
-                                <span>Pedidos Pendientes </span>
-                                <h2 class="font-bold">todos</h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="widget style1 navy-bg py-2 px-5">
-                        <div class="row">
-                            <div class="col-4">
-                                <i class="fa fa-female fa-4x"></i>
-                            </div>
-                            <div class="col-8 text-right">
-                                <span> Pedidos terminados </span>
-                                <h2 class="font-bold">ninguno</h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="widget style1 blue-bg py-2 px-5">
-                        <div class="row">
-                            <div class="col-4">
-                                <i class="fa fa-female fa-4x"></i>
-                            </div>
-                            <div class="col-8 text-right">
-                                <span> Pedidos cancelados </span>
-                                <h2 class="font-bold">ninguno</h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <div class="ibox-content m-b-sm border-bottom">

@@ -8,9 +8,11 @@ use App\Models\usuarios\Rol;
 use App\Models\usuarios\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Usuarios extends Component
 {
+    use WithPagination;
     public $busqueda;
     public $nombre, $apellido, $ci, $username, $email, $id_rol, $password, $id_persona;
     public User $authenticatedUser;
@@ -56,7 +58,7 @@ class Usuarios extends Component
                             ->orWhere('apellido', 'like', "%$this->busqueda%");
                     })->orWhere('username', 'like', "%$this->busqueda%")
                         ->orWhere('email', 'like', "%$this->busqueda%");
-                })->with(['persona', 'rol'])->get()
+                })->with(['persona', 'rol'])->paginate(12)
                 /* ->filter(function ($usuario) {  // YA NO USO FILTER PORQUE ES MENOS EFECTIVO
                         return $usuario->activo == 0;
                     }) */,
@@ -153,5 +155,10 @@ class Usuarios extends Component
     public function limpiarDatos()
     {
         $this->reset(['nombre', 'apellido', 'ci', 'username', 'email', 'id_rol', 'password', 'id_persona']);
+    }
+
+    public function updatingBusqueda()
+    {
+        $this->resetPage();
     }
 }

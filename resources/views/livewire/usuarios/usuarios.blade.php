@@ -62,6 +62,11 @@
                         @endforeach
                     </tbody>
                 </table>
+                @if($usuarios->hasPages())
+                <div class="px-6 py-3">
+                    {{ $usuarios->links() }}
+                </div>
+                @endif
             </div>
         </div>
 

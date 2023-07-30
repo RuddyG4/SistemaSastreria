@@ -3,6 +3,8 @@
 namespace App\Models\servicios;
 
 use App\Models\usuarios\Persona;
+use Database\Factories\ClienteFactory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,6 +20,11 @@ class Cliente extends Model
         'direccion'
     ];
     protected $guarded = ['id'];
+
+    protected static function newFactory(): Factory
+    {
+        return ClienteFactory::new();
+    }
 
     public function persona(): BelongsTo
     {

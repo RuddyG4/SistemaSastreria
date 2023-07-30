@@ -4,7 +4,9 @@ namespace App\Models\usuarios;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -55,6 +57,11 @@ class User extends Authenticatable
         return Attribute::make(
             set: fn (string $value) => $this->attributes['password'] = bcrypt($value),
         );
+    }
+
+    protected static function newFactory(): Factory
+    {
+        return UserFactory::new();
     }
 
     public function persona(): BelongsTo
