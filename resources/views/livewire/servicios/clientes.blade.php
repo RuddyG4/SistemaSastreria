@@ -64,11 +64,10 @@
             </div>
             @endif
             @if( $clientes->hasPages() )
-            <div class="px-6 py-3">
+            <div class="px-2 py-1">
                 {{ $clientes->links() }}
             </div>
             @endif
-            <br>
         </div>
 
         <!-- Modales -->
@@ -100,15 +99,22 @@
                             <br>
 
                             <label for="ci"><b>C.I. :</b></label>
-                            <input type="number" id="ci" class="form-control" wire:model="ci">
+                            <input type="number" id="ci" class="form-control" wire:model.lazy="ci">
                             @error('ci')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>
 
                             <label for="direccion"><b>Dirección :</b></label>
-                            <input type="text" id="direccion" class="form-control" wire:model="direccion">
+                            <input type="text" id="direccion" class="form-control" wire:model.lazy="direccion">
                             @error('direccion')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                            <br>
+
+                            <label for="telefono"><b>Telefono :</b></label>
+                            <input type="number" id="telefono" class="form-control" wire:model.lazy="telefono">
+                            @error('telefono')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>

@@ -15,7 +15,7 @@ class Clientes extends Component
 {
     use WithPagination;
     public $busqueda;
-    public $nombre, $apellido, $ci, $direccion, $id_persona;
+    public $nombre, $apellido, $ci, $direccion, $id_persona, $telefono;
     public User $usuario;
 
     protected $listeners = ['delete'];
@@ -48,6 +48,7 @@ class Clientes extends Component
         'apellido' => 'required|max:40',
         'ci' => 'required|numeric|unique:persona',
         'direccion' => 'required|max:50',
+        'telefono' => 'required|numeric|integer',
     ];
 
     protected $messages = [
@@ -60,6 +61,9 @@ class Clientes extends Component
         'ci.unique' => 'El C.I. ingresado ya existe',
         'direccion.required' => 'Debe ingresar una direccion',
         'direccion.max' => 'La direccion debe tener un maximo de 50 caracteres',
+        'telefono.required' => 'Debe ingresar un telefono',
+        'telefono.numeric' => 'El telefono deber ser un numero tefefonico valido',
+        'telefono.integer' => 'El telefono deber ser un numero tefefonico valido (entero)',
     ];
 
     public function updated($propertyName)
@@ -90,6 +94,11 @@ class Clientes extends Component
         $persona = Persona::create($datos);
         $cliente = new Cliente($datos);
         $persona->cliente()->save($cliente);
+        Telefono::create([
+            'numero' => $this->telefono,
+            'id_cliente' => $persona->id,
+            'tipo' => 0,
+        ]);
         $this->usuario->generarBitacora("Cliente creado, id: $persona->id");
         $this->emit('clienteCreado');
         $this->limpiarDatos();
@@ -132,7 +141,7 @@ class Clientes extends Component
 
     public function limpiarDatos()
     {
-        $this->reset(['nombre', 'apellido', 'ci', 'direccion', 'id_persona']);
+        $this->reset(['nombre', 'apellido', 'ci', 'direccion', 'id_persona', 'telefono']);
     }
 
     public function updatingBusqueda()

@@ -24,7 +24,7 @@
     </div>
 
     {{-- Formulario --}}
-    <form wire:submit.prevent="crearPedido" id="form">
+    <form wire:submit.prevent="crearPedido" id="form-cp">
         <div class="wrapper wrapper-content  animated fadeInRight">
             <div class="ibox">
                 <div class="ibox-content">
@@ -35,14 +35,21 @@
                             <fieldset>
                                 <h4>Descripcion de Pedido</h4>
                                 <div class="form-group" class="">
-                                    <textarea class="form-control" rows="3" wire:model.debounce.800ms="pedido.descripcion"></textarea>
+                                    <textarea class="form-control mb-3" rows="3" wire:model.lazy="pedido.descripcion"></textarea>
                                     @error('pedido.descripcion')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <h4>Cliente encargado :</h4>
-                                    <div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <label for=""><b>Cliente encargado :</b></label>
+                                        </div>
+                                        <div class="col text-right">
+                                            <livewire:servicios.clientes.agregar-cliente>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2">
                                         <input type="number" class="form-control" id="busqueda" wire:model="busqueda" placeholder="Buscar por CI...">
                                         @error('pedido.id_cliente')
                                         <span class="text-danger">{{ $message }}</span>
@@ -53,8 +60,9 @@
                                             <ul class="todo-list small-list">
                                                 @foreach ($clientes as $cliente)
                                                 <li class="p-0">
-                                                    <button class="btn col-lg-12 text-start" type="button" wire:click="seleccionarCliente( {{ $cliente->id }} )">{{
-                                                        $cliente->nombre }} {{ $cliente->apellido }}</button>
+                                                    <button class="btn col-lg-12 text-start" type="button" wire:click="seleccionarCliente( {{ $cliente->id }} )">
+                                                        {{ $cliente->ci }} - {{ $cliente->nombre }} {{ $cliente->apellido }}
+                                                    </button>
                                                 </li>
                                                 @endforeach
                                             </ul>
@@ -398,9 +406,11 @@
                         </div>
 
                         <div class="ibox-footer text-right">
+                            @if($step >= 2)
                             <button class="btn btn-secondary" type="button" wire:click="previousStep">Anterior</button>
+                            @endif
                             @if ($step === 4)
-                            <button type="submit" class="btn btn-primary">Crear pedido</button>
+                            <button type="submit" form="form-cp" class="btn btn-primary">Crear pedido</button>
                             @else
                             <button class="btn btn-primary" type="button" wire:click="nextStep">Siguiente</button>
                             @endif
@@ -428,6 +438,8 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 Livewire.emitTo('servicios.pedidos.crear-pedido', 'irAPedidos');
+            } else {
+                Livewire.emitTo('servicios.pedidos.crear-pedido', 'reiniciar');
             }
         })
     });

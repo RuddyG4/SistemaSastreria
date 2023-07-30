@@ -20,7 +20,7 @@ class CrearPedido extends Component
     public $fechas, $detalles;
     public $busqueda, $clientes, $step = 1, $cantidad, $id_vestimenta, $pagoInicial, $fecha, $monto;
 
-    protected $listeners = ['irAPedidos'];
+    protected $listeners = ['irAPedidos', 'reiniciar'];
 
     protected $rules = [
         'pedido.descripcion' => 'required|string|max:100',
@@ -52,9 +52,11 @@ class CrearPedido extends Component
 
     public function render()
     {
-        $this->clientes = Persona::whereHas('cliente')
-            ->where('ci', 'like', "$this->busqueda%")
-            ->get();
+        if ($this->busqueda != null) {
+            $this->clientes = Persona::whereHas('cliente')
+                ->where('ci', 'like', "$this->busqueda%")
+                ->get();
+        }
         return view('livewire.servicios.pedidos.crear-pedido', [
             'vestimentas' => Vestimenta::All(),
         ]);
@@ -206,11 +208,20 @@ class CrearPedido extends Component
             $fechaPago->save();
         }
         $this->usuario->generarBitacora('Pedido creado, id: ' . $this->pedido->id);
-        return redirect('/dashboard/adm_servicios/pedidos');
+        $this->emit('pedidoCreado');
     }
 
     public function irAPedidos()
     {
         return redirect('/dashboard/adm_servicios/pedidos');
+    }
+
+    public function reiniciar() 
+    {
+        $this->reset(['step', 'cantidad', 'id_vestimenta', 'pagoInicial', 'fecha', 'monto']);
+        $this->pedido = new Pedido();
+        $this->detalle = new DetallePedido();
+        $this->detalles = new Collection();
+        $this->fechas = new Collection();
     }
 }
