@@ -20,7 +20,7 @@ class CrearPedido extends Component
     public $fechas, $detalles;
     public $busqueda, $clientes, $step = 1, $cantidad, $id_vestimenta, $pagoInicial, $fecha, $monto;
 
-    protected $listeners = ['irAPedidos', 'reiniciar'];
+    protected $listeners = ['irAPedidos', 'reiniciar', 'clienteCreado'];
 
     protected $rules = [
         'pedido.descripcion' => 'required|string|max:100',
@@ -160,7 +160,7 @@ class CrearPedido extends Component
     public function seleccionarCliente($id)
     {
         $this->pedido->id_cliente = $id;
-        $this->reset('busqueda');
+        $this->reset('busqueda', 'clientes');
     }
 
     /**
@@ -209,6 +209,11 @@ class CrearPedido extends Component
         }
         $this->usuario->generarBitacora('Pedido creado, id: ' . $this->pedido->id);
         $this->emit('pedidoCreado');
+    }
+
+    public function clienteCreado($id)
+    {
+        $this->pedido->id_cliente = $id;
     }
 
     public function irAPedidos()

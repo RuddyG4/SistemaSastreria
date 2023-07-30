@@ -59,7 +59,8 @@ class AgregarCliente extends Component
             'tipo' => 0,
         ]);
         $this->usuario->generarBitacora("Cliente creado, id: $persona->id");
-        $this->emit('clienteCreado');
+        // $this->emit('clienteCreado');
+        $this->emit('clienteCreado', $persona->id);
         $this->resetModal();
         $this->dispatchBrowserEvent('cerrar-modal');
     }
