@@ -21,8 +21,8 @@ class PersonaFactory extends Factory
     {
         return [
             'nombre' => fake()->firstName(),
-            'apellido' => fake()->lastName(),
-            'ci' => fake()->unique()->numberBetween(2000000, 99999999),
+            'apellido' => fake()->lastName().' '.fake()->lastName(),
+            'ci' => fake()->dni(),
         ];
     }
 }

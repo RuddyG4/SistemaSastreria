@@ -21,7 +21,7 @@ class TelefonoFactory extends Factory
     public function definition(): array
     {
         return [
-            'numero' => fake()->unique()->numberBetween(70000000, 79999999),
+            'numero' => fake()->unique()->numberBetween(60000000, 79999999),
             'tipo' => 0,
         ];
     }

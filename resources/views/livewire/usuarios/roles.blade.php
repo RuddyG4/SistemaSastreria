@@ -37,12 +37,16 @@
                         <td>{{ $rol->nombre }}</td>
                         <td>{{ $rol->descripcion }}</td>
                         <td>
+                            @if($rol->nombre != 'Administrador general')
+
                             @if(in_array('rol.modificar', $permisos))
                             <button data-bs-toggle="modal" data-bs-target="#modalDeEditar" class="btn btn-primary" wire:click="edit({{$rol->id}})">Editar</button>
                             @endif
                             <button data-bs-toggle="modal" data-bs-target="#modalDeVer" class="btn btn-secondary" wire:click="view({{$rol->id}})">Ver permisos</button>
                             @if(in_array('rol.eliminar', $permisos))
                             <button data-bs-toggle="modal" data-bs-target="#modalDeDelete" class="btn btn-danger" wire:click="$set('idRol', {{ $rol->id }})">Eliminar</button>
+                            @endif
+
                             @endif
                         </td>
                     </tr>
@@ -155,18 +159,21 @@
 
                         <form wire:submit.prevent="update" id="form-edit">
                             @csrf
-                            <label for="nombre">Nombre</label>
+                            <label for="nombre"><b>Nombre</b></label>
                             <input type="text" id="nombre" class="form-control" wire:model.lazy="nombre">
                             @error('nombre')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             <br>
 
-                            <label for="descripcion">Descripcion</label>
-                            <input type="text" id="descripcion" class="form-control" wire:model.lazy="descripcion">
+                            <label for="descripcion"><b>Descripcion</b></label>
+                            <textarea name="descripcion" id="descripcion" wire:model="descripcion" class="form-control" cols="" rows="3"></textarea>
                             @error('descripcion')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
+                            <br>
+                            
+                            <label for=""><b>Permisos del rol:</b></label>
                             <br>
                             @foreach ($funcList as $funcion)
                             <div class="form-check form-check-inline">

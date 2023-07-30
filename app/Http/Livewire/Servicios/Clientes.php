@@ -22,22 +22,20 @@ class Clientes extends Component
 
     public function render()
     {
-        return view('livewire.servicios.clientes',
-            [
-                'clientes' => Cliente::addSelect([
-                    'numero' => Telefono::select('numero')
-                        ->whereColumn('id_cliente', 'cliente.id')
-                        ->limit(1)
-                ])->whereHas('persona', function ($query) {
-                    $query->where('nombre', 'like', "%$this->busqueda%")
-                        ->orWhere('apellido', 'like', "%$this->busqueda%");
-                })->with('persona')->paginate(12),
-                'permisos' => Funcionalidad::whereHas('roles', function ($query) {
-                    $query->where('id', $this->usuario->rol->id);
-                })->where('nombre', 'LIKE', "cliente.%")
-                    ->pluck('nombre')->toArray(),
-            ]
-        );
+        return view('livewire.servicios.clientes', [
+            'clientes' => Cliente::addSelect([
+                'numero' => Telefono::select('numero')
+                    ->whereColumn('id_cliente', 'cliente.id')
+                    ->limit(1)
+            ])->whereHas('persona', function ($query) {
+                $query->where('nombre', 'like', "%$this->busqueda%")
+                    ->orWhere('apellido', 'like', "%$this->busqueda%");
+            })->with('persona')->paginate(12),
+            'permisos' => Funcionalidad::whereHas('roles', function ($query) {
+                $query->where('id', $this->usuario->rol->id);
+            })->where('nombre', 'LIKE', "cliente.%")
+                ->pluck('nombre')->toArray(),
+        ]);
     }
 
     public function mount()

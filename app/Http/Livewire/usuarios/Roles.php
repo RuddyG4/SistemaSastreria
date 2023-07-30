@@ -20,7 +20,7 @@ class Roles extends Component
 
     public function render()
     {
-        return view('livewire..usuarios.roles', [
+        return view('livewire.usuarios.roles', [
             'roles' => Rol::get(),
             'permisos' => Funcionalidad::whereHas('roles', function ($query) {
                 $query->where('id', $this->authenticatedUser->rol->id);
