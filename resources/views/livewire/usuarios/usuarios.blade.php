@@ -1,6 +1,10 @@
 <x-slot:title>
     Usuarios
     </x-slot>
+
+    @php
+    $canEdit = Auth::user()->can('update', App\Models\usuarios\User::class);
+    @endphp
     <div>
         <div class="ibox">
             <div class="ibox-title">
@@ -16,7 +20,7 @@
                     <a href="{{ url('/dashboard/adm_usuarios/bitacora') }}" class="btn btn-success btn-sm"><i class="fa fa-book"></i> Bitacora</a>
                 </div>
                 @endif
-                @if(in_array('usuario.crear', $permisos))
+                @can('create', App\Models\usuarios\User::class)
                 <div class="col-auto">
                     <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalDeCreacion"><i class="fa fa-user-plus"></i> Crear usuario</button>
                 </div>
@@ -51,7 +55,7 @@
                             <td>{{ $usuario->email }}</td>
                             <td>{{ $usuario->rol->nombre }}</td>
                             <td>
-                                @if(in_array('usuario.modificar', $permisos))
+                                @if($canEdit)
                                 <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalDeEdicion" wire:click="editar( {{ $usuario->id }} )"><i class="fa fa-edit"></i>Editar</button>
                                 @endif
                                 @if(in_array('usuario.inhabilitar', $permisos))

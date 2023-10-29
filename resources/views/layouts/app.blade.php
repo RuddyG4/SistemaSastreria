@@ -33,7 +33,7 @@
     use Illuminate\Support\Facades\Auth;
 
     $user = Auth::user();
-    $permisos = Funcionalidad::whereHas('roles', function ($query) use($user) {
+    $permisos = Funcionalidad::whereHas('roles', function ($query) use ($user) {
         $query->where('id', $user->rol->id);
     })->where(function ($query) {
         $query->where('nombre', 'LIKE', "adm.%")
@@ -57,17 +57,17 @@
                         <a href="{{ url('/dashboard') }}"><i class="fa fa-th-large"></i>
                             <span class="nav-label">INICIO</span></a>
                     </li>
-                    @if(in_array('adm.usuario', $permisos))
+                    
                     <li class="{{ Request::is('dashboard/adm_usuarios*') ? 'active' : '' }}">
                         <a href=""><i class="fa fa-user-o"></i>
                             <span class="nav-label">Adm. de Usuarios</span>
                             <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            @if(in_array('usuario.lista', $permisos))
+                            @can('viewAny', App\Models\usuarios\User::class)
                             <li class="{{ Request::is('dashboard/adm_usuarios/usuarios*') ? 'active' : '' }}">
                                 <a href="{{ url('/dashboard/adm_usuarios/usuarios') }}">Usuarios</a>
                             </li>
-                            @endif
+                            @endcan
                             @if(in_array('rol.lista', $permisos))
                             <li class="{{ Request::is('dashboard/adm_usuarios/roles*') ? 'active' : '' }}">
                                 <a href="{{ url('/dashboard/adm_usuarios/roles') }}">Roles</a>
@@ -80,7 +80,7 @@
                             @endif
                         </ul>
                     </li>
-                    @endif
+                    
                     @if(in_array('adm.servicio', $permisos))
                     <li class="{{ Request::is('dashboard/adm_servicios/*') ? 'active' : '' }}">
                         <a href="#"><i class="fa fa-wrench"></i>
@@ -145,13 +145,13 @@
                             <span class="nav-label">Adm. de Reportes</span><span class="fa arrow"></span>
                         </a>
                         <ul class="nav nav-second-level collapse">
-                            
+
                             {{-- @if(in_array('nota_ingreso.lista', $permisos) || in_array('nota_salida.lista', $permisos)) --}}
                             <li class="{{ Request::is('dashboard/adm_reporte/inventarios') ? 'active' : '' }}">
                                 <a href="{{url('/dashboard/adm_reporte/inventarios')}}">Inventarios</a>
                             </li>
                             {{-- @endif --}}
-                            
+
                         </ul>
                     </li>
                 </ul>

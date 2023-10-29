@@ -58,10 +58,7 @@ class Usuarios extends Component
                             ->orWhere('apellido', 'like', "%$this->busqueda%");
                     })->orWhere('username', 'like', "%$this->busqueda%")
                         ->orWhere('email', 'like', "%$this->busqueda%");
-                })->with(['persona', 'rol'])->paginate(12)
-                /* ->filter(function ($usuario) {  // YA NO USO FILTER PORQUE ES MENOS EFECTIVO
-                        return $usuario->activo == 0;
-                    }) */,
+                })->with(['persona', 'rol'])->paginate(12),
                 'roles' => Rol::all(),
                 'permisos' => Funcionalidad::whereHas('roles', function ($query) {
                     $query->where('id', $this->authenticatedUser->rol->id);
