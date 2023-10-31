@@ -140,7 +140,7 @@
                     </li>
                     @endif
 
-                    <li class="{{ Request::is('dashboard/adm_reporte/*') ? 'active' : '' }}">
+                    {{--<li class="{{ Request::is('dashboard/adm_reporte/*') ? 'active' : '' }}">
                         <a href="#"><i class=" fa fa-wrench"></i>
                             <span class="nav-label">Adm. de Reportes</span><span class="fa arrow"></span>
                         </a>
@@ -153,7 +153,7 @@
                             {{-- @endif --}}
 
                         </ul>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
         </nav>
