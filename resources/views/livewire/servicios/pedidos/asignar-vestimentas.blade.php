@@ -39,6 +39,7 @@
                         <div class="col-md-4">
                             <label for=""><strong>Seleccione un cliente</strong></label>
                             <select wire:model="id_cliente" class="form-control">
+                            <option value="">Seleccione un cliente</option>
                                 @foreach($clientes as $cliente)
                                 <option value="{{ $cliente->id }}">{{$cliente->persona->nombre }} {{$cliente->persona->apellido }}</option>
                                 @endforeach
@@ -65,7 +66,7 @@
 
                         <div class="col-auto">
                             <label for=""><strong>cantidad</strong></label>
-                            <input type="number" wire:model="cantidad" class="form-control">
+                            <input type="number" wire:model="cantidad" max="{{ $maxVestimentas }}" class="form-control">
                             @error('cantidad')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror

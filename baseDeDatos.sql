@@ -244,7 +244,7 @@ estado bool not null default 0, -- 0=no hecho    1=terminado
 fecha_cambio datetime,
 id_pedido integer not null,
 id_vestimenta integer not null,
-id_cliente integer not null,
+id_cliente integer,
 primary key (id),
 foreign key (id_pedido) references pedido(id)
     on update cascade on delete cascade,
@@ -345,6 +345,18 @@ for each row
 begin
 call sumar_cantidad_inventario(old.id, old.id_material, old.id_nota, 1);
 end $$
+
+CREATE TRIGGER tr_au_unidad_vestimenta AFTER UPDATE ON unidad_vestimenta
+FOR EACH ROW
+BEGIN
+    DECLARE total INT;
+    DECLARE terminados INT;
+
+    SELECT COUNT(*) INTO total FROM unidad_vestimenta WHERE id_pedido = NEW.id_pedido;
+    SELECT COUNT(*) INTO terminados FROM unidad_vestimenta WHERE id_pedido = NEW.id_pedido AND estado = 1;
+
+    UPDATE pedido SET estado_avance = terminados / total WHERE id = NEW.id_pedido;
+END$$
 
 -- PROCEDIMIENTOS ALMACENADOS
 create procedure actualizar_monto_total_nota_ingreso (in id_detalle_nota int)
