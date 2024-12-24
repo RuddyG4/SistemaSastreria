@@ -300,7 +300,7 @@ begin
 call actualizar_monto_total_nota_ingreso(new.id);
 call sumar_cantidad_inventario(new.id, new.id_material, new.id_nota, 0);
 end $$
- 
+
 create trigger tr_bu_detalle_nota_ingreso before update on detalle_nota_ingreso
 for each row
 begin
@@ -352,7 +352,7 @@ BEGIN
     DECLARE total INT;
     DECLARE terminados INT;
 
-    SELECT COUNT(*) INTO total FROM unidad_vestimenta WHERE id_pedido = NEW.id_pedido;
+    SELECT SUM(cantidad) INTO total FROM detalle_pedido WHERE id_pedido = NEW.id_pedido;
     SELECT COUNT(*) INTO terminados FROM unidad_vestimenta WHERE id_pedido = NEW.id_pedido AND estado = 1;
 
     UPDATE pedido SET estado_avance = terminados / total WHERE id = NEW.id_pedido;
@@ -361,7 +361,7 @@ END$$
 -- PROCEDIMIENTOS ALMACENADOS
 create procedure actualizar_monto_total_nota_ingreso (in id_detalle_nota int)
 begin
-	update nota_ingreso set monto_total = (select sum(cantidad * precio) from detalle_nota_ingreso 
+	update nota_ingreso set monto_total = (select sum(cantidad * precio) from detalle_nota_ingreso
 											where id_nota = (select id_nota from detalle_nota_ingreso where id = id_detalle_nota))
 	where id = (select id_nota from detalle_nota_ingreso where id = id_detalle_nota);
 end $$
@@ -370,23 +370,23 @@ end $$
 CREATE PROCEDURE sumar_cantidad_inventario (IN id_detalle_nota INT, IN id_mat INT, IN n_nota INT, IN bandera INT)
 BEGIN
     DECLARE almacen INT;
-    
+
     IF (bandera = 0) THEN
         SELECT id_almacen INTO almacen FROM nota_ingreso WHERE id = n_nota LIMIT 1;
-        
+
         IF NOT EXISTS (SELECT id_material FROM inventario WHERE id_almacen = almacen and id_material = id_mat) THEN
             INSERT INTO inventario VALUES (0, id_mat, almacen);
         END IF;
-        
+
         UPDATE inventario SET cantidad = cantidad + (SELECT cantidad FROM detalle_nota_ingreso WHERE id = id_detalle_nota)
         WHERE id_material = id_mat AND id_almacen = almacen;
     ELSE
         SELECT id_almacen INTO almacen FROM nota_salida WHERE id = n_nota LIMIT 1;
-        
+
         IF NOT EXISTS (SELECT id_material FROM inventario WHERE id_almacen = almacen and id_material = id_mat) THEN
             INSERT INTO inventario VALUES (0, id_mat, almacen);
         END IF;
-        
+
         UPDATE inventario SET cantidad = cantidad + (SELECT cantidad FROM detalle_nota_salida WHERE id = id_detalle_nota)
         WHERE id_material = id_mat AND id_almacen = almacen;
     END IF;
@@ -396,11 +396,11 @@ create procedure restar_cantidad_inventario (in id_detalle_nota int, in bandera 
 begin
 	if (bandera = 0) then
 		update inventario set cantidad = cantidad - (select cantidad from detalle_nota_ingreso where id = id_detalle_nota)
-		where id_material = (select id_material from detalle_nota_ingreso where id = id_detalle_nota limit 1) and id_almacen = (select id_almacen from nota_ingreso 
+		where id_material = (select id_material from detalle_nota_ingreso where id = id_detalle_nota limit 1) and id_almacen = (select id_almacen from nota_ingreso
 						where id = (select id_nota from detalle_nota_ingreso where id = id_detalle_nota) limit 1);
 	else
 		update inventario set cantidad = cantidad - (select cantidad from detalle_nota_salida where id = id_detalle_nota)
-		where id_material = (select id_material from detalle_nota_salida where id = id_detalle_nota limit 1) and id_almacen = (select id_almacen from nota_salida 
+		where id_material = (select id_material from detalle_nota_salida where id = id_detalle_nota limit 1) and id_almacen = (select id_almacen from nota_salida
 						where id = (select id_nota from detalle_nota_salida where id = id_detalle_nota) limit 1);
     end if;
 end $$
@@ -544,7 +544,7 @@ insert into almacen values(null,'tienda 1','av. ballivian puesto/105');
 insert into nota_ingreso values(null,now(),0.0,1,1);
 insert into nota_ingreso values(null,now(),0.0,1,1);
 
--- id, fecha, descripcion, id_usuario, id_almacen 
+-- id, fecha, descripcion, id_usuario, id_almacen
 insert into nota_salida values(null,now(), "Descripcion de prueba", 1, 1);
 
 insert into medida_material values(null,'metros',0);
@@ -595,7 +595,7 @@ insert into vestimenta values(4,'chaleco mujer',0,0);
 insert into vestimenta values(5,'polera mujer',0,0);
 insert into vestimenta values(6,'falda',0,0);
 
---									hombre 
+--									hombre
 
 insert into vestimenta values(7,'saco hombre',1,0);
 insert into vestimenta values(8,'camisa hombre',1,0);
@@ -618,7 +618,7 @@ insert into medida values(10,'cadera',0);
 insert into medida values(11,'ancho pierna',0);
 insert into medida values(12,'largo falda',0);
 insert into medida values(13,'bota pie',0);
-insert into medida values(14,'cuello',0); 
+insert into medida values(14,'cuello',0);
 
 -- hombre
 -- saco hombre pecho, espalda,  cuello,  largo,  hombro,  largo manga
@@ -727,20 +727,20 @@ insert into detalle_pedido values(null,   1,      2,       8);
 
 --                                   id    medida   id-uni-vest    idmedida
 -- pecho, cintura, talla, largo, hombro, largo manga, ancho pie
--- saco alumna a 
-insert into medida_vestimenta values(null,   50,        2,            3); 
-insert into medida_vestimenta values(null,   44,        2,            5); 
-insert into medida_vestimenta values(null,   42,        2,            4); 
+-- saco alumna a
+insert into medida_vestimenta values(null,   50,        2,            3);
+insert into medida_vestimenta values(null,   44,        2,            5);
+insert into medida_vestimenta values(null,   42,        2,            4);
 -- camisa alumna a  pecho, cintura, talla, largo, hombro, ancho brazo, cuello
-insert into medida_vestimenta values(null,   44,        3,            4); 
-insert into medida_vestimenta values(null,   46,        3,            6); 
-insert into medida_vestimenta values(null,   42,        3,            3); 
+insert into medida_vestimenta values(null,   44,        3,            4);
+insert into medida_vestimenta values(null,   46,        3,            6);
+insert into medida_vestimenta values(null,   42,        3,            3);
 
 -- saco alumno b  pecho, espalda,  cuello,  largo,  hombro,  largo manga
-insert into medida_vestimenta values(null,   50,        4,            3); 
-insert into medida_vestimenta values(null,   44,        4,            5); 
-insert into medida_vestimenta values(null,   42,        4,            4); 
+insert into medida_vestimenta values(null,   50,        4,            3);
+insert into medida_vestimenta values(null,   44,        4,            5);
+insert into medida_vestimenta values(null,   42,        4,            4);
 -- camisa alumno b  pecho, cintura, talla, largo, hombro, ancho brazo, cuello
-insert into medida_vestimenta values(null,   50,        5,            4); 
-insert into medida_vestimenta values(null,   44,        5,            6); 
-insert into medida_vestimenta values(null,   42,        5,            3); 
+insert into medida_vestimenta values(null,   50,        5,            4);
+insert into medida_vestimenta values(null,   44,        5,            6);
+insert into medida_vestimenta values(null,   42,        5,            3);
