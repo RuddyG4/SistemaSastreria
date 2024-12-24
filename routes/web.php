@@ -27,10 +27,10 @@ Route::middleware('auth')->group(function () {
 
     // Paquete de usuarios
     Route::prefix('/dashboard/adm_usuarios')->group(function () {
-        Route::get('/roles', App\Http\Livewire\usuarios\Roles::class);
-        Route::get('/funcionalidades', App\Http\Livewire\usuarios\Funcionalidades::class);
-        Route::get('/usuarios', App\Http\Livewire\usuarios\Usuarios::class)->can('viewAny', App\Models\usuarios\User::class);
-        Route::get('/bitacora', App\Http\Livewire\usuarios\Bitacora::class);
+        Route::get('/roles', App\Http\Livewire\Usuarios\Roles::class);
+        Route::get('/funcionalidades', App\Http\Livewire\Usuarios\Funcionalidades::class);
+        Route::get('/usuarios', App\Http\Livewire\Usuarios\Usuarios::class)->can('viewAny', App\Models\usuarios\User::class);
+        Route::get('/bitacora', App\Http\Livewire\Usuarios\Bitacora::class);
         Route::get('/perfil', function () {
             return view('livewire.usuarios.perfil');
         });
